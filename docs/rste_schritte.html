@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.545">
+<meta name="generator" content="quarto-1.5.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Einführung in R - Rste Schritte</title>
+<title>Einführung in R – Rste Schritte</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -179,7 +179,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./prep.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Vorbereitung Tag 1 und 2</span></a>
+  <a href="./prep.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">KFN MethodLab</span></a>
   </div>
 </li>
       </ul>
@@ -210,7 +210,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Die <em>Grammar of graphics</em> und <code>ggplot2</code></span></a>
+  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title"><em>Grammar of Graphics</em> und <code>ggplot2</code></span></a>
   </div>
 </li>
       </ul>
@@ -231,12 +231,17 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./tables.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Erstellung von APA-konformen Tabellen</span></a>
+  <a href="./tidymodels.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">tidymodels</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./quarto.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Methodenteil in <code id="sec-quarto">quarto</code></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tables.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Erstellung von APA-konformen Tabellen</span></a>
   </div>
 </li>
       </ul>
@@ -247,20 +252,33 @@ div.csl-indent {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="-1">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
     <h2 id="toc-title"><img src="imgs/penguin_wrestling_files.png" class="img-fluid" style="width:80.0%"><br> Rste Schritte</h2>
    
+  <ul>
+  <li><a href="#warum-r" id="toc-warum-r" class="nav-link active" data-scroll-target="#warum-r">Warum R?</a>
   <ul class="collapse">
-  <li><a href="#warum-r" id="toc-warum-r" class="nav-link active" data-scroll-target="#warum-r">Warum R?</a></li>
+  <li><a href="#cran" id="toc-cran" class="nav-link" data-scroll-target="#cran">CRAN</a></li>
+  <li><a href="#was-spricht-gegen-r" id="toc-was-spricht-gegen-r" class="nav-link" data-scroll-target="#was-spricht-gegen-r">Was spricht gegen R?</a></li>
+  <li><a href="#aber" id="toc-aber" class="nav-link" data-scroll-target="#aber">Aber:</a></li>
+  </ul></li>
   <li><a href="#r-syntax-basics" id="toc-r-syntax-basics" class="nav-link" data-scroll-target="#r-syntax-basics">R-Syntax Basics</a>
   <ul class="collapse">
   <li><a href="#zuweisungen-und-das-environment" id="toc-zuweisungen-und-das-environment" class="nav-link" data-scroll-target="#zuweisungen-und-das-environment">1. Zuweisungen und das Environment</a></li>
-  <li><a href="#funktionen-und-argumente" id="toc-funktionen-und-argumente" class="nav-link" data-scroll-target="#funktionen-und-argumente">2. Funktionen und Argumente</a></li>
-  <li><a href="#indizieren" id="toc-indizieren" class="nav-link" data-scroll-target="#indizieren">3. Indizieren</a></li>
+  <li><a href="#funktionen-und-argumente" id="toc-funktionen-und-argumente" class="nav-link" data-scroll-target="#funktionen-und-argumente">2. Funktionen und Argumente</a>
+  <ul class="collapse">
+  <li><a href="#obligatorische-und-optionale-argumente" id="toc-obligatorische-und-optionale-argumente" class="nav-link" data-scroll-target="#obligatorische-und-optionale-argumente">obligatorische und optionale Argumente</a></li>
+  <li><a href="#position-von-argumente" id="toc-position-von-argumente" class="nav-link" data-scroll-target="#position-von-argumente">Position von Argumente</a></li>
+  <li><a href="#operatoren" id="toc-operatoren" class="nav-link" data-scroll-target="#operatoren">Operatoren</a></li>
+  </ul></li>
+  <li><a href="#indizieren" id="toc-indizieren" class="nav-link" data-scroll-target="#indizieren">3. Indizieren</a>
+  <ul class="collapse">
+  <li><a href="#logische-indizierung" id="toc-logische-indizierung" class="nav-link" data-scroll-target="#logische-indizierung">logische Indizierung</a></li>
+  </ul></li>
   <li><a href="#datenformate-in-r" id="toc-datenformate-in-r" class="nav-link" data-scroll-target="#datenformate-in-r">4. Datenformate in R</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/MBrede/r_thesis_tools/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/MBrede/r_thesis_tools/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
@@ -1105,12 +1123,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a 1="" href="./prep.html" class="pagination-link  aria-label=" &lt;span="" tag="" und="" 2&lt;="" span&gt;"="">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Vorbereitung Tag 1 und 2</span></span>
+      <a href="./prep.html" class="pagination-link" aria-label="KFN MethodLab">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">KFN MethodLab</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./wrangling00.html" class="pagination-link" aria-label="<span class='chapter-number'>3</span>&nbsp; <span class='chapter-title'>Daten manipulieren</span>">
+      <a href="./wrangling00.html" class="pagination-link" aria-label="Daten manipulieren">
         <span class="nav-page-text"><span class="chapter-title">Daten manipulieren</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

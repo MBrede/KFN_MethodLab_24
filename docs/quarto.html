@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.9">
+<meta name="generator" content="quarto-1.4.545">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Einführung in R – Methodenteil in quarto</title>
+<title>Einführung in R - Methodenteil in quarto</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -103,7 +103,7 @@ ul.task-list li input[type="checkbox"] {
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Einführung in R</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/MBrede/r_thesis_tools" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/MBrede/KFN_MethodLab_24" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -209,7 +209,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#aufgabe" id="toc-aufgabe" class="nav-link" data-scroll-target="#aufgabe">Aufgabe</a></li>
   <li><a href="#zusammenarbeit" id="toc-zusammenarbeit" class="nav-link" data-scroll-target="#zusammenarbeit">Zusammenarbeit</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/MBrede/r_thesis_tools/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/MBrede/KFN_MethodLab_24/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
@@ -258,14 +258,14 @@ Abb&nbsp;8.2: Neu erstelltes Quarto-Dokument
 </figcaption>
 </figure>
 </div>
-<p>Quarto-Dokumente basieren auf zwei Teilen, die in einem file oder getrennt voneinander existieren können. Der erste Teil der der sogenannte YAML-Header(1 in <a href="#fig-newQuarto" class="quarto-xref">Abbildung&nbsp;<span>8.2</span></a>), der die Parameter zum Rendern des Dokuments definiert - der zweite Teil ist das eigentliche Dokument(2).</p>
+<p>Quarto-Dokumente basieren auf zwei Teilen, die in einem file oder getrennt voneinander existieren können. Der erste Teil der der sogenannte YAML-Header(1 in <a href="#fig-newQuarto" class="quarto-xref">Abbildung&nbsp;<span>Neu erstelltes Quarto-Dokument</span></a>), der die Parameter zum Rendern des Dokuments definiert - der zweite Teil ist das eigentliche Dokument(2).</p>
 <p>Im neu erstellten file erkennen wir des YAML-Header durch die Eingrenzung aus je drei Bindestrichen. Nach der Erstellung sind hier schon der Titel des Dokuments “Untitled” und die Nutzung des visuellen Editors festgelegt.</p>
 <p>Der Rest des Files ist ein Markdown-Dokument in dem mit <a href="https://quarto.org/docs/authoring/markdown-basics.html">markdown-Formatierung</a> Fließtext geschrieben werden kann. Seit Einführung des visuellen Editors ist aber selbst diese Syntax nicht mehr nötig, Text kann wie aus anderen Verarbeitungsprogrammen bekannt mit den Bedienfeldern(3) formatiert werden. Durch Drücken der Source-Schaltfläche (4) kann aber auch immer noch in den Source-Editor zurückgekehrt werden.</p>
 <p>Wie schon angedeutet ist quarto kein WYSIWYG<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>-Editor, sondern erfordert das Rendern von Dokumenten. Dazu kann auf “Render”(5) geklickt oder <code>Strg + Shift + K</code> als Shortcut genutzt werden. Auf diesen Befehl hin wird neben dem qmd-file ein Output generiert in dem die formatierte Version zu finden ist. Beim ersten Rendern öffnet sich ein Dialog, in dem noch ein file-Name und Speicherort angegeben wird.</p>
 <div class="no-row-height column-margin column-container"><p><sup>1</sup>&nbsp;What you see is what you get</p></div><section id="code-chunks" class="level2">
 <h2 class="anchored" data-anchor-id="code-chunks">Code-chunks</h2>
 <p>Der große Vorteil quartos ist es, dass wir Code-chunks im Dokument anlegen können, deren Output direkt in das gerenderte Ergebnis eingebunden wird.</p>
-<p>Dazu kann mit der “Insert new code chunk”-Schaltfläche (1 in <a href="#fig-insert" class="quarto-xref">Abbildung&nbsp;<span>8.3</span></a>) oben rechts oder <code>Strg + Alt + I</code> ein neuer Chunk eingefügt werden, der an die Cursor-Stelle im Dokument eingefügt wird (2).</p>
+<p>Dazu kann mit der “Insert new code chunk”-Schaltfläche (1 in <a href="#fig-insert" class="quarto-xref">Abbildung&nbsp;<span>Neuen Chunk erstellen.</span></a>) oben rechts oder <code>Strg + Alt + I</code> ein neuer Chunk eingefügt werden, der an die Cursor-Stelle im Dokument eingefügt wird (2).</p>
 <div id="fig-insert" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-insert-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -290,7 +290,7 @@ Abb&nbsp;8.4: Code Chunks mit bisherigen Analysen.
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
-<p>In <a href="#fig-filledAnalysis" class="quarto-xref">Abbildung&nbsp;<span>8.4</span></a> ist das neue file mit dem Code für die letzte Tabelle aus <a href="tables.html" class="quarto-xref"><span>Erstellung von APA-konformen Tabellen</span></a> und der Beispielgrafik aus <span class="quarto-unresolved-ref">?sec-ggplot</span> eingefügt.</p>
+<p>In <a href="#fig-filledAnalysis" class="quarto-xref">Abbildung&nbsp;<span>Code Chunks mit bisherigen Analysen.</span></a> ist das neue file mit dem Code für die letzte Tabelle aus <a href="tables.html" class="quarto-xref"><span>Erstellung von APA-konformen Tabellen</span></a> und der Beispielgrafik aus <span class="quarto-unresolved-ref">?sec-ggplot</span> eingefügt.</p>
 <p>Der erste Chunk (1) ist dabei nur dafür da um Pakete und die Daten zu laden. Im zweiten Chunk (2) wird die Tabelle, im dritten Chunk (3) die Grafik erstellt. Der Text hinter dem r in der ersten Zeile der Chunks ist nur ein Titel und hat erstmal keine weitere Bedeutung.</p>
 <p>Wie in (4) und (5) zu sehen ist, kann zwischen den Chunks einfach Text eingefügt werden.</p>
 <p>Die Chunks können dabei wie ein ganz normales R-Skript genutzt werden und der Code an der Zeile des Cursors kann mit <code>Strg + Enter</code> ausgeführt werden. Der Output erscheint dabei unter dem Chunk, kann mit Hilfe der Einstellungen aber auch in die Konsole verschoben werden.</p>
@@ -306,7 +306,7 @@ Abb&nbsp;8.4: Code Chunks mit bisherigen Analysen.
 <pre><code>format: docx # setzt das Format des Outputs
 fig-width: 6.56 # setzt 6.56 Zoll als Standard-Breite für alle Plot-Outputs
 fig-dpi: 300 # setzt alle plots auf 300 dpi</code></pre>
-<p>Nach Klick auf “Render” kann ich neben dem erstellten qmd-file das in <a href="#fig-firstODT" class="quarto-xref">Abbildung&nbsp;<span>8.5</span></a> abgebildete Dokument finden.</p>
+<p>Nach Klick auf “Render” kann ich neben dem erstellten qmd-file das in <a href="#fig-firstODT" class="quarto-xref">Abbildung&nbsp;<span>Erstes Render-Ergebnis.</span></a> abgebildete Dokument finden.</p>
 <div id="fig-firstODT" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-firstODT-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -349,7 +349,7 @@ Abb&nbsp;8.6: Ergebnis ohne Chunks
 <h2 class="anchored" data-anchor-id="code-chunk-optionen">Code-Chunk-Optionen</h2>
 <p>Die letzten drei Parameter waren Beispiele für chunk-Optionen, die das Verhalten von Chunks anpassen. Das kann entweder global im YAML-Header unter execute oder lokal pro Chunk gesetzt werden.</p>
 <p>Auf der quarto-Seite gibt es einen Überblick über <a href="https://quarto.org/docs/reference/cells/cells-knitr.html">alle Optionen</a>, wir konzentrieren uns aber erstmal auf einen kleinen Teil zur Beschriftung von Grafiken und Tabellen.</p>
-<p>Um eine Grafik zu beschriften und im Text referenzierbar zu machen,müssen wir zwei Optionen für den Chunk setzten: <code>label</code> und <code>fig-cap</code>. In <a href="#fig-figChunk" class="quarto-xref">Abbildung&nbsp;<span>8.7</span></a> ist ein Beispiel wie das aussehen könnte. Die Chunk-Optionen werden dabei immer durch ein so genanntes “pipe-comment” eingeleitet.</p>
+<p>Um eine Grafik zu beschriften und im Text referenzierbar zu machen,müssen wir zwei Optionen für den Chunk setzten: <code>label</code> und <code>fig-cap</code>. In <a href="#fig-figChunk" class="quarto-xref">Abbildung&nbsp;<span>Chunk-Optionen für Grafiken</span></a> ist ein Beispiel wie das aussehen könnte. Die Chunk-Optionen werden dabei immer durch ein so genanntes “pipe-comment” eingeleitet.</p>
 <div id="fig-figChunk" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-figChunk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -362,7 +362,7 @@ Abb&nbsp;8.7: Chunk-Optionen für Grafiken
 </div>
 <p>Im text können wir die Grafik dann mit @fig-scatter referenzieren. Das label für Grafiken muss dabei durch “fig-” eingeleitet und referenziert werden, sonst schlägt die Formatierung fehl.</p>
 <p>Ähnliche Parameter sind auch für Tabellen implementiert, hier ist der Prefix nur <code>tbl</code>. Leider funktioniert das Crossreferenzieren in den aktuellen Versionen von quarto und flextable noch nicht reibungslos, es gibt aber einen <a href="https://github.com/quarto-dev/quarto-cli/issues/1556">workaround</a>.</p>
-<p>Statt mit @tbl-table müssen wir die Tabelle mit einem Call an das <code>officer</code>-Paket im Text referenzieren. Sonst ist das Format aber ähnlich, wie in <a href="#fig-tabChunk" class="quarto-xref">Abbildung&nbsp;<span>8.8</span></a> zu sehen ist..</p>
+<p>Statt mit @tbl-table müssen wir die Tabelle mit einem Call an das <code>officer</code>-Paket im Text referenzieren. Sonst ist das Format aber ähnlich, wie in <a href="#fig-tabChunk" class="quarto-xref">Abbildung&nbsp;<span>Chunk-Optionen für Tabellen</span></a> zu sehen ist..</p>
 <div id="fig-tabChunk" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-tabChunk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -373,7 +373,7 @@ Abb&nbsp;8.8: Chunk-Optionen für Tabellen
 </figcaption>
 </figure>
 </div>
-<p>Der Output des so angepassten Skripts ist in <a href="#fig-forthRender" class="quarto-xref">Abbildung&nbsp;<span>8.9</span></a> zu sehen.</p>
+<p>Der Output des so angepassten Skripts ist in <a href="#fig-forthRender" class="quarto-xref">Abbildung&nbsp;<span>Ergebnis mit Corss-Referenzen</span></a> zu sehen.</p>
 <div id="fig-forthRender" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-forthRender-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -392,7 +392,7 @@ Abb&nbsp;8.9: Ergebnis mit Corss-Referenzen
 <p>Im Fließtext kann mit der folgenden Syntax auf R zugegriffen und Output generiert werden:</p>
 <pre><code>`r &lt;some code&gt;`</code></pre>
 <p>Wozu ist das nützlich? Wir können so einfach statistische Kennwerte ohne sie kopieren zu müssen in den Text einflißen lassen! Und jedes mal wenn das Ergebnis erstellt wird, werden die Werte neu berechnet. So kann keine Aktualisierung vergessen werden.</p>
-<p>Wir könnten unserem Beispiel-File so beispielsweise eine Stichprobenbeschreibung hinzufügen, wie in <a href="#fig-inlineCode" class="quarto-xref">Abbildung&nbsp;<span>8.10</span></a> zu sehen ist.</p>
+<p>Wir könnten unserem Beispiel-File so beispielsweise eine Stichprobenbeschreibung hinzufügen, wie in <a href="#fig-inlineCode" class="quarto-xref">Abbildung&nbsp;<span>Inline Chunk</span></a> zu sehen ist.</p>
 <div id="fig-inlineCode" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-inlineCode-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -403,7 +403,7 @@ Abb&nbsp;8.10: Inline Chunk
 </figcaption>
 </figure>
 </div>
-<p>Die Ergebnisse im docx können in <a href="#fig-inlineRes" class="quarto-xref">Abbildung&nbsp;<span>8.11</span></a> gesehen werden.</p>
+<p>Die Ergebnisse im docx können in <a href="#fig-inlineRes" class="quarto-xref">Abbildung&nbsp;<span>Gerendertes Ergebnis der Inline-Chunks</span></a> gesehen werden.</p>
 <div id="fig-inlineRes" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-inlineRes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -842,12 +842,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./tidymodels.html" class="pagination-link" aria-label="tidymodels">
+      <a href="./tidymodels.html" class="pagination-link  aria-label=" &lt;span="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">tidymodels</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./tables.html" class="pagination-link" aria-label="Erstellung von APA-konformen Tabellen">
+      <a href="./tables.html" class="pagination-link" aria-label="<span class='chapter-number'>9</span>&nbsp; <span class='chapter-title'>Erstellung von APA-konformen Tabellen</span>">
         <span class="nav-page-text"><span class="chapter-title">Erstellung von APA-konformen Tabellen</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -860,7 +860,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
 <p>All images are generated using R, DALL·E or Midjourney if not indicated otherwise.</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/MBrede/r_thesis_tools/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/MBrede/KFN_MethodLab_24/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>

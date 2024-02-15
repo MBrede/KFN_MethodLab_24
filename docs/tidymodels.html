@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.545">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Einführung in R - tidymodels</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./quarto.html" rel="next">
+<link href="./wrangling02.html" rel="prev">
+<link href="./happy_cover.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./wrangling02.html">Tag 2</a></li><li class="breadcrumb-item"><a href="./tidymodels.html"><span class="chapter-title">tidymodels</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./happy_cover.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Einführung in R</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/MBrede/KFN_MethodLab_24" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vorwort</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./prep.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">KFN MethodLab</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Tag 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./rste_schritte.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Rste Schritte</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./wrangling00.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Daten manipulieren</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./wrangling01.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Daten einlesen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title"><em>Grammar of Graphics</em> und <code>ggplot2</code></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Tag 2</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./wrangling02.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Zusammenführen von Datensätzen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tidymodels.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">tidymodels</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./quarto.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Methodenteil in <code id="sec-quarto">quarto</code></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tables.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Erstellung von APA-konformen Tabellen</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title"><img src="imgs/penguin_wrestling_files.png" class="img-fluid" style="width:80.0%"><br> Datenaufbereitung</h2>
+   
+  <ul>
+  <li><a href="#modelltypen-modes-und-engines" id="toc-modelltypen-modes-und-engines" class="nav-link active" data-scroll-target="#modelltypen-modes-und-engines">Modelltypen, Modes und Engines</a>
+  <ul class="collapse">
+  <li><a href="#aufgabe" id="toc-aufgabe" class="nav-link" data-scroll-target="#aufgabe">Aufgabe</a></li>
+  </ul></li>
+  <li><a href="#recipes-und-workflows" id="toc-recipes-und-workflows" class="nav-link" data-scroll-target="#recipes-und-workflows">Recipes und Workflows</a>
+  <ul class="collapse">
+  <li><a href="#recipes" id="toc-recipes" class="nav-link" data-scroll-target="#recipes">Recipes</a></li>
+  <li><a href="#workflows" id="toc-workflows" class="nav-link" data-scroll-target="#workflows">Workflows</a></li>
+  <li><a href="#aufgabe-1" id="toc-aufgabe-1" class="nav-link" data-scroll-target="#aufgabe-1">Aufgabe</a></li>
+  </ul></li>
+  <li><a href="#inferenzstatistik-pipelines-mit-infer" id="toc-inferenzstatistik-pipelines-mit-infer" class="nav-link" data-scroll-target="#inferenzstatistik-pipelines-mit-infer">Inferenzstatistik-Pipelines mit infer</a></li>
+  <li><a href="#korrelationsanalysen-mit-corrr" id="toc-korrelationsanalysen-mit-corrr" class="nav-link" data-scroll-target="#korrelationsanalysen-mit-corrr">Korrelationsanalysen mit corrr</a></li>
+  <li><a href="#definition-eigener-engines" id="toc-definition-eigener-engines" class="nav-link" data-scroll-target="#definition-eigener-engines">Definition eigener engines</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/MBrede/KFN_MethodLab_24/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./wrangling02.html">Tag 2</a></li><li class="breadcrumb-item"><a href="./tidymodels.html"><span class="chapter-title">tidymodels</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">tidymodels</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Auch wenn der Workshop vielleicht bisher nicht den Eindruck gemacht hat - R ist natürlich vor allem als Sprache zur Vorbereitung und Durchführung von statistischen Analysen gedacht.</p>
+<p>Die meisten grundlegenden Analysen lassen sich natürlich - genau wie das meiste der Inhalte die bisher Thema waren - mit <code>base</code>-R durchführen.</p>
+<p>Im Kosmos des <code>tidyverse</code> hat sich aber auch hier eine Reihe an Paketen angesammelt, die viele Auswertungen streamlinen, leichter lesbarer machen und in einer gemeinsamen Sprache ausdrücken. Die unter dem Namen <a href="https://www.tidymodels.org/packages/"><code>tidymodels</code></a> gesammelten Pakete bieten dabei Helper für Inferenz-Statistik und Machine Learning-Anwendungen in der uns jetzt ja schon bekannten <code>tidy</code>-Schreibweise - also als eine Reihe von in pipelines verkett-baren Verben. Wie im <code>tidyverse</code> lässt sich auch diese Funktionssammlung mit einem Call laden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ────────────────────────────────────── tidymodels 1.1.1 ──</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ broom        1.0.5     ✔ recipes      1.0.9
+✔ dials        1.2.0     ✔ rsample      1.2.0
+✔ dplyr        1.1.2     ✔ tibble       3.2.1
+✔ ggplot2      3.4.4     ✔ tidyr        1.3.0
+✔ infer        1.0.6     ✔ tune         1.1.2
+✔ modeldata    1.3.0     ✔ workflows    1.1.3
+✔ parsnip      1.1.1     ✔ workflowsets 1.0.1
+✔ purrr        1.0.2     ✔ yardstick    1.3.0</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
+✖ purrr::discard() masks scales::discard()
+✖ dplyr::filter()  masks stats::filter()
+✖ dplyr::lag()     masks stats::lag()
+✖ recipes::step()  masks stats::step()
+• Learn how to get started at https://www.tidymodels.org/start/</code></pre>
+</div>
+</div>
+<p>Für schon routinierte Nutzer von R ist dabei die größte Umstellung, dass Modelle nicht mehr wie folgt in einer Zeile definiert werden. Im <code>datasets</code>-Paket wird der Datensatz <code>Sacramento</code> mitgeliefert, der Wohnungspreise in Sacramento beinhaltet:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Sacramento)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 9
+  city       zip     beds baths  sqft type        price latitude longitude
+  &lt;fct&gt;      &lt;fct&gt;  &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;fct&gt;       &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 SACRAMENTO z95838     2     1   836 Residential 59222     38.6     -121.
+2 SACRAMENTO z95823     3     1  1167 Residential 68212     38.5     -121.
+3 SACRAMENTO z95815     2     1   796 Residential 68880     38.6     -121.
+4 SACRAMENTO z95815     2     1   852 Residential 69307     38.6     -121.
+5 SACRAMENTO z95824     2     1   797 Residential 81900     38.5     -121.
+6 SACRAMENTO z95841     3     1  1122 Condo       89921     38.7     -121.</code></pre>
+</div>
+</div>
+<p>Wenn wir in Base-R eine Regression der Wohnungsgröße und der Anzahl der Schlafzimmer auf den Preis durchführen wollen, sähe das wie folgt aus:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(price <span class="sc">~</span> sqft <span class="sc">+</span> beds, <span class="at">data =</span> Sacramento)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = price ~ sqft + beds, data = Sacramento)
+
+Coefficients:
+(Intercept)         sqft         beds  
+    60850.5        161.3     -26035.1  </code></pre>
+</div>
+</div>
+<p>Und um inferenzstatistische Kennwerte zu erhalten könnten wir zum Beispiel <code>summary</code> aufrufen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(price <span class="sc">~</span> sqft <span class="sc">+</span> beds, <span class="at">data =</span> Sacramento) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = price ~ sqft + beds, data = Sacramento)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-200938  -52196   -9148   37268  620281 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  60850.544  10424.530   5.837 7.33e-09 ***
+sqft           161.336      5.339  30.218  &lt; 2e-16 ***
+beds        -26035.145   4366.612  -5.962 3.53e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 82610 on 929 degrees of freedom
+Multiple R-squared:  0.604, Adjusted R-squared:  0.6031 
+F-statistic: 708.5 on 2 and 929 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Die Logik von <code>tidymodels</code> ist hierbei näher an ggplot2. Wir initiieren ein Modell aus der Familie, das wir fitten wollen und geben dann an, auf welche Daten wir dieses fitten wollen. Dazu übergeben wir die erstellte Modell-Instanz an die <code>fit</code>-Funktion mit den gesetzten Parametern:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>()</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="ot">&lt;-</span> lm_model <span class="sc">%&gt;%</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(price <span class="sc">~</span> sqft <span class="sc">+</span> beds, <span class="at">data =</span> Sacramento)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>lm_fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+stats::lm(formula = price ~ sqft + beds, data = data)
+
+Coefficients:
+(Intercept)         sqft         beds  
+    60850.5        161.3     -26035.1  </code></pre>
+</div>
+</div>
+<p>Das Ergebnis ließe sich wieder mit <code>summary</code> zusammenfassen, in <code>tidymodels</code> gibt es dafür aber das Paket <code>broom</code> mit ein paar netteren Wrappern:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  term        estimate std.error statistic   p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)   60851.  10425.        5.84 7.33e-  9
+2 sqft            161.      5.34     30.2  2.95e-140
+3 beds         -26035.   4367.       -5.96 3.53e-  9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glance</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 12
+  r.squared adj.r.squared  sigma statistic   p.value    df  logLik    AIC    BIC
+      &lt;dbl&gt;         &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1     0.604         0.603 82605.      708. 1.35e-187     2 -11873. 23754. 23773.
+# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>Der Schritt der anfänglichen Modelldefinition scheint erstmal mehr Aufwand zu sein - der Vorteil wird aber deutlich, wenn ich mich entscheide eine andere Modell-Architektur zur Lösung der Regression nutzen möchte.</p>
+<p>Um statt einer least-squares-Regression eine regularisiertes Regressionsmodell einzusetzen, da ich befürchte dass Anzahl der Schlafzimmer und Größe der Wohnung korreliert sind, muss ich nur eine Kleinigkeit am Modell ändern:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>glmnet_model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">penalty =</span> <span class="fl">0.95</span>, <span class="at">mixture =</span> <span class="fl">0.5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">'glmnet'</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>glmnet_fit <span class="ot">&lt;-</span> glmnet_model <span class="sc">%&gt;%</span> </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(price <span class="sc">~</span> sqft <span class="sc">+</span> beds, <span class="at">data =</span> Sacramento)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>glmnet_fit <span class="sc">%&gt;%</span> </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: Matrix</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'Matrix'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:tidyr':
+
+    expand, pack, unpack</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loaded glmnet 4.1-8</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  term        estimate penalty
+  &lt;chr&gt;          &lt;dbl&gt;   &lt;dbl&gt;
+1 (Intercept)   59837.    0.95
+2 sqft            160.    0.95
+3 beds         -25066.    0.95</code></pre>
+</div>
+</div>
+<p>Oder aber ich überlege mir, dass die Zusammenhänge sicher deutlich komplizierter sind und sich das Problem nur mit einem Deep-Learning-Ansatz<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> lösen lässt - also nehme ich Keras als engine:</p>
+<div class="no-row-height column-margin column-container"><p><sup>1</sup>&nbsp;wenn man einen Hidden Layer mit einem Neuron denn Deep nennen kann</p></div><div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>keras_model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">penalty =</span> <span class="fl">0.01</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">'keras'</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>keras_fit <span class="ot">&lt;-</span> keras_model <span class="sc">%&gt;%</span> </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(price <span class="sc">~</span> sqft <span class="sc">+</span> beds, <span class="at">data =</span> Sacramento)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 1/20
+30/30 - 1s - loss: 76832931840.0000 - 714ms/epoch - 24ms/step
+Epoch 2/20
+30/30 - 0s - loss: 76768526336.0000 - 77ms/epoch - 3ms/step
+Epoch 3/20
+30/30 - 0s - loss: 76701777920.0000 - 49ms/epoch - 2ms/step
+Epoch 4/20
+30/30 - 0s - loss: 76632064000.0000 - 47ms/epoch - 2ms/step
+Epoch 5/20
+30/30 - 0s - loss: 76558123008.0000 - 47ms/epoch - 2ms/step
+Epoch 6/20
+30/30 - 0s - loss: 76483477504.0000 - 44ms/epoch - 1ms/step
+Epoch 7/20
+30/30 - 0s - loss: 76406882304.0000 - 50ms/epoch - 2ms/step
+Epoch 8/20
+30/30 - 0s - loss: 76327763968.0000 - 53ms/epoch - 2ms/step
+Epoch 9/20
+30/30 - 0s - loss: 76246908928.0000 - 46ms/epoch - 2ms/step
+Epoch 10/20
+30/30 - 0s - loss: 76160606208.0000 - 42ms/epoch - 1ms/step
+Epoch 11/20
+30/30 - 0s - loss: 76072050688.0000 - 49ms/epoch - 2ms/step
+Epoch 12/20
+30/30 - 0s - loss: 75983183872.0000 - 47ms/epoch - 2ms/step
+Epoch 13/20
+30/30 - 0s - loss: 75888345088.0000 - 44ms/epoch - 1ms/step
+Epoch 14/20
+30/30 - 0s - loss: 75791106048.0000 - 48ms/epoch - 2ms/step
+Epoch 15/20
+30/30 - 0s - loss: 75691532288.0000 - 49ms/epoch - 2ms/step
+Epoch 16/20
+30/30 - 0s - loss: 75588255744.0000 - 47ms/epoch - 2ms/step
+Epoch 17/20
+30/30 - 0s - loss: 75481128960.0000 - 44ms/epoch - 1ms/step
+Epoch 18/20
+30/30 - 0s - loss: 75370840064.0000 - 49ms/epoch - 2ms/step
+Epoch 19/20
+30/30 - 0s - loss: 75260059648.0000 - 42ms/epoch - 1ms/step
+Epoch 20/20
+30/30 - 0s - loss: 75148574720.0000 - 57ms/epoch - 2ms/step</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>keras_fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+Model: "sequential"
+________________________________________________________________________________
+ Layer (type)                       Output Shape                    Param #     
+================================================================================
+ dense (Dense)                      (None, 1)                       3           
+ dense_1 (Dense)                    (None, 1)                       2           
+================================================================================
+Total params: 5 (20.00 Byte)
+Trainable params: 5 (20.00 Byte)
+Non-trainable params: 0 (0.00 Byte)
+________________________________________________________________________________</code></pre>
+</div>
+</div>
+<p>Aber wenn ich schon bei Keras bin, warum dann nicht mit einem größeren Layer? Und warum lineare Aktivierung, wenn ich schon ein Deep-Learning-Backend bemühe?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>keras_model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">penalty =</span> <span class="fl">0.01</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">'keras'</span>, <span class="at">hidden_units =</span> <span class="dv">128</span>, <span class="at">act =</span> <span class="st">'relu'</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>keras_fit <span class="ot">&lt;-</span> keras_model <span class="sc">%&gt;%</span> </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(price <span class="sc">~</span> sqft <span class="sc">+</span> beds, <span class="at">data =</span> Sacramento)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 1/20
+30/30 - 1s - loss: 77915463680.0000 - 692ms/epoch - 23ms/step
+Epoch 2/20
+30/30 - 0s - loss: 77509935104.0000 - 54ms/epoch - 2ms/step
+Epoch 3/20
+30/30 - 0s - loss: 77068238848.0000 - 54ms/epoch - 2ms/step
+Epoch 4/20
+30/30 - 0s - loss: 76526198784.0000 - 57ms/epoch - 2ms/step
+Epoch 5/20
+30/30 - 0s - loss: 75861204992.0000 - 48ms/epoch - 2ms/step
+Epoch 6/20
+30/30 - 0s - loss: 75070914560.0000 - 48ms/epoch - 2ms/step
+Epoch 7/20
+30/30 - 0s - loss: 74100654080.0000 - 40ms/epoch - 1ms/step
+Epoch 8/20
+30/30 - 0s - loss: 72966782976.0000 - 46ms/epoch - 2ms/step
+Epoch 9/20
+30/30 - 0s - loss: 71625867264.0000 - 56ms/epoch - 2ms/step
+Epoch 10/20
+30/30 - 0s - loss: 70042820608.0000 - 50ms/epoch - 2ms/step
+Epoch 11/20
+30/30 - 0s - loss: 68279267328.0000 - 58ms/epoch - 2ms/step
+Epoch 12/20
+30/30 - 0s - loss: 66348236800.0000 - 52ms/epoch - 2ms/step
+Epoch 13/20
+30/30 - 0s - loss: 64253865984.0000 - 53ms/epoch - 2ms/step
+Epoch 14/20
+30/30 - 0s - loss: 61987528704.0000 - 57ms/epoch - 2ms/step
+Epoch 15/20
+30/30 - 0s - loss: 59563237376.0000 - 45ms/epoch - 1ms/step
+Epoch 16/20
+30/30 - 0s - loss: 56993083392.0000 - 46ms/epoch - 2ms/step
+Epoch 17/20
+30/30 - 0s - loss: 54320918528.0000 - 45ms/epoch - 1ms/step
+Epoch 18/20
+30/30 - 0s - loss: 51583815680.0000 - 46ms/epoch - 2ms/step
+Epoch 19/20
+30/30 - 0s - loss: 48807002112.0000 - 51ms/epoch - 2ms/step
+Epoch 20/20
+30/30 - 0s - loss: 46015004672.0000 - 46ms/epoch - 2ms/step</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>keras_fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+Model: "sequential_1"
+________________________________________________________________________________
+ Layer (type)                       Output Shape                    Param #     
+================================================================================
+ dense_2 (Dense)                    (None, 128)                     384         
+ dense_3 (Dense)                    (None, 1)                       129         
+================================================================================
+Total params: 513 (2.00 KB)
+Trainable params: 513 (2.00 KB)
+Non-trainable params: 0 (0.00 Byte)
+________________________________________________________________________________</code></pre>
+</div>
+</div>
+<p>Je nach Modell sind die daraus resultierenden, interpretier- und testbaren Parameter natürlich andere.</p>
+<section id="modelltypen-modes-und-engines" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="modelltypen-modes-und-engines">Modelltypen, Modes und Engines</h2>
+<p>Die Modelldefinition funktioniert in <code>tidymodels</code> über das <code>parsnip</code>-Paket. Die Syntax besteht auf der Modellseite dabei immer aus einem <em>Modelltyp</em>, im Beispiel <code>linear_reg</code>.</p>
+<p>Dabei gibt es für so gut wie jeden Anwendungsfall von statistischer oder ML-Modellierung einen Modelltyp, der das Problem abzubilden versucht. <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<div class="no-row-height column-margin column-container"><p><sup>2</sup>&nbsp;Im mit <code>parsnip</code> gelieferten Datensatz <code>model_db</code> ist eine (so weit ich das richtig sehe) nicht vollständige Liste der möglichen Modelle - hier werden allein 37 verschiedene Modelle gelistet.</p><p><sup>3</sup>&nbsp;Für die partykit-engine sind die Zusatzpakete <code>partykit</code> und <code>bonsai</code> nötig.</p></div><p>Ein anderes Beispiel für einen Modelltypen ist ein <code>rand_forest</code>. Um unser Preis-Problem zu lösen könnten wir den Aufruf wie folgt gestalten: <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bonsai)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>partykit_model <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(<span class="at">trees =</span> <span class="dv">500</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">'regression'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">'partykit'</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>partykit_fit <span class="ot">&lt;-</span> partykit_model <span class="sc">%&gt;%</span> </span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(price <span class="sc">~</span> sqft <span class="sc">+</span> beds, <span class="at">data =</span> Sacramento)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>partykit_fit<span class="sc">$</span>fit <span class="sc">%&gt;%</span> </span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  partykit<span class="sc">::</span><span class="fu">varimp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       sqft        beds 
+18570726692   663613243 </code></pre>
+</div>
+</div>
+<p>Random Forests können sowohl Klassifikations- als auch Regressions-Probleme lösen. Mit dem Zusatz <code>set_mode</code> zur Pipeline können wir deshalb spezifizieren, welche Art von Problem mit dem Modell gefittet werden soll.</p>
+<p>Nach Definition von Modelltyp und mode folgt eine <em>engine</em>, mit der das Problem gelöst werden soll. In den Beispielen waren die engines erst <code>lm</code> aus <code>stats</code>, dann <code>glmnet</code> aus dem gleichnamigen Paket und abschließend der Wrapper <code>keras_mlp</code> um ein Keras-Netz aus dem <code>parsnip</code>-Paket. Zuletzt kam jetzt noch ein <code>cforest</code> aus dem <code>partykit</code> dazu.</p>
+<p><code>parsnip</code> macht mit den Anweisungen nichts anderes, als daraus einen dem Paket angemessenen Template-Call zu formulieren. Diesen template-Call kann man sich exemplarisch für das zweite Beispiel wie folgt angucken:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>glmnet_model <span class="sc">%&gt;%</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">translate</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear Regression Model Specification (regression)
+
+Main Arguments:
+  penalty = 0.95
+  mixture = 0.5
+
+Computational engine: glmnet 
+
+Model fit template:
+glmnet::glmnet(x = missing_arg(), y = missing_arg(), weights = missing_arg(), 
+    alpha = 0.5, family = "gaussian")</code></pre>
+</div>
+</div>
+<p>Für x, y und weights werden Platzhalter eingefügt, die dann im <code>fit</code>-Aufruf aufgefüllt werden.</p>
+<p>Im Output sieht man auch, welche Werte für die so genannten <em>Main</em>-Argumente gesetzt sind. <code>parsnip</code> unterscheidet nämlich zwischen denjenigen Parametern, die für viele oder gar alle einem Modelltyp angehörigen Modelle nötig sind und vereinheitlicht deren Aufruf. Diese verpflichtenden Modellparameter, z.B. der Grad der Regularisierung bei der linearen Regression, oder auch die Anzahl der zu trainierenden Bäume in einem Random Forest, werden dann direkt im ersten Modell-Call angegeben.</p>
+<p>Dann gibt es aber noch für jede engine spezifische Argumente, deren Setzen für einen Großteil der anderen engines keinen Sinn ergäbe. Diese <em>Engine-arguments</em> können im <code>set_engine</code>-Call übergeben werden. So können wir unserer <code>glmnet</code>-Regression zum Beispiel die (zumindest diskutable) Anweisung auf den Weg geben, die Mietpreise als poisson-verteilt anzunehmen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>glmnet_model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">penalty =</span> <span class="fl">0.95</span>, <span class="at">mixture =</span> <span class="fl">0.5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">'glmnet'</span>, <span class="at">family =</span> <span class="st">'poisson'</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>glmnet_fit <span class="ot">&lt;-</span> glmnet_model <span class="sc">%&gt;%</span> </span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(price <span class="sc">~</span> sqft <span class="sc">+</span> beds, <span class="at">data =</span> Sacramento)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(glmnet_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  term         estimate penalty
+  &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;
+1 (Intercept) 11.7         0.95
+2 sqft         0.000493    0.95
+3 beds        -0.0556      0.95</code></pre>
+</div>
+</div>
+<p>Alle standardmäßig implementierten möglichen Kombinationen von Modeltypen, Engines und Modes können in <a href="https://www.tidymodels.org/find/parsnip/">dieser</a> Tabelle gefunden werden.</p>
+<section id="aufgabe" class="level3">
+<h3 class="anchored" data-anchor-id="aufgabe">Aufgabe</h3>
+<!-- TODO -->
+<ol type="1">
+<li><p>Importieren Sie Daten</p></li>
+<li><p>Fitten Sie die Daten mit zwei linearen Regressionsmodellen, einmal mit <code>lm</code> und einmal mit <code>stan</code> als engine.</p></li>
+<li><p>Fitten Sie die Daten mit einem Random Forest mit <code>randomForest</code> als engine</p></li>
+<li><p>Fügen Sie mit <code>predict(&lt;Ihr Modell&gt;, new_data=&lt;Datensatz&gt;)</code> und <code>mutate</code> drei Spalten an Ihren Datensatz an, in denen die jeweiligen Modellvorhersagen angegeben sind.</p></li>
+<li><p>pivotieren Sie den Datensatz ins long-Format, so dass alle Prognosen und die tatsächlichen Werte des Kriteriums in einer Spalte vorliegen.</p></li>
+<li><p>Erstellen Sie einen ggplot, der auf der x-Achse die TODO und auf der y-Achse die TODO abträgt. Färben Sie die Punkte nach neuen Spalte ein. Facettieren Sie den Plot nach den drei Modellen und der Ground-Truth.</p></li>
+</ol>
+</section>
+</section>
+<section id="recipes-und-workflows" class="level2">
+<h2 class="anchored" data-anchor-id="recipes-und-workflows">Recipes und Workflows</h2>
+<section id="recipes" class="level3">
+<h3 class="anchored" data-anchor-id="recipes">Recipes</h3>
+<p>Neben dem Erstellen der Modelle bietet <code>tidymodels</code> auch pipeline-Interfaces für das standardisieren von der Vor- und Nachbereitung von Analysen. Das Vorbereiten können dabei relativ aufwändige Aufgaben des feature-Engineerings wie Methoden zur Dimensionsreduktion sein, aber auch für den inferenzstatistischen Alltag relevantere Schritte wie die Logarithmierung oder Dummyfizierung von Variablen.</p>
+<p>Das dafür genutzte Paket heißt passenderweise <code>recipes</code>. Wenn wir in unserem Wohnungs-Beispiel vor der Analyse die Prädiktoren standardisieren wollen, fangen wir mit der Definition eines Rezeptes an:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>my_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(price <span class="sc">~</span> sqft <span class="sc">+</span> beds,</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> Sacramento)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Das Rezept können wir nun schrittweise ergänzen. Wenn alle Prädiktoren und vielleicht auch das Kriterium standardisieren wollen, müssen wir zuerst die Daten zentrieren und dann skalieren.</p>
+<p>Diese Schritte sind in <code>recipes</code> mit den angemessen als <code>step</code>-Funktionen benannten Anweisungen implementiert. Für die Schritte muss jeweils angegeben werden, auf welche Teile der Designmatrix die Operationen angewandt werden sollen.</p>
+<p>Dazu können wir die schon bekannten tidy-select-helper nutzen, wir können aber auch die sepzifischen, von <code>recipes</code> gelieferten Auswahl-Helfer genutzt werden. Auf der mit <code>?selections</code> aufrufbaren Hifleseite sind alle aufgelistet.</p>
+<p>Wir wollen wie gesagt alle numerischen Variablen z-transformieren, ergänzen unser Rezept also wie folgt:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>my_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(price <span class="sc">~</span> sqft <span class="sc">+</span> beds,</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> Sacramento) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_center</span>(<span class="fu">all_numeric</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_scale</span>(<span class="fu">all_numeric</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Wenn wir das Recipe aufrufen, wird uns eine Zusammenfassung unserer Vorbereitungsschritte angezeigt:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>my_recipe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Recipe ──────────────────────────────────────────────────────────────────────</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Inputs </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Number of variables by role</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>outcome:   1
+predictor: 2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Operations </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>• Centering for: all_numeric()</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>• Scaling for: all_numeric()</code></pre>
+</div>
+</div>
+<p>Neben diesen Einfachen steps gibt es natürlich auch wesentlich kompliziertere, unter <a href="https://www.tidymodels.org/find/recipes/">diesem Link</a> sind alle implementierten Steps aufgelistet.</p>
+<p>Die für das Rezept nötigen “Zutaten” können wir uns mit <code>prep</code> vorbereiten lassen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>my_prep <span class="ot">&lt;-</span> my_recipe <span class="sc">%&gt;%</span> </span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prep</span>(Sacramento)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>my_prep</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Recipe ──────────────────────────────────────────────────────────────────────</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Inputs </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Number of variables by role</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>outcome:   1
+predictor: 2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Training information </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Training data contained 932 data points and no incomplete rows.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Operations </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>• Centering for: sqft, beds, price | Trained</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>• Scaling for: sqft, beds, price | Trained</code></pre>
+</div>
+</div>
+<p>Und mit <code>bake</code> können wir das Rezept abschließend anwenden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>scaled_data <span class="ot">&lt;-</span> my_prep <span class="sc">%&gt;%</span> </span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bake</span>(Sacramento)</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>scaled_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 932 × 3
+     sqft   beds price
+    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+ 1 -1.16  -1.44  -1.43
+ 2 -0.707 -0.311 -1.36
+ 3 -1.22  -1.44  -1.36
+ 4 -1.14  -1.44  -1.35
+ 5 -1.22  -1.44  -1.26
+ 6 -0.769 -0.311 -1.20
+ 7 -0.794 -0.311 -1.19
+ 8 -0.693 -0.311 -1.19
+ 9 -1.02  -1.44  -1.16
+10 -0.736 -0.311 -1.13
+# ℹ 922 more rows</code></pre>
+</div>
+</div>
+<p>Diesen Datensatz können wir dann wieder nutzen, um eine Regression zu fitten:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() </span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="ot">&lt;-</span> lm_model <span class="sc">%&gt;%</span> </span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(price <span class="sc">~</span> sqft <span class="sc">+</span> beds, <span class="at">data =</span> scaled_data)</span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="sc">%&gt;%</span> </span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  term         estimate std.error statistic   p.value
+  &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)  3.04e-16    0.0206  1.47e-14 1.00e+  0
+2 sqft         8.94e- 1    0.0296  3.02e+ 1 2.95e-140
+3 beds        -1.76e- 1    0.0296 -5.96e+ 0 3.53e-  9</code></pre>
+</div>
+</div>
+</section>
+<section id="workflows" class="level3">
+<h3 class="anchored" data-anchor-id="workflows">Workflows</h3>
+<p>Rezepte, Modelldefinition und -fit lassen sich im <code>tidymodels</code>-framework auch zu einer pipeline zusammenfügen.</p>
+<p>Wie bei <code>parsnip</code> und <code>recipes</code> beginnt die Definition eines sogenannten Workflows aus <code>workflows</code> mit einer Objektdefinition.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>my_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Diesem Workflow können wir dann Rezept und Modell hinzufügen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>my_wf <span class="ot">&lt;-</span> my_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(my_recipe) <span class="sc">%&gt;%</span> </span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(lm_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Anschließend können wir den ganzen Workflow fitten:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>my_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> Sacramento) <span class="sc">%&gt;%</span> </span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  term         estimate std.error statistic   p.value
+  &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)  3.04e-16    0.0206  1.47e-14 1.00e+  0
+2 sqft         8.94e- 1    0.0296  3.02e+ 1 2.95e-140
+3 beds        -1.76e- 1    0.0296 -5.96e+ 0 3.53e-  9</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Wozu ist das jetzt nützlich?</p>
+</blockquote>
+<p>Nützlich wird das, wenn wir eine Analyse z.B. auf mehreren Datensätzen durchführen wollen.</p>
+<p>Oder einen Workflow einmal mit und einmal ohne Logarithmierung des Kriteriums ausprobieren wollen.</p>
+<p>Mit <code>update_recipe</code> können wir das ganz einfach testen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>my_wf <span class="sc">%&gt;%</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_recipe</span>(my_recipe <span class="sc">%&gt;%</span>  <span class="fu">step_log</span>(<span class="fu">all_outcomes</span>())) <span class="sc">%&gt;%</span> </span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> Sacramento) <span class="sc">%&gt;%</span> </span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in bake.step_log(x$steps[[i]], new_data = training): NaNs produced</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  term        estimate std.error statistic  p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)   -1.09     0.0724    -15.1  2.51e-40
+2 sqft           0.803    0.0746     10.8  1.20e-23
+3 beds          -0.303    0.0806     -3.76 2.01e- 4</code></pre>
+</div>
+</div>
+<p>Außerdem lässt sich natürlich das Modell austauschen, wenn ich das möchte:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>my_wf <span class="sc">%&gt;%</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_model</span>(keras_model) <span class="sc">%&gt;%</span> </span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> Sacramento)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 1/20
+30/30 - 1s - loss: 0.9360 - 730ms/epoch - 24ms/step
+Epoch 2/20
+30/30 - 0s - loss: 0.5614 - 84ms/epoch - 3ms/step
+Epoch 3/20
+30/30 - 0s - loss: 0.4816 - 47ms/epoch - 2ms/step
+Epoch 4/20
+30/30 - 0s - loss: 0.4485 - 50ms/epoch - 2ms/step
+Epoch 5/20
+30/30 - 0s - loss: 0.4365 - 48ms/epoch - 2ms/step
+Epoch 6/20
+30/30 - 0s - loss: 0.4313 - 49ms/epoch - 2ms/step
+Epoch 7/20
+30/30 - 0s - loss: 0.4271 - 41ms/epoch - 1ms/step
+Epoch 8/20
+30/30 - 0s - loss: 0.4235 - 58ms/epoch - 2ms/step
+Epoch 9/20
+30/30 - 0s - loss: 0.4211 - 48ms/epoch - 2ms/step
+Epoch 10/20
+30/30 - 0s - loss: 0.4193 - 42ms/epoch - 1ms/step
+Epoch 11/20
+30/30 - 0s - loss: 0.4190 - 40ms/epoch - 1ms/step
+Epoch 12/20
+30/30 - 0s - loss: 0.4190 - 39ms/epoch - 1ms/step
+Epoch 13/20
+30/30 - 0s - loss: 0.4166 - 46ms/epoch - 2ms/step
+Epoch 14/20
+30/30 - 0s - loss: 0.4144 - 46ms/epoch - 2ms/step
+Epoch 15/20
+30/30 - 0s - loss: 0.4125 - 43ms/epoch - 1ms/step
+Epoch 16/20
+30/30 - 0s - loss: 0.4134 - 44ms/epoch - 1ms/step
+Epoch 17/20
+30/30 - 0s - loss: 0.4125 - 44ms/epoch - 1ms/step
+Epoch 18/20
+30/30 - 0s - loss: 0.4110 - 53ms/epoch - 2ms/step
+Epoch 19/20
+30/30 - 0s - loss: 0.4121 - 48ms/epoch - 2ms/step
+Epoch 20/20
+30/30 - 0s - loss: 0.4124 - 46ms/epoch - 2ms/step</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>══ Workflow [trained] ══════════════════════════════════════════════════════════
+Preprocessor: Recipe
+Model: linear_reg()
+
+── Preprocessor ────────────────────────────────────────────────────────────────
+2 Recipe Steps
+
+• step_center()
+• step_scale()
+
+── Model ───────────────────────────────────────────────────────────────────────
+Model: "sequential"
+________________________________________________________________________________
+ Layer (type)                       Output Shape                    Param #     
+================================================================================
+ dense (Dense)                      (None, 128)                     384         
+ dense_1 (Dense)                    (None, 1)                       129         
+================================================================================
+Total params: 513 (2.00 KB)
+Trainable params: 513 (2.00 KB)
+Non-trainable params: 0 (0.00 Byte)
+________________________________________________________________________________</code></pre>
+</div>
+</div>
+</section>
+<section id="aufgabe-1" class="level3">
+<h3 class="anchored" data-anchor-id="aufgabe-1">Aufgabe</h3>
+<ol type="1">
+<li><p>Erstellen Sie einen Workflow, mit dem in einem gegebenem Datensatz alle Werte per KNN imputiert werden und alle numerischen Werte auf einen Wertebereich von 0 bis 1 skaliert werden. Die <a href="https://www.tidymodels.org/find/recipes/">Liste aller Steps</a> kann Ihnen dabei helfen. Der Workflow soll dann alle Variablen als Kriterium nutzen um die Variable <code>target</code> vorherzusagen. Anfänglich soll der Workflow eine lm-engine dazu nutzen.</p></li>
+<li><p>Fitten Sie die Daten auf den Datensatz TODO und den Datensatz TODO</p></li>
+<li><p>Tauschen Sie das Modell gegen einen randomForest mit Regressions-Mode aus und fitten Sie wieder beide Modelle.</p></li>
+<li><p>Lesen Sie die Hilfeseite der <code>mape</code>-Funktion aus dem <code>yardstick</code> Paket und nutzen Sie diese zusammen mit <code>predict</code> um die Modelle oberflächlich zu vergleichen.</p></li>
+</ol>
+</section>
+</section>
+<section id="inferenzstatistik-pipelines-mit-infer" class="level2">
+<h2 class="anchored" data-anchor-id="inferenzstatistik-pipelines-mit-infer">Inferenzstatistik-Pipelines mit infer</h2>
+<p>Neben der Kombination von <code>parsnip</code> und <code>broom</code> bietet das</p>
+</section>
+<section id="korrelationsanalysen-mit-corrr" class="level2">
+<h2 class="anchored" data-anchor-id="korrelationsanalysen-mit-corrr">Korrelationsanalysen mit corrr</h2>
+</section>
+<section id="definition-eigener-engines" class="level2">
+<h2 class="anchored" data-anchor-id="definition-eigener-engines">Definition eigener engines</h2>
+
+
+</section>
+
+
+</main> <!-- /main -->
+<script>
+var elements = document.getElementsByClassName('card');
+
+var myFunction = function() {
+  var overlay = this.querySelector('.overlay');
+  var content = this.querySelector('.content');
+  content.classList.toggle('blur-effect');
+  if (overlay) {
+    overlay.classList.toggle('show-overlay');
+  }
+};
+
+for (var i = 0; i < elements.length; i++) {
+    elements[i].addEventListener('click', myFunction, false);
+    myFunction.call(elements[i]);
+}
+
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./wrangling02.html" class="pagination-link  aria-label=" &lt;span="" von="" datensätzen&lt;="" span&gt;"="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Zusammenführen von Datensätzen</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./quarto.html" class="pagination-link" aria-label="<span class='chapter-number'>8</span>&nbsp; <span class='chapter-title'>Methodenteil in `quarto`{#sec-quarto}</span>">
+        <span class="nav-page-text"><span class="chapter-title">Methodenteil in <code id="sec-quarto">quarto</code></span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" style="padding-right: 10px;"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png"></a></p>
+</div>   
+    <div class="nav-footer-center">
+<p>All images are generated using R, DALL·E or Midjourney if not indicated otherwise.</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/MBrede/KFN_MethodLab_24/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

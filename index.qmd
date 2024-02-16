@@ -1,0 +1,19 @@
+---
+toc-title: '![](imgs/magpie_data_presentation.webp){width=240px}<br> Einführung'
+---
+# Vorwort
+
+```{r setup}
+#| include: false
+
+library(tidyverse)
+```
+
+
+Dieses mit `quarto` erstellte Dokument ist das Skript zu der am 19. und 20. Februar 2024 im KFN MethodLab abgehaltenen Einführung in die Aufbereitung, Auswertung und Darstellung von Daten mit Hilfe der freien Sprache `R`.
+
+Die Einführung ist für zwei Tage geplant, der Ablauf ist im Folgenden einzusehen:
+
+<iframe width="90%" height="750" name="iframe" src="https://kfn.de/veranstaltungen/workshop/">
+</iframe>
+

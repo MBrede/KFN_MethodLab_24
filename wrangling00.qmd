@@ -1,0 +1,285 @@
+---
+toc-title: '![](imgs/preparation.webp){width=240px}<br> Datenaufbereitung'
+---
+
+```{r setup 02, include=FALSE}
+options(width= 50,align = 'center')
+knitr::opts_chunk$set(fig.align = 'center',
+                      warning = F,
+                      cache = T)#,tidy = T,tidy.opts = list(blank = FALSE, width.cutoff = 70))
+
+library(tidyverse)
+library(dplyr)
+library(knitr)
+ggplot <- function(...)ggplot2::ggplot(...) + 
+  theme_minimal(base_size = 8) + 
+  scale_color_brewer(palette = 'Dark2') +
+  theme(text = element_text(color = '#797979'),
+        axis.text = element_text(color = '#797979'),
+        strip.text = element_text(color = '#797979'),
+        panel.background = element_rect(fill = "transparent",color = NA), 
+        plot.background = element_rect(fill = "transparent", color = NA), 
+        legend.background = element_rect(fill = "transparent", color = NA),
+        legend.box.background = element_rect(fill = "transparent", color = NA))
+
+ggsave <- function(...)ggplot2::ggsave(...,bg = 'transparent')
+
+```
+
+# Daten manipulieren
+
+## Datensätze in R{.section}
+
+Wie alle anderen Programme zur statistischen Auswertung hat R natürlich neben den Vektoren auch rechteckige Datenformate.
+
+Das typische rechteckige Datenformat in `base R` ist der `data.frame`. 
+Im Prinzip nichts anderes, als spaltenweise zusammengeklebte Vektoren.
+Der Konstruktor für ein solches Objekt ist die gleichnamige Funktion, die die Spalten als benannte Argumente nimmt:
+
+```{r}
+df <- data.frame(a = 1:3,
+                 b = c(TRUE, FALSE, TRUE),
+                 c = c('a','b','c'))
+df
+```
+
+
+Das Indizieren im Datensatz geht dann am *lesbarsten*, durch das Angeben der gewünschten Spalte mit dem `$`-Operator und der Auswahl der Zeile durch den schon bekannten `[]`-Operator.
+```{r}
+df$c[2] ## 2. Wert in der 'c'-Spalte.
+```
+
+<p class='q'> Wie könnte ich den 3. Wert in der `b`-Spalte indizieren?</p>
+
+:::{class="card"}
+:::{class="content"}
+`df$b[3]`
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+Der `iris`-Datensatz ist ein im Grundumfang von R mitgelieferter Datensatz, der historische botanische Daten nach @andersonIrisesGaspePeninsula1935 enthält.
+
+```{r}
+iris %>% 
+  head()
+```
+
+### Übersicht über Datensatz verschaffen
+
+Das ist natürlich ein bisschen unübersichtlich, wie kann man damit umgehen?
+
+#### 1. Möglichkeit:
+
+Wenn man iris explizit in das Environment nimmt, kann man die Oberfläche von RStudio nutze, um sich einen Überblick zu verschaffen ^[Dabei nutzt die RStudio-IDE aber nur die `str()`(für structure)-Funktion.]
+
+```{r}
+iris <- iris
+```
+
+::: {layout-ncol=2}
+![](imgs/summ1.png)
+
+![](imgs/summ2.png)
+:::
+
+
+#### 2. Möglichkeit:
+
+Die `summary`-Funktion, die genau das macht, was ihr Name suggeriert:
+
+```{r}
+summary(iris)
+```
+
+
+### Aufgabe: Deskriptive Kennwerte berechnen
+
+Wir wollen für diesen Datensatz jetzt die folgenden Schritte der Auswertung vollziehen:
+
+1. Ausschluss der Blumen, die breitere Blütenblätter als das 1.5-fache der mittleren Blütenblätter haben und Kelche, die kürzer als das Mittel der Kelchlänge sind
+
+2. Darstellung der Mittelwerte und Streuungen der Blütenblattlänge und -breite pro verbleibende Spezies als Tabelle
+
+
+
+### Aufgabe: Base-R Lösung{.small}
+
+```{r}
+df <- iris[iris$Petal.Width <= 1.5 * mean(iris$Petal.Width) &
+             iris$Sepal.Length >= mean(iris$Sepal.Length),]
+means <- aggregate(cbind(df$Petal.Length,df$Petal.Width),
+          by = list(Species = df$Species),
+          FUN = mean)
+sds <- aggregate(cbind(df$Petal.Length,df$Petal.Width),
+          by = list(Species = df$Species),
+          FUN = sd)
+tab <- data.frame(means, sds[,2:3])
+names(tab)[2:5] = c('m_Length', 'm_Width', 'sd_Length', 'sd_Width')
+tab
+```
+
+
+### Auftritt tidyverse
+
+Die selbe Aufgabe wie gerade, jetzt mit dem `tidyverse`:
+
+```{r}
+library(tidyverse)
+iris %>% 
+  filter(Petal.Width <= 1.5 * mean(Petal.Width) &
+           Sepal.Length >= mean(Sepal.Length)) %>% 
+  group_by(Species) %>% 
+  summarise(m_Length = mean(Petal.Length),
+            sd_Length = sd(Petal.Length),
+            m_Width = mean(Petal.Width), 
+            sd_Width = sd(Petal.Width))
+```
+
+
+
+### tidy aggregation 
+
+Das `tidyverse` ist eine Sammlung von Paketen, deren Hauptziel es ist, Datenaufbereitung in R intuitiver und leichter lesbar zu machen. 
+
+Ein zentrales Element dabei ist der `%>%`-Operator, die sogenannte Pipeline^[`base`-R hat mit Version 4.1 auch eine native pipe eingeführt (`|>`), da wir aber eh das tidyverse nutzen bleiben wir bei der `magrittr`-pipe]. Beim Skript-Lesen und -Schreiben kann man sich diese am Besten als *'dann'* vorstellen
+
+Mit ihrer Hilfe werden Aufbereitungsschritte in einer stringenten Reihe an Operationen formuliert, die sich am Besten als Satz verstehen lassen.
+
+Da die Funktionen im tidyverse alle mit einfachen Verben benannt sind, lässt sich die Operation von eben auch so lesen.
+
+<!-- ### tidy aggregation -->
+
+```{r}
+#| eval: false
+library(tidyverse)                                # <1>
+iris %>%                                          # <2>
+  filter(Petal.Width <= 1.5 * mean(Petal.Width) & # <3>
+           Sepal.Length >= mean(Sepal.Length)) %>%# <3> 
+  group_by(Species) %>%                           # <4>
+  summarise(m_Length = mean(Petal.Length),        # <5>
+            sd_Length = sd(Petal.Length),         # <5>
+            m_Width = mean(Petal.Width),          # <5>
+            sd_Width = sd(Petal.Width))           # <5>
+```
+1. Zuerst muss das `tidyverse` geladen werden
+2. Nimm `iris`, dann ...
+3. filter Zeilenweise nach den gesetzten Regeln, dann...
+4. gruppiere nach der Spezies, dann...
+5. berechne die angegebenen Kenngrößen über die Gruppen.
+
+
+Zweite Beispielaufgabe:
+
+Wir möchten für den `iris`-Datensatz:
+
+1. Eine Spalte hinzufügen, die die z-transformierte Blattlänge enthält
+
+2. Eine Spalte hinzufügen, die als character das Ergebnis eines Mediansplits der gerade erstellten Variable enthält
+
+3. Einen Datensatz erstellen, der nur die Spezies, die z-Transformierte und die Mediansplit-Variable enthält
+
+4. Die Häufigkeiten der Kombinationen von Mediansplit-Gruppe und Spezies auszählen
+
+
+```{r z-Transformation und Mediansplit}
+df <- iris %>% # <1>
+  mutate( # <2>
+        z_length = (Petal.Length-mean(Petal.Length))/sd(Petal.Length),# <3>
+        med_split = case_when(                                         # <4>
+                           z_length >= median(z_length) ~ 'upper',# <5>
+                           T ~ 'lower')) %>% # <6>
+  select(Species, z_length, med_split) # <7>
+```
+1. Erstelle ein Objekt `df`. Nimm dazu `iris`, dann ...
+2. verändere den Datensatz indem Du ...
+3. die z-Werte pro Blatt-Länge berechnest und als z_length dem Datensatz hinzufügst, ...
+4. mit der Funktion `case_when` eine Spalte anlegst, die ...
+5. z_length-Werten kleiner/gleich dem Median 'upper' zuweist ...
+6. und allen anderen Werten 'lower'. Dann...
+7. wähle die Spalten `Species`, `z_length` und `med_split` aus.
+
+
+Hat das geklappt?
+
+<p class='q'> Wie könnte ich das überprüfen? </p>
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+summary(df)
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+Jetzt noch Häufigkeiten auszählen:
+
+```{r}
+df %>% #<1>
+  group_by(Species, med_split) %>% #<2>
+  summarise(n = n())#<3>
+```
+
+1. Nimm `df`, dann ...
+2. gruppiere nach `Species` und `med_split`, dann...
+3. Zähle die absoluten Häufigkeiten aus.
+
+### Aufgabe
+
+Machen Sie sich mit dem `swiss`-Datensatz vertraut. Lesen Sie dazu auch die Hilfeseite zu dem Datensatz, diese können Sie mit `?swiss` aufrufen.
+Erstellen Sie mit Hilfe einer pipeline einen Datensatz, der...
+
+1. nur Provinzen enthält, deren Einwohner zu mehr als 10% und weniger als 35% Bestnoten bei der Armee-Untersuchung erhalten haben
+
+2. nur den Anteil der männlichen Population in der Landwirtschaft, die Kindersterblichkeit, das Bildungsniveau und den Anteil der katholischen Familien enthält
+
+3. eine numerische Variable enthält, die für die so ausgewählten Fälle einen Mediansplit der Kindersterblichkeit codiert.
+
+4. eine Variable enthält, die angibt, ob der Anteil der männlichen Population an der Landwirtschaft über oder unter dem Mittelwert (`mean`) liegt
+
+Lassen Sie sich die absoluten Häufigkeiten der Kombination der beiden gerade erstellten Variablen ausgeben.
+
+Zusatz:
+Erstellen Sie anschließend eine kurze pipeline, die den gerade erstellten Datensatz mit dem Absteigenden Bildungsniveau als ersten Sortierschlüssel und dem aufsteigenden  Anteil katholischer Familien als zweitem Schlüssel sortiert. Nutzen Sie dafür die Hilfeseite der `arrange`-Funktion.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+library(tidyverse)
+df <- swiss %>%
+  filter(Education > 10,
+         Education < 35) %>%
+  select(Agriculture,
+         Infant.Mortality,
+         Education,
+         Catholic) %>%
+  mutate(
+    mediansplit_mortality = case_when(
+      Infant.Mortality >= median(Infant.Mortality) ~ 1,
+      T ~ -1),
+    meansplit_agriculture = case_when(
+      Agriculture > mean(Agriculture) ~ 'high',
+      Agriculture < mean(Agriculture) ~ 'low',
+      T ~ 'mean'
+    )
+  )
+
+df %>% 
+  count(mediansplit_mortality,meansplit_agriculture)
+
+df2 <- df %>% 
+  arrange(-Education,
+          Catholic)
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+

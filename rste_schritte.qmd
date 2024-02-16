@@ -1,0 +1,456 @@
+---
+toc-title: '![](imgs/elstRste_schritte.webp){width=240px}<br> Rste Schritte'
+---
+
+```{r setup 01, include=FALSE}
+options(width= 50,align = 'center')
+knitr::opts_chunk$set(fig.align = 'center',
+                      warning = F,
+                      cache = T)#,tidy = T,tidy.opts = list(blank = FALSE, width.cutoff = 70))
+
+library(tidyverse)
+library(dplyr)
+library(knitr)
+ggplot <- function(...)ggplot2::ggplot(...) + 
+  theme_minimal(base_size = 8) + 
+  scale_color_brewer(palette = 'Dark2') +
+  theme(text = element_text(color = '#797979'),
+        axis.text = element_text(color = '#797979'),
+        strip.text = element_text(color = '#797979'),
+        panel.background = element_rect(fill = "transparent",color = NA), 
+        plot.background = element_rect(fill = "transparent", color = NA), 
+        legend.background = element_rect(fill = "transparent", color = NA),
+        legend.box.background = element_rect(fill = "transparent", color = NA))
+
+ggsave <- function(...)ggplot2::ggsave(...,bg = 'transparent')
+
+```
+
+
+# Rste Schritte
+
+## Warum R?
+
+```{r}
+#| include: false
+openalex_rstats <- read_csv('data/rstats.csv')
+openalex_lme4 <- read_csv('data/lme4.csv')
+openalex_fitdistrplus <- read_csv('data/fitdistrplus.csv')
+openalex_mediation <- read_csv('data/mediation.csv')
+```
+
+
+>R ist beliebt!
+
+Das R-Manual [@rcoremanual] hatte auf OpenAlex zum Zeitpunt der Erstelung dieses Skripts `r nrow(openalex_rstats)` Zitationen gelistet.
+
+Die drei Paper aus diesen Zitaten mit den wiederum meisten Zitaten sind alles Paper, die R-Pakete vorstellen. Namentlich sind das `lme4` [@bates2014fitting], `fitdistrplus` [@delignette2015fitdistrplus] und `mediation` [@tingley2014mediation]. Diese drei Paper wurden in Summe weitere `r nrow(openalex_lme4) + nrow(openalex_fitdistrplus) + nrow(openalex_mediation)` mal zitiert.
+
+Über die Zeit zeigt sich ein eindeutiger Trend:
+
+
+```{r}
+#| echo: false
+mutate(openalex_rstats, paper='Manual') |> 
+  dplyr::bind_rows(mutate(openalex_lme4, paper='lme4')) |> 
+  dplyr::bind_rows(mutate(openalex_fitdistrplus, paper='fitdistrplus')) |> 
+  dplyr::bind_rows(mutate(openalex_mediation, paper='mediation')) |> 
+  ggplot(aes(publication_year)) +
+  geom_bar(aes(fill = paper)) +
+  MetBrewer::scale_fill_met_d('Veronese') +
+  labs(fill = 'Publikation') +
+  scale_x_continuous(limits = c(2010, 2023))
+```
+
+Und dabei sind alle möglichen empirischen Disziplinen unter den Outlets vertreten, in denen R am häufigsten zitiert wurde:
+
+
+```{r}
+#| echo: false
+count.data <- mutate(openalex_rstats, paper='Manual') |> 
+  dplyr::bind_rows(mutate(openalex_lme4, paper='lme4')) |> 
+  dplyr::bind_rows(mutate(openalex_fitdistrplus, paper='fitdistrplus')) |> 
+  dplyr::bind_rows(mutate(openalex_mediation, paper='mediation')) |> 
+  distinct(display_name, .keep_all = T)|> 
+  filter(!is.na(primary_location_display_name)) |> 
+  mutate(Journal = forcats::fct_lump_n(primary_location_display_name,
+                                       n = 50)) |> 
+  count(Journal) |> 
+  arrange(-n) |> 
+  mutate(prop = n/sum(n))
+  
+count.data |> 
+  filter(Journal != 'Other') |> 
+  ggplot(aes(label = Journal, size = 1, alpha = prop)) +
+  ggwordcloud::geom_text_wordcloud(color = 'darkblue') +
+  scale_size_area(max_size = 4) +
+  scale_alpha_continuous(range = c(.2, 1))
+```
+
+
+#### Woran liegt das?
+
+Das zentrale Argument:
+
+Im Gegensatz zu anderen gängigen Statistik-Tools ist **R Open Source**.
+
+Damit kommt einher, dass R kostenlos und vor allem **von der Community erweiterbar** ist. Dazu kommt das __CRAN__ (**C**omprehensive **R** **A**rchive **N**etwork), über das mit einem sehr rigorosen^[Wie auch am häufigen [Nölen](https://www.reddit.com/r/Rlanguage/comments/s19qtw/writing_r_packages_for_cran_is_just_not_worth_it/) aus der Community abzulesen ist.]  Review-Verfahren Pakete unproblematisch zur Verfügung gestellt werden.
+
+### CRAN
+
+Das CRAN habt Ihr bereits benutzt - mit `install.packages()` greift Ihr auf dieses Paket-Archiv zu und ladet Pakete runter.
+
+Posit stellt [hier](https://gallery.shinyapps.io/087-crandash/) mit einer `shiny`-Demo sehr anschaulich dar, wie beliebt cran-Pakete und damit R sind.
+
+
+### Was spricht gegen R?
+
+* Mausnavigierte IDEs wirken erstmal intuitiver^[[Jamovi](https://www.jamovi.org/) versucht hier die Lücke zu schließen.]
+
+* Man braucht vor allem am Anfang (ein bisschen) Frustrationstoleranz bis genug Übung besteht
+
+* Viele Beiträge von vielen Community-Mitglieder:innen heißt natürlich auch viele Ideen wie Probleme richtig gelöst werden. Die Syntax ist zwischen Paketen also oft uneinheitlich.
+
+### Aber:
+
+* Man findet sehr schnell Hilfe.^[Auf [stackoverflow](https://stackoverflow.com/questions/tagged/r) gibt es zum Beispiel eine sehr aktive Gruppe an R-Usern]
+
+* Vor allem in den letzten fünf Jahren haben sich Projekte herausgebildet, die versuchen viele der größten Frustrationen an R abzustumpfen, z.B. [Jamovi](https://www.jamovi.org/) und das `tidyverse`.
+
+
+# R-Syntax Basics
+
+Die Absoluten Grundlagen der R Syntax sind:
+
+1. Zuweisungen und das `environment`
+
+2. Funktionen und Argumente
+
+3. Indizierung
+
+4. Datenformate
+
+
+## 1. Zuweisungen und das Environment
+
+Unter Zuweisung ist erstmal nichts anderes zu verstehen, als einem Zwischenergebnis einen Namen zu geben, um es wiederverwenden zu können.
+
+Auch wenn es andere Möglichkeiten gibt, ist die Folgende die am besten lesbare:
+
+```{r}
+a_number <- 42
+```
+
+
+Die Zahl 42 ist jetzt für weitere Verwendung im `Environment` abgelegt:
+
+![Screenshot vom Environment](imgs/environment.png)
+
+Und wie die Zahl alleine weiterzuverwenden:
+
+```{r}
+42^2
+a_number^2 ## äquivalent
+```
+
+Jede dieser in grau unterlegten Zeilen nennt man auch eine *Anweisung*. R wird in der letzten Zeile angewiesen, den 'Inhalt' von `a_number` zu quadrieren. Dabei wird der dahinter durch das `#`-Symbol eingeleitete Kommentar ignoriert. 
+
+Dabei ist das `Environment` in jeder Session neu, wenn ich RStudio schließe und neu aufmache, wird also eine neue, leere Umgebung geöffnet^[Und direkt wieder befüllt, wenn man das unter Global Options -> General -> Workspace die Optionen nicht angepasst hat.]. 
+
+Und nicht nur von uns erstellte Objekte sind im `Environment` vorgehalten, alle anderen aufrufbaren Objekte ^[Dazu zählen in R auch die Funktionen] sind in `Environments` zu finden. Um z.B. Pakete nutzen zu können, müssen diese erst in die Umgebung geladen werden - dazu aber später mehr. 
+
+## 2. Funktionen und Argumente
+
+Der Großteil des in R erstellten Codes besteht aus *Funktionen*.  
+Jede Funktion ist eine Sammlung an *Anweisungen*, die nacheinander augeführt werden sollen.  
+`citation()` ist ein sehr einfaches Beispiel für eine solche Funktion.
+
+<p class='q'>Was macht `citation()`?</p>
+
+:::{class="card"}
+:::{class="content"}
+`citation()` gibt in der *Konsole* aus, wie man R am Besten zitiert.
+```{r, echo = F,out.width='80%'}
+
+
+include_graphics('imgs/citation.png')
+
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+### obligatorische und optionale Argumente
+Die meisten Funktionen kommen aber nicht ohne *Argumente* aus.  
+Argumente können in *obligatorische* und *optionale* unterteilt werden. 
+Wie die Namen schon sagen, sind *obligatorische* Argumente solche, ohne die die Funktion nicht ausgeführt werden kann.   
+Obligatorische Argumente sind meistens die Werte, auf deren Basis gerade die Operationen ausgeführt werden sollen.
+
+
+<p class='o'>Wenn man keins oder ein falsches obligatorisches Argument übergibt, zeigt R einen Fehler an!</p>
+
+*optionale* Argumente nennt man die, für die die Autoren der Funktion einen Standard vorgesehen haben. Das sind dann meist Stellschrauben, an denen das gewünschte Ergebnis genauer festgelegt werden kann. Werden diese Argumente nicht explizit gesetzt, wird einfach der Standard verwendet.
+
+<!-- ### 2. obligatorische und optionale Argumente -->
+Ein Beispiel für eine Funktion, die obligatorische und optionale Argumente annimmt ist `round()`. 
+
+Auf der Hilfeseite von `round()` finden wir folgendes^[Die Hilfeseite lässt sich entweder über die grafische Oberfläche oder mit `help('round')` aufrufen.]:
+```{r, echo = F,out.width='80%'}
+include_graphics('imgs/help.png')
+
+```
+
+<p class='q'>Was ist hier das obligatorische Argument und wie erkennt man es?</p>
+
+
+:::{class="card"}
+:::{class="content"}
+`x` ist hier das obligatorische Argument (kein Standard durch ein `=`) angegeben
+
+Wenn man `round` ohne ausprobiert, gibt es einen Fehler:
+
+```{r,error=T}
+round()
+```
+
+Wen man eine Zahl übergibt, wird auf ganze Zahlen gerundet:
+
+```{r}
+round(3.1415)
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+Das optionale Argument `digits`, ermöglicht dann, die gewünschte Anzahl der Nachkommastellen anzugeben:
+
+```{r}
+round(3.1415, digits = 2)
+```
+
+Sowohl `3.1415` als auch `digits = 2` setzen Werte für Argumente! <br>
+
+Da die Funktion aber die zu rundende Zahl `x` an erster Stelle erwartet, ergibt der Aufruf das gewünschte Ergebnis.
+
+
+
+### Position von Argumente
+
+R braucht also nicht unbedingt die Argumentnamen, wenn keine da sind wird die Reihenfolge interpretiert.
+
+```{r}
+round(3.1415, 2) ## funktioniert, digits wird an zweiter Stelle erwartet
+```
+
+
+<p class='q'> Was versucht R, wenn ich die folgende Anweisung ausführe?</p>
+
+```{r, eval = F}
+round(2, 3.1415)
+```
+
+:::{class="card"}
+:::{class="content"}
+R rundet die Zahl 2 auf 3.1415 (also 3) Nachkommastellen.
+```{r, eval = F}
+round(2, 3.1415) ## funktioniert, aber vielleicht nicht wie erwartet
+```
+
+<p class='o'>Wenn man Argumente ohne Namen in falscher Reihenfolge übergibt, gibt es keine Fehlermeldung aber Blödsinn!</p>
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+### Operatoren
+
+Einzelne Zahlen benutzt man aber ja quasi nie. Deswegen hier eine sehr praktische Funktion:
+
+```{r}
+1:3
+```
+
+Huch! Das sieht ja gar nicht nach einer Funktion aus!
+<br>
+<div class='build'>
+Neben den klassischen Funktionen, die durch ein Codewort und Klammern erkenntlich sind, gibt es in R noch eine Reihe *Operatoren*, die auf den ersten Blick keine Funktionen sind.  
+Hier wird aber eigentlich <code>&#96;:&#96;(1,3)</code> ausgeführt, das Funktionsschema gilt also auch hier. <code>&#96;:&#96;(1,3)</code>  ist nur schrecklich schlecht lesbar und viel zu viel zu tippen.
+</div>
+
+## 3. Indizieren
+
+Da wir jetzt erste `Vektoren` mit mehr als einem Element erstellen können, gehen wir zu nächsten Part, der *Indizierung* über.
+
+In R lassen sich Elemente eines Objektes auf viele verschiedene Arten aufrufen, am Ende laufen diese aber auf den `[]`, den `[[]]` und den `$`-Operator hinaus.
+
+Für Vektoren reicht erstmal der `[]`-Operator.
+
+<!-- ### 3. Indizierung -->
+
+Das einfachste Beispiel ist der Versuch, den 3. Wert aus einer Zahlenreihe ausgeben zu lassen.
+
+Dafür erstellen wir zuerst die Zahlenreihe von 10 bis 15 und speichern diese im `Environment`
+
+<p class="q"> Wie mache ich das?</p>
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+eine_reihe_von_zahlen <- 10:15
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+Jetzt kann ich den `[]`-Operator benutzen, um den 3. Wert anzeigen zu lassen:
+
+```{r}
+eine_reihe_von_zahlen[3]
+```
+
+
+Und fertig. So einfach.
+
+Der `[]`-Operator kann aber noch viel mehr. Ich kann zum Beispiel eine Sequenz übergeben, um eine Reihe von Zahlen ausgeben zu lassen:
+
+```{r}
+eine_reihe_von_zahlen[1:3]
+```
+
+<p class='o'>Der erste Wert ist die 10! der Index für die erste Stelle ist also die 1!</p>
+
+Eine weitere Möglichkeit ist die ausschließende Indizierung. Mit einem `-` gibt man an, dass einen alle außer der angegebenen Stelle interessieren.
+
+```{r}
+eine_reihe_von_zahlen[-3]
+```
+
+
+
+### logische Indizierung
+
+Der `[]`-Operator kann außerdem benutzt werden, um über *logische Operatoren* Werte zu indizieren. 
+
+Die einfachsten sind hier:
+
+```{r,results='hold'}
+1 == 2 ## ist 1 gleich 2
+1 != 3 ## ist 1 ungleich 3
+1 < 4  ## ist 1 kleiner als 4
+2 >= 1 ## ist 2 größer gleich 1
+```
+
+
+Diese Operatoren kann ich auch auf Vektoren anwenden:
+
+```{r}
+eine_reihe_von_zahlen > 11
+```
+
+Und kann das Ergebnis auch mit dem `[]`-Operator kombinieren:
+
+```{r}
+eine_reihe_von_zahlen[eine_reihe_von_zahlen > 11]
+```
+
+
+## 4. Datenformate in R
+
+Bei der letzten Operation haben wir zwei Datenformate kennengelernt:
+
+* `logical`, eine binär-logische Angabe und
+
+* `numeric`, alle ganze und (darstellbare) rationale Zahlen
+
+Jetzt kennen wir schon 2 der 3 wichtigsten einfachen oder `atomic` Datenformate in R
+
+Neben Zahlen muss R aber natürlich auch Text verarbeiten können. Dies geschieht über das `character`-Datenformat.
+
+<p class="q">Wie könnte ich versuchen, ein `character`-Objekt mit dem Inhalt "Ich bin ein String" anzulegen? </p>
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+ein_toller_character <- "Ich bin ein String"
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+Diese einfachen Datenformate haben eine Hierarchie, die man so darzustellen versuchen könnte:
+
+<center><code> logical < numeric < character </code></center>
+
+<br>
+<br>
+
+Am deutlichsten wird das beim Benutzen einer der wichtigsten Funktionen in R:
+`c()` ^['c' ist hier übrigens kurz für **c**oncatinate] - die Vektor-Funktion. Mit ihr können wir Werte zu Vektoren zusammenfügen und zu bestehenden Vektoren hinzufügen.
+
+
+```{r}
+logical_vector <- c(TRUE, TRUE, FALSE)
+logical_vector
+c(logical_vector,1)
+```
+
+Die logischen Werte wurden in Zahlen umgewandelt.
+
+<p class='q'> Was passiert wohl, wenn wir eine 1 *und* einen `character` hinzufügen? </p>
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+c(logical_vector,1,'ein character')
+```
+
+Die logischen Werte und die Zahl wurden in `character` umgewandelt
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+<p class='o'> Die `atomics` haben mit `logical` < `numeric` < `character` eine klare Hierarchie! </p>
+
+Rückgängig machen lässt sich das durch `as.logical`, `as.numeric` und `as.character`. Aber Vorsicht, so können auch leicht fehlende Werte, durch `NA` gekennzeichnet erzeugt werden:
+
+```{r}
+ein_umzuwandelnder_vektor <- c('a',1,15,TRUE)
+as.numeric(ein_umzuwandelnder_vektor)
+```
+
+
+<!-- ### Datenformate in R -->
+```{r}
+as.numeric(ein_umzuwandelnder_vektor)
+```
+
+
+<p class='q'> Warum fehlt auch der letzte Wert? </p>
+
+:::{class="card"}
+:::{class="content"}
+Weil das `TRUE` inzwischen ein `character` ist.
+```{r}
+ein_umzuwandelnder_vektor
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+Natürlich gibt es auch komplexere, mehrdimensionale Datenformate in R, um die geht es im nächsten Teil.

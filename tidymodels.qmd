@@ -1,0 +1,391 @@
+---
+toc-title: '![](imgs/modeling_magpie.webp){width=240px}<br> tidymodels'
+execute: 
+  cache: true
+---
+
+
+# tidymodels
+
+Auch wenn der Workshop vielleicht bisher nicht den Eindruck gemacht hat - R ist natürlich vor allem als Sprache zur Vorbereitung und Durchführung von statistischen Analysen gedacht.
+
+Die meisten grundlegenden Analysen lassen sich natürlich - genau wie das meiste der Inhalte die bisher Thema waren - mit `base`-R durchführen.
+
+Im Kosmos des `tidyverse` hat sich aber auch hier eine Reihe an Paketen angesammelt, die viele Auswertungen streamlinen, leichter lesbarer machen und in einer gemeinsamen Sprache ausdrücken. Die unter dem Namen [`tidymodels`](https://www.tidymodels.org/packages/) gesammelten Pakete bieten dabei Helper für Inferenz-Statistik und Machine Learning-Anwendungen in der uns jetzt ja schon bekannten `tidy`-Schreibweise - also als eine Reihe von in pipelines verkett-baren Verben. Wie im `tidyverse` lässt sich auch diese Funktionssammlung mit einem Call laden:
+
+```{r}
+library(tidymodels)
+```
+
+Für schon routinierte Nutzer von R ist dabei die größte Umstellung, dass Modelle nicht mehr wie folgt in einer Zeile definiert werden. Im `datasets`-Paket wird der Datensatz `Sacramento` mitgeliefert, der Wohnungspreise in Sacramento beinhaltet:
+
+```{r}
+head(Sacramento)
+```
+
+Wenn wir in Base-R eine Regression der Wohnungsgröße und der Anzahl der Schlafzimmer auf den Preis durchführen wollen, sähe das wie folgt aus:
+
+```{r}
+lm(price ~ sqft + beds, data = Sacramento)
+```
+
+Und um inferenzstatistische Kennwerte zu erhalten könnten wir zum Beispiel `summary` aufrufen:
+
+```{r}
+lm(price ~ sqft + beds, data = Sacramento) %>% 
+  summary()
+```
+
+Die Logik von `tidymodels` ist hierbei näher an ggplot2. Wir initiieren ein Modell aus der Familie, das wir fitten wollen und geben dann an, auf welche Daten wir dieses fitten wollen. Dazu übergeben wir die erstellte Modell-Instanz an die `fit`-Funktion mit den gesetzten Parametern:
+
+```{r}
+lm_model <- linear_reg()
+
+lm_fit <- lm_model %>% 
+  fit(price ~ sqft + beds, data = Sacramento)
+
+lm_fit
+```
+
+Das Ergebnis ließe sich wieder mit `summary` zusammenfassen, in `tidymodels` gibt es dafür aber das Paket `broom` mit ein paar netteren Wrappern:
+
+```{r}
+lm_fit %>% 
+  tidy()
+
+lm_fit %>% 
+  glance()
+```
+
+
+Der Schritt der anfänglichen Modelldefinition scheint erstmal mehr Aufwand zu sein - der Vorteil wird aber deutlich, wenn ich mich entscheide eine andere Modell-Architektur zur Lösung der Regression nutzen möchte.
+
+Um statt einer least-squares-Regression eine regularisiertes Regressionsmodell einzusetzen, da ich befürchte dass Anzahl der Schlafzimmer und Größe der Wohnung korreliert sind, muss ich nur eine Kleinigkeit am Modell ändern:
+
+```{r}
+glmnet_model <- linear_reg(penalty = 0.95, mixture = 0.5) %>% 
+  set_engine('glmnet')
+
+
+glmnet_fit <- glmnet_model %>% 
+  fit(price ~ sqft + beds, data = Sacramento)
+
+glmnet_fit %>% 
+  tidy()
+```
+
+
+
+
+Oder aber ich überlege mir, dass die Zusammenhänge sicher deutlich komplizierter sind und sich das Problem nur mit einem Deep-Learning-Ansatz^[wenn man einen Hidden Layer mit einem Neuron denn Deep nennen kann] lösen lässt - also nehme ich Keras als engine:
+```{r}
+keras_model <- linear_reg(penalty = 0.01) %>% 
+  set_engine('keras')
+
+
+keras_fit <- keras_model %>% 
+  fit(price ~ sqft + beds, data = Sacramento)
+
+keras_fit
+```
+
+Aber wenn ich schon bei Keras bin, warum dann nicht mit einem größeren Layer? Und warum lineare Aktivierung, wenn ich schon ein Deep-Learning-Backend bemühe?
+
+```{r}
+keras_model <- linear_reg(penalty = 0.01) %>% 
+  set_engine('keras', hidden_units = 128, act = 'relu')
+
+
+keras_fit <- keras_model %>% 
+  fit(price ~ sqft + beds, data = Sacramento)
+
+keras_fit
+```
+
+Je nach Modell sind die daraus resultierenden, interpretier- und testbaren Parameter natürlich andere.
+
+
+## Modelltypen, Modes und Engines
+
+Die Modelldefinition funktioniert in `tidymodels` über das `parsnip`-Paket. Die Syntax besteht auf der Modellseite dabei immer aus einem *Modelltyp*, im Beispiel `linear_reg`. 
+
+Dabei gibt es für so gut wie jeden Anwendungsfall von statistischer oder ML-Modellierung einen Modelltyp, der das Problem abzubilden versucht. ^[Im mit `parsnip` gelieferten Datensatz `model_db` ist eine (so weit ich das richtig sehe) nicht vollständige Liste der möglichen Modelle - hier werden allein 37 verschiedene Modelle gelistet.]
+
+Ein anderes Beispiel für einen Modelltypen ist ein `rand_forest`. Um unser Preis-Problem zu lösen könnten wir den Aufruf wie folgt gestalten: ^[Für die partykit-engine sind die Zusatzpakete `partykit` und `bonsai` nötig.]
+
+
+```{r}
+library(bonsai)
+partykit_model <- rand_forest(trees = 500) %>% 
+  set_mode('regression') %>% 
+  set_engine('partykit')
+
+
+partykit_fit <- partykit_model %>% 
+  fit(price ~ sqft + beds, data = Sacramento)
+
+partykit_fit$fit %>% 
+  partykit::varimp()
+```
+
+Random Forests können sowohl Klassifikations- als auch Regressions-Probleme lösen. Mit dem Zusatz `set_mode` zur Pipeline können wir deshalb spezifizieren, welche Art von Problem mit dem Modell gefittet werden soll.
+
+Nach Definition von Modelltyp und mode folgt eine *engine*, mit der das Problem gelöst werden soll.
+In den Beispielen waren die engines erst `lm` aus `stats`, dann `glmnet` aus dem gleichnamigen Paket und abschließend der Wrapper `keras_mlp` um ein Keras-Netz aus dem `parsnip`-Paket. 
+Zuletzt kam jetzt noch ein `cforest` aus dem `partykit` dazu.
+
+`parsnip` macht mit den Anweisungen nichts anderes, als daraus einen dem Paket angemessenen Template-Call zu formulieren.
+Diesen template-Call kann man sich exemplarisch für das zweite Beispiel wie folgt angucken:
+
+```{r}
+glmnet_model %>% 
+  translate()
+```
+
+Für x, y und weights werden Platzhalter eingefügt, die dann im `fit`-Aufruf aufgefüllt werden.
+
+Im Output sieht man auch, welche Werte für die so genannten *Main*-Argumente gesetzt sind.
+`parsnip` unterscheidet nämlich zwischen denjenigen Parametern, die für viele oder gar alle einem Modelltyp angehörigen Modelle nötig sind und vereinheitlicht deren Aufruf. Diese verpflichtenden Modellparameter, z.B. der Grad der Regularisierung bei der linearen Regression, oder auch die Anzahl der zu trainierenden Bäume in einem Random Forest, werden dann direkt im ersten Modell-Call angegeben.
+
+Dann gibt es aber noch für jede engine spezifische Argumente, deren Setzen für einen Großteil der anderen engines keinen Sinn ergäbe.
+Diese *Engine-arguments* können im `set_engine`-Call übergeben werden. So können wir unserer `glmnet`-Regression zum Beispiel die (zumindest diskutable) Anweisung auf den Weg geben, die Mietpreise als poisson-verteilt anzunehmen:
+
+```{r}
+glmnet_model <- linear_reg(penalty = 0.95, mixture = 0.5) %>% 
+  set_engine('glmnet', family = 'poisson')
+
+
+glmnet_fit <- glmnet_model %>% 
+  fit(price ~ sqft + beds, data = Sacramento)
+
+tidy(glmnet_fit)
+```
+
+Alle standardmäßig implementierten möglichen Kombinationen von Modeltypen, Engines und Modes können in [dieser](https://www.tidymodels.org/find/parsnip/) Tabelle gefunden werden.
+
+### Aufgabe
+
+<!-- TODO -->
+1. Importieren Sie Daten
+
+2. Fitten Sie die Daten mit zwei linearen Regressionsmodellen, einmal mit `lm` und einmal mit `stan` als engine.
+
+3. Fitten Sie die Daten mit einem Random Forest mit `randomForest` als engine
+
+4. Fügen Sie mit `predict(<Ihr Modell>, new_data=<Datensatz>)` und `mutate` drei Spalten an Ihren Datensatz an, in denen die jeweiligen Modellvorhersagen angegeben sind.
+
+5. pivotieren Sie den Datensatz ins long-Format, so dass alle Prognosen und die tatsächlichen Werte des Kriteriums in einer Spalte vorliegen.
+
+6. Erstellen Sie einen ggplot, der auf der x-Achse die TODO und auf der y-Achse die TODO abträgt. Färben Sie die Punkte nach neuen Spalte ein. Facettieren Sie den Plot nach den drei Modellen und der Ground-Truth.
+
+## Recipes und Workflows
+
+### Recipes
+
+Neben dem Erstellen der Modelle bietet `tidymodels` auch pipeline-Interfaces für das standardisieren von der Vor- und Nachbereitung von Analysen.
+Das Vorbereiten können dabei relativ aufwändige Aufgaben des feature-Engineerings wie Methoden zur Dimensionsreduktion sein, aber auch für den inferenzstatistischen Alltag relevantere Schritte wie die Logarithmierung oder Dummyfizierung von Variablen. 
+
+Das dafür genutzte Paket heißt passenderweise `recipes`. Wenn wir in unserem Wohnungs-Beispiel vor der Analyse 
+die Prädiktoren standardisieren wollen, fangen wir mit der Definition eines Rezeptes an:
+
+```{r}
+my_recipe <- recipe(price ~ sqft + beds,
+                    data = Sacramento)
+```
+
+Das Rezept können wir nun schrittweise ergänzen. Wenn alle Prädiktoren und vielleicht auch das Kriterium standardisieren wollen, müssen wir zuerst die Daten zentrieren und dann skalieren.
+
+Diese Schritte sind in `recipes` mit den angemessen als `step`-Funktionen benannten Anweisungen implementiert. Für die Schritte muss jeweils angegeben werden, auf welche Teile der Designmatrix die Operationen angewandt werden sollen.
+
+Dazu können wir die schon bekannten tidy-select-helper nutzen, wir können aber auch die sepzifischen, von `recipes` gelieferten Auswahl-Helfer genutzt werden. Auf der mit `?selections` aufrufbaren Hifleseite sind alle aufgelistet.
+
+Wir wollen wie gesagt alle numerischen Variablen z-transformieren, ergänzen unser Rezept also wie folgt:
+
+```{r}
+my_recipe <- recipe(price ~ sqft + beds,
+                    data = Sacramento) %>% 
+  step_center(all_numeric()) %>% 
+  step_scale(all_numeric())
+```
+
+Wenn wir das Recipe aufrufen, wird uns eine Zusammenfassung unserer Vorbereitungsschritte angezeigt:
+
+```{r}
+my_recipe
+```
+
+Neben diesen Einfachen steps gibt es natürlich auch wesentlich kompliziertere, unter [diesem Link](https://www.tidymodels.org/find/recipes/) sind alle implementierten Steps aufgelistet.
+
+Die für das Rezept nötigen "Zutaten" können wir uns mit `prep` vorbereiten lassen:
+
+```{r}
+my_prep <- my_recipe %>% 
+  prep(Sacramento)
+
+my_prep
+```
+
+Und mit `bake` können wir das Rezept abschließend anwenden:
+
+```{r}
+scaled_data <- my_prep %>% 
+  bake(Sacramento)
+
+scaled_data
+```
+
+Diesen Datensatz können wir dann wieder nutzen, um eine Regression zu fitten:
+
+```{r}
+lm_model <- linear_reg() 
+
+
+lm_fit <- lm_model %>% 
+  fit(price ~ sqft + beds, data = scaled_data)
+
+lm_fit %>% 
+  tidy()
+```
+
+### Workflows
+
+Rezepte, Modelldefinition und -fit lassen sich im `tidymodels`-framework auch zu einer pipeline zusammenfügen.
+
+Wie bei `parsnip` und `recipes` beginnt die Definition eines sogenannten Workflows aus `workflows` mit einer Objektdefinition.
+
+```{r}
+my_wf <- workflow()
+```
+
+Diesem Workflow können wir dann Rezept und Modell hinzufügen:
+
+```{r}
+my_wf <- my_wf %>% 
+  add_recipe(my_recipe) %>% 
+  add_model(lm_model)
+```
+
+Anschließend können wir den ganzen Workflow fitten:
+
+```{r}
+my_wf %>% 
+  fit(data = Sacramento) %>% 
+  tidy()
+```
+
+
+> Wozu ist das jetzt nützlich?
+
+Nützlich wird das, wenn wir eine Analyse z.B. auf mehreren Datensätzen durchführen wollen.
+
+Oder einen Workflow einmal mit und einmal ohne Logarithmierung des Kriteriums ausprobieren wollen.
+
+Mit `update_recipe` können wir das ganz einfach testen:
+
+```{r}
+my_wf %>%
+  update_recipe(my_recipe %>%  step_log(all_outcomes())) %>% 
+  fit(data = Sacramento) %>% 
+  tidy()
+```
+
+Außerdem lässt sich natürlich das Modell austauschen, wenn ich das möchte:
+
+```{r}
+my_wf %>%
+  update_model(keras_model) %>% 
+  fit(data = Sacramento)
+```
+
+### Aufgabe
+
+1. Erstellen Sie einen Workflow, mit dem in einem gegebenem Datensatz alle Werte per KNN imputiert werden und alle numerischen Werte auf einen Wertebereich von 0 bis 1 skaliert werden. Die [Liste aller Steps](https://www.tidymodels.org/find/recipes/) kann Ihnen dabei helfen. Der Workflow soll dann alle Variablen als Kriterium nutzen um die Variable `target` vorherzusagen. Anfänglich soll der Workflow eine lm-engine dazu nutzen.
+
+2. Fitten Sie die Daten auf den Datensatz TODO und den Datensatz TODO
+
+3. Tauschen Sie das Modell gegen einen randomForest mit Regressions-Mode aus und fitten Sie wieder beide Modelle.
+
+4. Lesen Sie die Hilfeseite der `mape`-Funktion aus dem `yardstick` Paket und nutzen Sie diese zusammen mit `predict` um die Modelle oberflächlich zu vergleichen. 
+
+
+## Inferenzstatistik-Pipelines mit infer
+
+Neben der Kombination von `parsnip` und `broom` bietet `tidymodels` mit `infer` ein weiteres Paket für den inferenzstatistischen Einsatz.
+
+`infer` stellt dabei ein einfaches Interface zur Formulierung von Hypothesen und deren Testung mit Bootstrapping, Permutationstests und anderen Randomisierungsverfahren zur Verfügung.
+
+Der Ablauf sieht dabei immer wie in @fig-infer aus. Zuerst wird/werden mit `specify` die Variablen spezifiziert, die von Interesse sind. Daraufhin wird mit `hypothesize` in Textform angegeben, welche Nullhypothese man über diese Variablen testen will. Mit `generate` werden anschließend Daten generiert, die dieser Nullhypothese entsprechen. Abschließend kann mit `calculate` aus den generierten Werten eine Verteilung berechnet werden, die mit den beobachteten Werten verglichen werden kann.
+
+![Infer-Workflow - von [https://infer.tidymodels.org/](https://infer.tidymodels.org/)](https://raw.githubusercontent.com/tidymodels/infer/main/figs/ht-diagram.png){#fig-infer}
+
+Wir könnten zum Beispiel die Annahme haben, dass die Art der Mietwohnungen unterschiedlich in den verschiedenen Städten verteilt sind. 
+Die uns interessierenden Variablen sind also `type` und `city`. Das legen wir zuallererst mit `specify` fest:
+
+```{r}
+Sacramento %>% 
+  specify(type ~ city)
+```
+
+Unsere Nullhypothese ist unabhängigkeit, die können wir also direkt hinzufügen:
+
+```{r}
+Sacramento %>% 
+  specify(type ~ city) %>% 
+  hypothesize('independence')
+```
+
+Um nun Daten für den Test zu generieren, können wir 1000 Datensätze mit Permuationen der Reihenfolge einer der Variablen generieren:
+
+```{r}
+Sacramento %>% 
+  specify(type ~ city) %>% 
+  hypothesize('independence') %>% 
+  generate(reps = 1000, type = 'permute')
+```
+
+Zuletzt müssen wir noch eine Teststatistik berechnen, deren Verteilung wir betrachten können.
+Bei unserem Fall bietet sich natürlich $\chi^2$ an:
+
+```{r}
+Sacramento %>% 
+  specify(type ~ city) %>% 
+  hypothesize('independence') %>% 
+  generate(reps = 1000, type = 'permute') %>% 
+  calculate('Chisq')
+```
+
+Die Verteilung können wir jetzt mit mitgelieferten `ggplot2`-Wrappern darstellen:
+
+```{r}
+Sacramento %>% 
+  specify(type ~ city) %>% 
+  hypothesize('independence') %>% 
+  generate(reps = 1000, type = 'permute') %>% 
+  calculate('Chisq') %>% 
+  visualize()
+```
+
+Und wenn wir die beobachtete Teststatistik berechnen, können wir auch eine Signifikanz-Aussage tätigen:
+
+```{r}
+
+obs_chisq <- Sacramento %>% 
+  specify(type ~ city) %>% 
+  calculate('Chisq')
+  
+Sacramento %>% 
+  specify(type ~ city) %>% 
+  hypothesize('independence') %>% 
+  generate(reps = 1000, type = 'permute') %>% 
+  calculate('Chisq') %>% 
+  visualize() +
+  shade_p_value(obs_stat = obs_chisq, direction = "greater")
+```
+
+
+### Aufgabe 
+
+1. Stellen Sie eine `specify` -> `hypothesize` -> `generate`-Pipeline für einen t-Test auf den Unterschied in TODO zwischen den Bedingungen TODO auf. 
+
+2. TODO TODO
+

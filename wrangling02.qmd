@@ -1,0 +1,334 @@
+---
+toc-title: '![](imgs/magpie_wrestling_tables.webp){width=240px}<br> Daten zusammenführen und pivotieren'
+---
+
+```{r setup 11, include=FALSE}
+options(width= 50,align = 'center')
+knitr::opts_chunk$set(fig.align = 'center',
+                      warning = F,
+                      cache = T)#,tidy = T,tidy.opts = list(blank = FALSE, width.cutoff = 70))
+
+library(tidyverse)
+library(dplyr)
+library(knitr)
+ggplot <- function(...)ggplot2::ggplot(...) + 
+  theme_minimal(base_size = 8) + 
+  scale_color_brewer(palette = 'Dark2') +
+  theme(text = element_text(color = '#797979'),
+        axis.text = element_text(color = '#797979'),
+        strip.text = element_text(color = '#797979'),
+        panel.background = element_rect(fill = "transparent",color = NA), 
+        plot.background = element_rect(fill = "transparent", color = NA), 
+        legend.background = element_rect(fill = "transparent", color = NA),
+        legend.box.background = element_rect(fill = "transparent", color = NA))
+
+ggsave <- function(...)ggplot2::ggsave(...,bg = 'transparent')
+
+
+load('data/wrangling1.RData')
+```
+
+## Zusammenführen von Datensätzen {.section}
+
+Zu guter Letzt wollen wir die drei Datensätze zu einem Datensatz zusammenfügen.  
+Dieser soll pro Region
+1. die Anzahl aller drogenbezogenen Krankenhausaufenthalte
+2. die Anzahl der (versuchten) Mordfälle 
+3. die mittlere Zufriedenheit über alle  Skalen beinhalten
+  
+Wir fangen damit an, die Datensätze wie gewünscht vorzubereiten.
+Aus dem `drugs`-Datensatz brauchen wir die Regionsbezeichnung, die ONS-Codes und natürlich die Zahl der Einweisungen:
+
+```{r}
+drugs <- drugs %>% 
+  select(`ONS-Code`= `...1`,
+         Region = `...4`,
+         Admissions = `All persons9`)
+```
+
+<!-- ### Vorbereitung -->
+Aus dem `crime`-Datensatz brauchen wir die Bezeichnung der Niederlassung, Anzahl der Morde und die Anzahl der versuchten Morde:
+
+```{r}
+crime <- crime %>% 
+  select(Force,
+         Homicide = HOMICIDE,
+         `Attempted murder`)
+```
+  
+
+Aus dem `satisfaction`-Datensatz brauchen wir den ONS-Code und einen mittleren Zufriedenheitswert
+
+<p class='q'> Wie könnte ich das angehen? </p>
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+satisfaction <- satisfaction %>% 
+  mutate(`ONS-Code` = Code,#<1>
+         across(where(haven::is.labelled), ~as.numeric(.)),#<2>
+         Satisfaction = (Average_Satisfaction + 
+                         Average_Worthwile + 
+                         Average_Happy_Yesterday + 
+                         Average_Anxious_Yesterday)/4) %>% 
+  select(`ONS-Code`, Satisfaction)
+```
+
+1. Statt wie in `select` umzubenennen erstellen wir hier natürliche eine neue Spalte
+2. Beim Erstellen des Skripts habe ich festgestellt, dass Haven-Labels keine Arithmetik mögen - so kann man die entfernen. 
+
+<p class='o'> `sum` ist keine vektorisierte Funktion! Um eine neue Summenwert pro Zeile zu bilden, sind `+` und `/` nötig </p>
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+Jetzt müssen wir das ganze nur noch zusammenfügen. Dafür benutzen wir die Familien der `join`-Funktionen
+
+Zuerst fügen wir die Anzahl der Straftaten zu der Anzahl der Krankenhauseinweisungen hinzu. Dabei matchen wir die Regionen über das Regions-Schlüsselwort und behalten nur die Fälle, in denen in beiden Datensätzen ein Schlüsselwort auftaucht:
+
+```{r}
+overall <- drugs %>% 
+  inner_join(crime, 
+             by = join_by(Region == Force))
+overall
+```
+
+Dem `overall`-Datensatz fügen wir jetzt noch die `satisfaction` hinzu. Hierzu nutzen wir die ONS-Codes. Dabei wollen wir alle Fälle in `overall` behalten. Da wir die Spalten umbenannt haben, brauchen wir keine Definition des "by"-Arguments.
+
+```{r,warning=F}
+overall <- overall %>% 
+  left_join(satisfaction)
+summary(overall)
+```
+
+Uns fällt jetzt aber auf, dass wir lieber klein geschriebene Spaltennamen hätten, wie doof. Dafür gibt es mit `rename` aber natürlich auch eine praktische Lösung im `tidyverse`.
+`rename` erwartet entweder die Angabe jedes Namens, der geändert werden soll als Wert und die neuen Namen als Namen der Argumente. Wir können aber auch die praktischere Variante `rename_with` nutzen und unsere Änderung mit einer Anweisung und tidy-select-helpern durchführen:
+
+```{r}
+overall <- overall %>% #<1>
+  rename_with( #<2>
+    .fn = ~ str_to_lower(.), #<3>
+    .cols = everything() #<4>
+  )
+```
+
+1. Überschreibe `overall`, indem Du `overall` nimmst und dann
+2. eine Neubenennung anstößt
+3. indem Du ausgewählte Spaltennamen in Kleinbuchstaben übersetzt
+4. und zwar für alle Spalten.
+
+Damit ist unser Datensatz fertig:
+```{r}
+overall
+```
+
+Den speichern wir noch eben als csv-Datei ab.
+
+```{r}
+overall %>% write_csv('data/drugs_crime_UK.csv')
+```
+
+
+### Aufgabe
+
+<!-- TODO -->
+
+Fügen Sie den Covid und den Temperatur-Datensatz anhand der Kalenderwoche zusammen. Dabei sollen alle Zeilen, die im Temperatur-Datensatz vorliegen auch im neuen Datensatz vorliegen. 
+Ersetzen Sie anschließend alle möglicherweise vorliegenden fehlenden Werte durch Nullen.
+
+Benennen Sie abschließend die Kalender-Wochen-Spalte in `calendar_week` und die Fall-Spalte im `new_covid_cases` um.
+
+Speichern Sie sich den so erstellten Datensatz für später als 'temp_covid.csv' ab und den vorbereiteten Charts-Datensatz unter 'chart_overview.csv' ab.
+
+<!-- ### Literatur -->
+
+## Pivotieren von Datensätzen
+
+Für SPSS-Nutzer:innen sehen viele Datensätze, die wir bisher gesehen haben, wahrscheinlich etwas seltsam aus. Das liegt vielleicht zum Teil daran, dass das `tidyverse` grundsätzlich das *long*-Format dem *wide*-Format vorzieht.
+
+Das folgende Beispiel der Ergebnisse der Bundestagswahlen nach 2002 ^[gekürzt von [https://www.bundestag.de/parlament/wahlen/ergebnisse_seit1949-244692](https://www.bundestag.de/parlament/wahlen/ergebnisse_seit1949-244692)] illustriert vielleicht den Unterschied. Im *wide*-Format ist das zentrale Ziel dass pro Fall eine Zeile vorliegt, im *long*-Format wird pro Variable eine Spalte angelegt.
+
+```{r}
+#| echo: false
+#| message: false
+#| 
+library(rvest)
+theurl <- "https://www.bundestag.de/parlament/wahlen/ergebnisse_seit1949-244692"
+file <- read_html(theurl)
+tables <- html_nodes(file, "table")
+table1 <- html_table(tables[1], fill = TRUE)[[1]]
+bundestagswahl <- table1 %>% 
+  mutate(across(where(is.character), ~as.numeric(str_replace(., ',', '.'))))%>% 
+  select(-`Die Grünen`)
+write_csv(bundestagswahl, 'data/Bundestag_Wahlergebnisse_1949_bis_2021.csv')
+```
+
+
+:::: {.columns}
+
+::: {.column width="50%"}
+**long-Format**
+
+```{r}
+#| echo: false
+
+bundestagswahl  %>% 
+  filter(Jahr > 2002)  %>% 
+  pivot_longer(2:8,
+               names_to = 'Partei',
+               values_to = 'Zweitstimmen')
+```
+
+:::
+
+::: {.column width="50%"}
+**wide-Format**
+```{r}
+#| echo: false
+
+bundestagswahl  %>% 
+  filter(Jahr > 2002)
+```
+
+:::
+::::
+
+Beide Formate haben Vorteile, im `tidyverse` ist das Hauptargument (neben Geschmaack) für das long-Format, dass sich so vektorisierte Funktionen direkt auf eine Variable anwenden lassen.
+
+Um zwischen den Formaten zu konvertieren gibt es im `tidyverse` die `pivot_wider` und `pivot_longer` Funktionen. 
+
+Der Original-Datensatz zu den Bundestagswahlen sieht wie folgt aus:
+
+```{r}
+bundestagswahl
+```
+
+Wir würden gern eine `ggplot`-Grafik erstellen, in der die Verläufe der Stimmen über die Zeit dargestellt sind. Da wir alle Zweitstimmen-Prozente auf einem aesthetic darstellen wollen, brauchen wir den Datensatz aber natürlich im long-Format
+
+Das pivotieren geht mit `pivot_longer` auch sehr einfach:
+
+```{r}
+btw_long <- bundestagswahl %>% 
+  pivot_longer(-Jahr,
+               names_to = 'Partei',
+               values_to = 'Zweitstimmen')
+btw_long
+```
+
+<p class='q'>Wie erstelle ich damit jetzt einen line-chart?</p>
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+btw_long %>% 
+  ggplot(aes(x = Jahr, y = Zweitstimmen, color = Partei)) +
+  geom_line(linewidth = 0.7) +
+  scale_color_manual(values = c(AfD = '#0489DB',
+                                'Bündnis 90/Die Grünen' = '#1AA037',
+                                CDU = '#000000',
+                                'Die Linke. PDS' = '#BD3075',
+                                FDP = '#FFEF00',
+                                Sonstige = 'darkgrey',
+                                SPD = '#E3000F'
+                                ))
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+Zu dieser Grafik wollen wir noch Mittlere Werte über die Zeit +/- Streuungen als Linien hinzufügen.
+
+<p class='q'>Wie ginge das denn mit `summarise` und `across`? Und wie könnte ich die Linien hinzufügen?</p>
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+btw_summary <- btw_long %>% 
+  group_by(Partei) %>% 
+  summarise('M' = mean(Zweitstimmen, na.rm=T),
+            'SD' = sd(Zweitstimmen, na.rm=T),
+            lower = M - SD,
+            upper = M + SD)
+```
+
+Den Datensatz können wir jetzt benutzen:
+```{r}
+btw_long %>% 
+  ggplot(aes(x = Jahr, y = Zweitstimmen, color = Partei)) +
+  geom_line(linewidth = 0.7) +
+  geom_hline(data = btw_summary,
+             aes(yintercept = M, color = Partei))+
+  geom_hline(data = btw_summary,
+             aes(yintercept = lower, color = Partei),
+             lty = 2)+
+  geom_hline(data = btw_summary,
+             aes(yintercept = upper, color = Partei),
+             lty = 2)+
+  scale_color_manual(values = c(AfD = '#0489DB',
+                                'Bündnis 90/Die Grünen' = '#1AA037',
+                                'CDU/CSU' = '#000000',
+                                'Die Linke. PDS' = '#BD3075',
+                                FDP = '#FFEF00',
+                                Sonstige = 'darkgrey',
+                                SPD = '#E3000F'
+                                )) 
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+Unter der Grafik wollen wir zum Schluss noch die Mittelwerte pro Partei hintereinander als Spalten darstellen. Das heißt, wir müssen die Tabelle ins wide-Format überführen.
+Auch dieser Schritt ist relativ einfach:
+
+```{r}
+btw_summary %>% 
+  select(Partei, M) %>% 
+  pivot_wider(values_from = M,
+              names_from = Partei,
+              names_prefix = 'M ')
+```
+
+Die `pivot_wider`-Funktion ist aber wesentlich mächtiger, was wir zum Beispiel sehen können wenn wir die Streuungen mit hinzufügen:
+
+```{r}
+btw_summary %>% 
+  select(Partei, M, SD) %>% 
+  pivot_wider(values_from = c(M, SD),
+              names_from = Partei,
+              names_glue = '{.value} {Partei}')
+```
+
+
+Die letzte Tabelle ließe sich natürlich auch direkt aus dem Ursprünglichen Datensatz erstellen...
+
+<p class='q'>Wie ginge das direkt mit `summarise` und `across`?</p>
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+bundestagswahl %>% 
+  summarise(across(-Jahr, 
+                   .fns = list(mean = ~mean(., na.rm=T),
+                               sd = ~sd(., na.rm=T))))
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+### Aufgabe
+
+<!-- TODO -->
+
+Datensatz hin pivotieren, Grafik machen, her-pivotieren

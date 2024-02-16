@@ -1,0 +1,64 @@
+---
+toc-title: '![](imgs/magpie_prep.webp){width=240px}<br> Vorbereitung'
+---
+# KFN MethodLab
+## Vorbereitung des Workshops
+### Installation von R und RStudio
+
+Um die Übungen im Skript ausführen zu können, braucht es einen Rechner mit aktuellen Versionen von R und RStudio.
+Die Installationsdateien für R für Windows findet man [hier](https://cran.r-project.org/bin/windows/base/release.html) und für Mac [hier](https://cran.r-project.org/bin/macosx/), die aktuellen Installationsdateien für RStudio finden sich [hier](https://posit.co/download/rstudio-desktop/).
+
+Wir brauchen mindestens RStudio 2023.03 "Cherry Blossom" und eine entsprechende R-Version. 
+
+Zum Updaten können einfach die aktuellen Installer heruntergeladen und ausgeführt werden, [hier](https://www.rforecology.com/post/how-to-install-r-and-rstudio/) gibt es dazu auch eine Anleitung.
+
+### Vorbereitung Tag 1 und 2
+
+Zusätzlich brauchen wir für das rendern von Reports noch quarto, die Installationsdateien findet man [hier](https://quarto.org/docs/get-started/).
+
+Außerdem werden im Skript die folgenden Pakete genutzt:
+
+* `tidyverse`
+* `tidymodels`
+* `apaTables`
+* `papaja`
+* `huxtable`
+* `quarto`
+
+Um alle Pakete zu installieren, die im Skript genutzt werden, bitte die folgende Zeile ausführen:
+
+```{r}
+#| eval: false
+install.packages(c('tidyverse', 'tidymodels', 'papaja', 
+                   'apaTables', 'huxtable', 'quarto'))
+```
+
+
+Dazu den Code-Schnipsel kopieren, RStudio öffnen, die Zeile in die Konsole (bei neuer Installation unten links) einfügen und `Enter` drücken.
+
+### Vorbereitung Tag 3
+
+Für Tag 3 wird das Paket `confreq` benötigt.
+
+Zum Installieren führen Sie bitte die folgende Zeile aus:
+
+```{r}
+#| eval: false
+install.packages('confreq')
+```
+
+
+### Vorbereitung Tag 4
+
+
+Für Tag 4 werden `semTools` und `lavaan` benötigt.
+Sollten Sie schon für Tag 1 und 2 alle Pakete installiert haben, sind diese beiden Pakete auch schon mit-installiert.
+
+Sonst führen Sie die folgende Zeile aus:
+
+```{r}
+#| eval: false
+install.packages('semTools')
+```
+
+`lavaan` wird dann direkt mit-installiert.

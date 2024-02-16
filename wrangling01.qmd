@@ -1,0 +1,390 @@
+---
+toc-title: '![](imgs/data_importer.webp){width=80%}<br> Daten einlesen und aufbereiten'
+---
+
+```{r setup 03, include=FALSE}
+options(width= 50,align = 'center')
+knitr::opts_chunk$set(fig.align = 'center',
+                      warning = F,
+                      cache = T)#,tidy = T,tidy.opts = list(blank = FALSE, width.cutoff = 70))
+
+library(tidyverse)
+library(dplyr)
+library(knitr)
+ggplot <- function(...)ggplot2::ggplot(...) + 
+  theme_minimal(base_size = 8) + 
+  scale_color_brewer(palette = 'Dark2') +
+  theme(text = element_text(color = '#797979'),
+        axis.text = element_text(color = '#797979'),
+        strip.text = element_text(color = '#797979'),
+        panel.background = element_rect(fill = "transparent",color = NA), 
+        plot.background = element_rect(fill = "transparent", color = NA), 
+        legend.background = element_rect(fill = "transparent", color = NA),
+        legend.box.background = element_rect(fill = "transparent", color = NA))
+
+ggsave <- function(...)ggplot2::ggsave(...,bg = 'transparent')
+
+```
+
+
+# Daten einlesen
+
+
+## Einlesen von Daten{.section}
+
+Das Rechnen mit den mit R mitgelieferten Datensätzen ist natürlich nur bedingt realitätsnah.
+
+Im durchschnittlichen Anwendungsfall müssen externe Datensätze eingelesen werden.
+
+Dabei sind im `tidyverse` dafür je nach Quelle folgende Pakete vorgesehen:
+
+* Textbasierte Daten(`.txt, .csv, .tsv,...`) $\rightarrow$ `readr`
+
+* Excel-Mappen(`.xlsx, .xls`) $\rightarrow$ `readxl`
+
+* Daten aus anderen Statistikpaketen(`.sav, .dta,...`) $\rightarrow$ `haven`
+
+### Einlesen von Textdaten
+
+Alle diese drei Pakete sind auch in der RStudio-GUI implementiert: <br>
+
+::: {layout-ncol=2}
+![](imgs/menu.png)
+
+![](imgs/menu2.png)
+:::
+
+
+### Problem
+Das Einlesen und Aufbereiten wird am folgenden Beispiel exerziert: <br>
+Uns interessiert der Zusammenhang von Drogenmissbrauch, Lebenszufriedenheit und Straftaten in Großbritannien. Dafür haben wir die folgenden drei Datensätz zur Verfügung:
+
+* `'crime.csv'` - Eine Textdatei mit nach Polizeibehörde aufgeschlüsselten Straftaten
+
+* `'drugs.xlsx'` - Eine Excel-Arbeitsmappe mit nach Region aufgeschlüsselten Zahlen zu Krankenhauseinweisungen mit drogenbedingten Diagnosen
+
+* `'satisfaction.sav'` - Ein in SPSS erstellter Datensatz mit nach Region aufgeschlüsselten Ergebnissen einer Bevölkerungsbefragung zur Lebenszufriedenheit
+
+
+### textbasierte Daten {.subsection}
+
+Die GUI ist hier ein guter Start. Wir wollen die Datei `'crime.csv'` einlesen. Diese enthält echte Daten über von britischen Polizeibehörden aufgezeichnete Straftaten von der [Website der britischen Regierung](https://www.gov.uk/government/statistics/historical-crime-data). Wenn ich dem Pfad im GUI folge, ergibt sich das folgende Bild:
+```{r, echo = F,out.width='80%'}
+include_graphics('imgs/text.png')
+```
+
+
+<p class='q'> Was ist das Problem? </p>
+
+:::{class="card"}
+:::{class="content"}
+Das Trennzeichen(Delimiter) ist falsch gesetzt. In den Daten sind die Zellen offensichtlich durch Semikolons getrennt.
+```{r, echo = F,out.width='80%'}
+include_graphics('imgs/text2.png')
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+Der für das Einlesen nötige Code wird dann von RStudio in die Konsole kopiert und ausgeführt.
+Um nicht jedes Mal beim Ausführen desselben Skriptes wieder per Hand den Datensatz einlesen zu müssen, kopiert man den Code dann an den Anfang des Skriptes.
+
+```{r, echo = F,out.width='80%'}
+include_graphics('imgs/text3.png')
+```
+
+
+Was passiert hier?
+
+```{r,include = F}
+crime <- read_delim("data/crime.csv", #<1>
+                    ";", #<2>
+                    escape_double = FALSE, #<3>
+                    trim_ws = TRUE) 
+```
+
+```{r, eval=F}
+crime <- read_delim("data/crime.csv", #<1>
+                    ";", #<2>
+                    escape_double = FALSE, #<3>
+                    trim_ws = TRUE) #<4>
+View(crime) #<5>
+```
+1. Lege in `crime` das Textfile mit Trennzeichen unter dem angegebenen Pfad ab. Dabei...
+2. ...erwarte Semikolons als Trennzeichen, 
+3. ...erwarte keine doppelten Anführungszeichen 
+4. und schneide Leerzeichen von den Einträgen ab.
+5. Dann öffne den Datensatz zum Angucken.
+
+Mit dem Output teilt R mit, dass es Kommazahlen als Standard-Zelleninhalt versucht und bei nicht-Funktionieren auf `character` zurückfällt. Das ist trotz der Farbe __keine__ Fehlermeldung.
+
+Noch zwei wichtige Tricks in dem Einlesetool sind die <font color='#0000FF'>locale-Schaltfläche</font> und das <font color='#00FFFF'>NA-Menü</font>
+
+```{r, echo = F,out.width='80%'}
+include_graphics('imgs/text4.png')
+```
+
+
+
+### Excel-Arbeitsmappen
+
+Für die Excel-Arbeitsmappen ist die GUI auch der einfachste Weg.
+
+<p class='q'> Wie würde man vorgehen um die Datei drugs.xlsx einzulesen? </p>
+
+:::{class="card"}
+:::{class="content"}
+* Import Dataset $\rightarrow$ From Excel
+* Pfad zum file raussuchen
+```{r, echo = F,out.width='80%'}
+include_graphics('imgs/excel1.png')
+```
+* Richtiges <font color='#0000FF'>Sheet aussuchen</font>
+* unnötige <font color='#00FF00'>Zeilen überspringen</font>
+* etwaige von leeren Zellen abweichende <font color='#00FFFF'>NA-Codierung</font> anpassen
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+<p class='o'>Auch bei Excel-Mappen an das Kopieren des Codes denken!</p>
+
+```{r}
+library(readxl)
+drugs <- read_excel("data/drugs.xlsx",
+                    sheet = "Table 2", 
+                    na = "*", 
+                    skip = 10)
+```
+
+Diese Daten sind übrigens auch Originaldaten von der Website des [britischen National Health Services](https://digital.nhs.uk/data-and-information/publications/statistical/statistics-on-drug-misuse/2018)
+
+### Dateien aus anderer Software
+
+Beispielhaft für SPSS, für Stata etc analog.
+Die GUI ist wieder ein guter Anfang und hier ziemlich selbsterklärend.
+
+<p class='q'> Wie würde man vorgehen um die Datei satisfaction.sav einzulesen? </p>
+
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+library(haven)
+satisfaction <- read_sav("data/satisfaction.sav")
+```
+
+
+Die Daten kommen diesmal vom britischen [Office for National Statistics](https://www.ons.gov.uk/peoplepopulationandcommunity/wellbeing/adhocs/007955estimatesofpersonalwellbeingbrokendownbycountryofbirthfromtheukannualpopulationsurveyaps), wurden aber stark abgewandelt.
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+
+### Dateien aus SPSS einlesen
+
+Wenn man sich die Daten in der RStudio-Oberfläche anguckt, sieht man, dass die für SPSS typischen Variablendefinitionen konserviert wurden:
+
+```{r, echo = F,out.width='80%'}
+include_graphics('imgs/spss1.png')
+```
+
+`haven` bietet mit der `as_factor`-Funktion eine Möglichkeit an, eine dieser Codierung enthaltenden Variablen in einen Faktor umzuwandeln.
+
+Faktoren sind eine Variante um in R kategoriale Variablen anzulegen.
+
+So könnten wir uns zum Beispiel entscheiden, einen neuen, zweiten Datensatz zu erstellen, der die Variablen mit den Verbal-labels aus SPSS enthält.
+Da wir auf alle Spalten dafür dieselbe Funktion anwenden wollen, können wir dafür `mutate` mit der `across`-Funktion kombinieren.
+
+Dabei benutzen wir die im `tidyverse` zur Stapelverarbeitung von Spalten genutzte tidy-select-Syntax und weil das noch nicht genug neues auf einmal ist noch die tidyverse-Syntax zur Definition von Platzhalter-Funktionen:
+
+```{r}
+verbal_satisfaction <- satisfaction %>% #<1>
+  mutate( #<2>
+    across( #<3>
+      everything(), #<4>
+      ~ as_factor(.) #<5>
+    )
+  )
+```
+1. Erstelle `verbal_satisfaction` indem Du `verbal_satisfaction` nimmst und dann...
+2. eine Veränderung durchführst indem Du...
+3. für mehrere Spalten ^[Bei `across` wird _kein_ Spaltenname angegeben!]...
+4. und zwar alle...
+5. die jeweilige Spalte an Stelle des Punkts einsetzt.
+
+Das Ergebnis sieht in der Oberfläche dann so aus:
+
+
+```{r, echo = F,out.width='80%'}
+include_graphics('imgs/spss2.png')
+```
+
+Für Tipps zur weitergehenden Bearbeitung von SPSS und Stata-Daten noch [hier](https://haven.tidyverse.org/) die sehr gute `haven`-Website mit Dokumentation und Anleitungen zu den nötigen Schritten.
+
+
+
+### Aufgabe
+
+<!-- TODO -->
+
+Lesen Sie die drei Datensätze `temp.csv`, `charts.xlsx` und `covid_cases.sav` ein und verschaffen Sie sich einen Überblick.
+
+
+## Datenaufbereitung
+
+Datenaufbereitung kann natürlich denkbar komplex sein, deswegen beschränken wir uns auf sehr einfache Methoden mit dem Fokus auf die Umsetzung im `tidyverse`. Es geht gleich explizit nicht um die Methoden! Wir gucken uns drei einfache Beispiele an:
+
+1. Ausreißer-Behandlung
+
+2. Umgang mit fehlenden Werten
+
+3. Recodieren von Werten
+
+### Ausreißer-Behandlung {.subsection}
+Als ersten Schritt zur Bereinigung der drei Datensätze sollen Ausreißer erkannt und durch fehlende Werte ausgeschlossen werden.
+
+Dafür muss man sich natürlich zuerst überlegen, was das Kriterium dafür sein soll. Wir benutzen hier das Kriterium nach @tukeyExploratoryDataAnalysis1977, also wollen wir gerade die Werte ausschlißen, die mehr als 1.5 Interquartilabstände über oder unter dem 25% bzw dem 75%-Quantil liegen.
+
+Um uns Tipparbeit zu sparen, schreiben wir dafür unsere erste Funktion:
+
+```{r}
+remove_outlier <- function(x){ #<1>
+  ifelse(#<2>
+      between(x,#<3>
+              quantile(x,.25) - 1.5 * IQR(x),
+              quantile(x,.75) + 1.5 * IQR(x)),
+          x, #<4>
+          NA) #<5>
+  } #<6>
+```
+1. Erstelle ein Object mit dem Namen `remove_outlier`, in dem eine Funktion mit dem obligatorischen Argument `x` definiert ist, deren `body` durch `{` eingeleitet wird.
+2. Setze anhand des logischen Vektors an der ersten Stelle Werte ein.
+3. Die Logik soll sein ob sich die Werte von `x` zwischen den Tukey-Fences liegt
+4. Wenn ja, behalte den Werte von x...
+5. sonst ersetze mit `NA`.
+6. Ende der Definition.
+
+<p class='q'> Wie sähe die Frage mit `case_when` aus? </p>
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+remove_outlier <- function(x){
+  case_when(
+    x < quantile(x,.25) - 1.5 * IQR(x) ~ NA,
+    x > quantile(x,.75) + 1.5 * IQR(x) ~ NA,
+    T ~ x
+  )
+  }
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+
+Kombiniert mit einem `mutate`, einem `across` und einem weiteren tidy-select-helper können wir damit alle Ausreißer gegen fehlende Werte austauschen.
+
+```{r}
+crime <- crime %>% #<1>
+  mutate( #<2>
+    across( #<3>
+      where(is.numeric),#<4>
+      ~remove_outlier(.) #<5>
+    )
+  )
+```
+1. Überschreibe `crime` indem Du `crime` nimmst und dann...
+2. eine Veränderung durchführst indem Du...
+3. für mehrere Spalten...
+4. und zwar alle _numerischen_...
+5. unsere Ausreißer-Berinigung anwendest.
+
+
+### Umgang mit fehlenden Werten 
+
+Fehlende Werte werden in R generell mit `NA` codiert. Um damit umzugehen bietet das `tidyverse` ein paar Funktionen, wir beschränken uns hier auf zwei.
+
+`drop_na` zum rigorosen Entfernen von Zeilen mit fehlenden Werten:
+
+```{r}
+drugs %>% 
+  drop_na()
+```
+...in unserem Fall vielleicht ein bisschen zu rigoros
+
+
+Die zweite Möglichkeit ist `replace_na`, eine Funktion die, wie der Name schon sagt, `NA`s durch festgelegte Werte ersetzen kann. Mit unserem `mutate` von eben kombiniert, können wir so alle fehlenden Zahlen im Datensatz durch 0 ersetzen:
+
+```{r}
+drugs %>% 
+  mutate(
+    across(where(is.numeric),
+           ~replace_na(., 0))
+  )
+```
+
+<!-- ### Umgang mit fehlenden Werten -->
+
+Jetzt können wir noch die fehlenden `character` umgewandeln:
+
+```{r}
+drugs <- drugs %>% 
+  mutate(
+    across(where(is.numeric),
+           ~replace_na(., 0)),
+    across(where(is.character),
+           ~replace_na(., ''))
+  )
+drugs
+```
+
+### Recodieren von Werten
+
+Auch bei dem Recodieren von Werten können wir eine `mutate`-pipeline benutzen.
+
+Für Kategoriale Daten bietet das `tidyverse` die `case_match`-Funktion, die so ähnlich wie die `case_when`-Funktion funktioniert, die wir ja auch schon kennen. Für numerische Werte funktioniert natürlich weiter `case_when` oder auch einfache arithmetische Operationen.
+
+<p class='q'> Wie könnte ich die _Anxiety_-Skala im `satisfaction`-Datensatz umpolen? </p>
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+satisfaction <- satisfaction %>% 
+  mutate(Average_Anxious_Yesterday = -1* (Average_Anxious_Yesterday-10))
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+### Aufgabe
+
+<!-- TODO -->
+
+Transformieren Sie nun die Datensätze in der folgenden Art und Weise:
+
+* Fassen Sie den Covid-Datensatz so zusammen, dass pro Kalenderwoche eine Summe der jeweils neuen Fälle übrigbleibt. Ersetzen Sie vorher die fehlenden Werte entweder durch Nullen, oder wenn Sie sich eine kleine Herausforderung wünschen, durch die Mittelwerte der jeweiligen Kalenderwoche. Als kleiner Tipp: schauen Sie sich dafür die Hilfeseiten von `group_split` und `map_dfr` an.
+
+* Fassen Sie den Temperatur-Datensatz bitte auch pro Kalenderwoche zusammen, diesmal aber mit der mittleren Temperatur als Ergebnis
+
+* Im Charts-Datensatz haben sich ein paar unrealistische Platzierungen eingeschlichen. Entfernen Sie diese bitte. Wir wollen für unsere folgenden Analysen pro Lied einen Score benutzen, der zwischen 1 und 0 liegt. Je größer dieser Score ist, desto höher soll der Song platziert gewesen sein und umgekehrt. Rechnen Sie die Position bitte in diesen Score um.
+
+
+```{r}
+#| include: false
+
+save(drugs, satisfaction, crime, file = 'data/wrangling1.RData')
+```
+

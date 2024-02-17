@@ -2,24 +2,25 @@
 toc-title: '![](imgs/magpie_presenting_table.webp){width=240px}<br> Tabellen und Ergebnisdarstellungen'
 ---
 
-# Erstellung von APA-konformen Tabellen {#sec-tables}
+# Tabellen und Ergebnisdarstellungen {#sec-tables}
 
 ```{r}
 #| include: false
 
 library(tidyverse)
+library(tidymodels)
 ```
 
 
 ## Export mit `apaTables`
 
-Wie am Anfang gesagt wollen wir möglichst vermeiden, Tabellen und Daten a) händisch zu übertragen und b) zu formatieren.
+Jetzt, wo wir unsere Auswertungen automatisiert und in schöne Dokumente eingebunden haben, wollen wir natürlich unsere Tabellen und Daten möglichst wenig a) händisch übertragen und b) formatieren.
 
-Im besten Fall exportieren wir also alles was an Zahlen und Tabellen für den Text anfällt direkt in files, die wir einfach einbinden können.
+Die erste Möglichkeit ist es, vor allem beim Verzicht auf `quarto`, alles, was an Zahlen und Tabellen für den Text anfällt, direkt in files die wir einfach einbinden können zu exportieren.
 
-Für die ANOVAs, Regressionen, t-Tests und Korrelationsanalysen gibt es im [`apaTables`-Paket](https://www.rdocumentation.org/packages/apaTables) fertige Wrapper, die einen direkten Export der Tabellen ins RTF-Format umsetzen.
+Für ANOVAs, Regressionen, t-Tests und Korrelationsanalysen gibt es im [`apaTables`-Paket](https://www.rdocumentation.org/packages/apaTables)[@apaTablesManual2023] fertige Wrapper, die einen direkten Export der Tabellen ins doc-Format umsetzen.
 
-Unter den folgenden Links findet Ihr die Dokumentation der einzelnen Funktionen aufgelistet:
+Unter den folgenden Links finden sich die Dokumentation der einzelnen Funktionen aufgelistet:
 
 * [Korrelationsanalyse](https://dstanley4.github.io/apaTables/reference/apa.cor.table.html)
 * [ANOVA mit ezANOVA](https://dstanley4.github.io/apaTables/reference/apa.ezANOVA.table.html)
@@ -29,40 +30,27 @@ Unter den folgenden Links findet Ihr die Dokumentation der einzelnen Funktionen 
 
 Außerdem sind im [Tutorial](https://dstanley4.github.io/apaTables/articles/apaTables.html) Beispiele für alle implementierten Verfahren und Tabellen zu finden.
 
-Wir können zum Beispiel mit ezAnova eine Varianzanalyse für unsere Pinguine durchführen, bei der wir Pinguin-Geschlecht und Spezies als UVs und die Flossenlänge als AV nutzen:
+Ein einfaches Beispiel ist der Export der Tabelle der Parameter-Fits für das erste Sacramento-Beispiel aus @sec-tidymodels:
 
 ```{r}
-library(ez)
 
-palmerpenguins::penguins %>% 
-  mutate(id = seq_along(species)) %>% 
-  filter(!is.na(flipper_length_mm)) %>% 
-  ezANOVA(wid = id,
-          between = .(species, sex),
-          dv = flipper_length_mm,
-          detailed = T,
-          type = 2)
+lm_model <- linear_reg()
+
+lm_fit <- lm_model %>% 
+  fit(price ~ sqft + beds, data = Sacramento)
+
 ```
 
-Mit `apa.ezANOVA.table` können gewünschte Tabellen dann exportiert werden. Laut der Doku ist dabei noch wichtig, mit `options` eine Anzahl an Dezimalstellen vor Umwandlung in 10-er-Potenz-Notation zu setzen, die mindestens 10 ist.
+Mit `apa.reg.table` können gewünschte Tabellen dann exportiert werden. Laut der Doku ist dabei noch wichtig, mit `options` eine Anzahl an Dezimalstellen vor Umwandlung in 10-er-Potenz-Notation zu setzen, die mindestens 10 ist.
 
 ```{r}
 library(apaTables)
 options(digits = 10)
 
-palmerpenguins::penguins %>%
-  mutate(id = seq_along(species)) %>%
-  filter(!is.na(flipper_length_mm)) %>%
-  ezANOVA(
-    wid = id,
-    between = .(species, sex),
-    dv = flipper_length_mm,
-    detailed = T,
-    type = 2
-  ) %>%
-  apa.ezANOVA.table(drink_attitude_results,
-                    table.number = 1,
-                    filename = "Table1_APA.doc")
+
+apa.reg.table(lm_fit$fit,
+              table.number = 1,
+              filename = "Table1_APA.doc")
 
 ```
 
@@ -78,30 +66,79 @@ Das `table_number`-Argument setzt dabei nur die Zahl in der Tabellen-Überschrif
 Das Ergebnis ist in @fig-apaTable zu sehen.
 
 
-![Output von `apa.ezANOVA.table`](imgs/apaEZTable.png){#fig-apaTable}
+![Output von `apa.reg.table`](imgs/regAPATable.png){#fig-apaTable}
 
-Das ist natürlich schon schön und praktisch wenn wir uns englische Tabellen für die implementierten Analysen ausgeben lassen wollen. Aber wie können wir eigene Tabellen nach APA-Richtlinien-konform exportieren?
+Wenn wir die Tabelle in ein externes file exportieren, müssen wir sie aber natürlich am Ende wieder kopieren, um sie in unsere Berichte zu kopieren.
+
+Angenehmer wäre es natürlich, wenn wir die Tabellen direkt in unser quarto-Dokument einbinden könnten.
+
+`apaTables` unterstützt diese Möglichkeit in der aktuellen Version 3.0.0 - auf Cran ist die neueste Version aber leider die 2.0.8, die diese Funktionalität noch nicht unterstützt. Sollte diese Lösung geünscht sein, lässt sich die neuere Version wie folgt direkt von github installieren:
+
+```{r}
+#| eval: false
+install.packages("remotes")
+
+remotes::install_github("dstanley4/apaTables")
+
+library(apaTables)
+```
+
+### Aufgaben
+
+#### Aufgabe 1 {#sec-apaTaskOne}
+Erstellen Sie eine Tabelle mit den deskriptiven Kennwerten der Blütenblatt-Länge pro Spezies im `iris`-Datensatz mit `apaTables`. Gucken Sie sich dafür [die Dokumentation der `apa.1way.table`-Funktion](https://dstanley4.github.io/apaTables/reference/apa.1way.table.html) an.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+apa.1way.table(iv=Species, dv=Petal.Length, data = iris)
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+#### Aufgabe 2
+
+Benutzen Sie die `apa.cor.table`-Funktion um eine Korrelationsanalyse für alle numerischen Variablen im `iris`-Datensatz durchzuführen.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+apa.cor.table(iris)
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
 
 
 ## Tabellen mit `flextable`
 
-Was sind die Anforderungen an Tabellen laut APA?
-Konsultieren wir nochmal Julias^[Nochmal Danke, [Julia](https://www.methoden.psychologie.uni-kiel.de/de/team/julia-liss)!] Folien (@fig-apaTableChecklist).
+Eine andere Möglichkeit um Tabellen zu erstellen, die via cran verfügbar ist, ist das Paket `flextable`[@flextableManual2023].
 
-![Checklist für Tabellen aus Julias Folien](imgs/apa_tables.png){#fig-apaTableChecklist}
+Im Gegensatz zu `apaTables` kann in diesem Framework alles in eine Tabelle gerendert werden, die Tabellen können außerdem sehr frei gestaltet werden. Dafür gibt es aber nicht wirklich Standards wie z.B. Formatierung nach APA.
 
-Unsere Tabellen müssen also die folgenden Anforderungen erfüllen:
+Um die Funktionalität auszuprobieren, wird im Folgenden beispielhaft eine Tabelle grob an APA orientiert formatiert.
 
-1. Jede Spalte muss eine Überschrift haben
+An Tabellen direkt wird in den [Guidelines](https://apastyle.apa.org/style-grammar-guidelines/tables-figures/tables) folgende Anforderungen gestellt:
+
+1. Jede Spalte muss eine Überschrift haben, auch die "stub"-Spalte
 2. die Überschriften müssen zentriert sein
+3. der Inhalt der "stub"-Spalte muss linksbündig sein
+4. Alle Spalten sollen zentriert sein, es sei denn der Inhalt ist linksbündig besser lesbar (z.B. bei Textspalten)
+5. Anforderungen an Abstand und Schriftgröße in der Tabelle
 
 Außerdem kommen noch die folgenden Anforderungen an die Formatierung statistischer Ergebnisse^[laut [https://apastyle.apa.org/style-grammar-guidelines/tables-figures/tables](https://apastyle.apa.org/style-grammar-guidelines/tables-figures/tables) und [https://www.scribbr.com/apa-style/numbers-and-statistics/](https://www.scribbr.com/apa-style/numbers-and-statistics/)] hinzu:
 
 3. Namen statistischer Kennwerte sollen kursiv sein
-4. Zahlen sollen auf den Wert gerundet werden, bei dem Präzision erhalten wird
+4. Zahlen sollen auf den Wert gerundet werden, bei dem die Präzision erhalten wird
 5. Werte die nicht größer als 1 werden können sollen keine Null vor dem Komma haben
 
-Fangen wir mit der Formatierung der Nummern an. Als Beispiel haben wir die folgende Tabelle, in der die mittlere Schnabellänge und Standardabweichung pro Pinguin-Spezies und Beobachtungsort abgetragen sind:
+Fangen wir mit der Formatierung der Nummern an. Als Beispiel haben wir die folgende Tabelle, in der die mittlere Schnabellänge und Standardabweichung pro Pinguin-Spezies und Beobachtungsort aus dem `palmerpenguins`-Datensatz abgetragen sind:
 
 ```{r}
 summary_table <- palmerpenguins::penguins %>%
@@ -134,7 +171,7 @@ summary_table %>%
 ```
 
 Und schon können wir an die eigentliche Formatierung in einer Tabelle gehen. 
-Dazu nutzen wir das Paket [`flextable`](https://ardata-fr.github.io/flextable-book/).
+Dazu nutzen wir, wie schon angekündigt, das Paket [`flextable`](https://ardata-fr.github.io/flextable-book/).
 
 Wir können unsere Tabelle direkt in flextable pipen:
 
@@ -222,8 +259,7 @@ summary_table %>%
         border= list(width = 0.1, color = "black", style = "solid"))
 ```
 
-
-Und abschließend exportieren:
+Zuletzt mpssen wir noch die "stub"-Spalte linksbündig formatieren:
 
 ```{r}
 summary_table %>% 
@@ -236,6 +272,25 @@ summary_table %>%
   theme_apa() %>% 
   hline(i = 1, j = -1,part = 'header', 
         border= list(width = 0.1, color = "black", style = "solid")) %>% 
+  align_text_col()
+```
+
+Damit ist das Format der Tabelle erstmal fertig.
+
+Wir können, wenn wir die Tabelle nicht in quarto einbinden wollen, auch einen Export in eine Word-Datei aus einem R-Skript durchführen:
+
+```{r}
+summary_table %>% 
+  select(Spezies = species, matches('Bis'), matches('Dre'), matches('Tor')) %>% 
+  mutate(across(where(is.numeric), ~round(., 1))) %>% 
+  rename_with(.fn = ~str_remove(.,'_bill_length_mm')) %>% 
+  flextable() %>% 
+  separate_header() %>%
+  italic(part ="header", i= 2) %>% 
+  theme_apa() %>% 
+  hline(i = 1, j = -1,part = 'header', 
+        border= list(width = 0.1, color = "black", style = "solid")) %>% 
+  align_text_col() %>% 
   save_as_docx(path = 'flextable_out.docx')
 ```
 
@@ -248,21 +303,291 @@ Der Export ist in @fig-flextableOut zu sehen.
 
 ![Export des flextable-calls.](imgs/flextable_out.png){#fig-flextableOut}
 
-:::: {.columns}
-:::{.column width="20%"}
-![](imgs/frustrated_penguin.png){width=80%}
+### Einbettung in quarto
+
+Im Abschnitt zu quarto haben wir ja schon die [chunk-Optionen](https://quarto.org/docs/reference/cells/cells-knitr.html) zur Einbindung von Grafiken im Text besprochen. Ähnliche Optionen gibt es auch für Tabellen in quarto-Dokumenten.
+
+Auch bei Tabellen muss, damit die Tabelle referenziert werden kann und numeriert wird, eine `label`-Option gesetzt werden. Statt dem Präfix "fig" müssen wir bei Tabellen aber den Präfix "tbl" vorstellen.
+
+Damit sähe ein Chunk mit der Tabelle von gerade wie folgt aus:
+
+```
+#| label: tbl-penguinSummary
+
+summary_table %>% 
+  select(Spezies = species, matches('Bis'), matches('Dre'), matches('Tor')) %>% 
+  mutate(across(where(is.numeric), ~round(., 1))) %>% 
+  rename_with(.fn = ~str_remove(.,'_bill_length_mm')) %>% 
+  flextable() %>% 
+  separate_header() %>%
+  italic(part ="header", i= 2) %>% 
+  theme_apa() %>% 
+  hline(i = 1, j = -1,part = 'header', 
+        border= list(width = 0.1, color = "black", style = "solid")) %>% 
+  align_text_col()
+```
+
+Daneben können wir auch wieder Beschriftungen einfügen, diesmal mit der Chunk-Option `tbl-cap`:
+
+```
+#| label: tbl-penguinSummary
+#| tbl-cap: Mittelwerte und Streuungen der Schnabellängen der beobachteten Pinguin-Populationen aufgeteilt nach Spezies und Insel.
+
+summary_table %>% 
+  select(Spezies = species, matches('Bis'), matches('Dre'), matches('Tor')) %>% 
+  mutate(across(where(is.numeric), ~round(., 1))) %>% 
+  rename_with(.fn = ~str_remove(.,'_bill_length_mm')) %>% 
+  flextable() %>% 
+  separate_header() %>%
+  italic(part ="header", i= 2) %>% 
+  theme_apa() %>% 
+  hline(i = 1, j = -1,part = 'header', 
+        border= list(width = 0.1, color = "black", style = "solid")) %>% 
+  align_text_col()
+```
+
+Das Ergebnis ist in diesem quarto-Dokument in @tbl-penguinSummary zu sehen.
+
+```{r}
+#| label: tbl-penguinSummary
+#| tbl-cap: Mittelwerte und Streuungen der Schnabellängen der beobachteten Pinguin-Populationen aufgeteilt nach Spezies und Insel.
+
+summary_table %>% 
+  select(Spezies = species, matches('Bis'), matches('Dre'), matches('Tor')) %>% 
+  mutate(across(where(is.numeric), ~round(., 1))) %>% 
+  rename_with(.fn = ~str_remove(.,'_bill_length_mm')) %>% 
+  flextable() %>% 
+  separate_header() %>%
+  italic(part ="header", i= 2) %>% 
+  theme_apa() %>% 
+  hline(i = 1, j = -1,part = 'header', 
+        border= list(width = 0.1, color = "black", style = "solid")) %>% 
+  align_text_col() 
+```
+
+
+
+
+### Aufgaben
+#### Aufgabe 1:
+
+Bauen Sie die mit `apaTables` in @sec-apaTaskOne im Abschnitt zu `apaTables` gebaute Tabelle mit `flextable` nach und fügen diese zu dem bereits erstellten quarto-Dokument hinzu. Sie können gern auf die Note am unteren Rand verzichten. Oder sie lesen die Dokumentation von `add_footer_lines` und fügen die Notiz hinzu.
+
+:::{class="card"}
+:::{class="content"}
+
+Der Code-Chunk könnte so oder so ähnlich aussehen:
+```
+#| label: tbl-irisSummary
+#| tbl-cap: Descriptive statistics for Petal.Length as a function of Species.
+
+iris %>% 
+  group_by(Species) %>% 
+  summarise(M = mean(Petal.Length), SD = sd(Petal.Length)) %>% 
+  flextable() %>% 
+  italic(part ="header", i= 1, j = 2:3) %>% 
+  theme_apa() %>% 
+  hline(i = 1, j = -1,part = 'header', 
+        border= list(width = 0.1, color = "black", style = "solid")) %>% 
+  align_text_col() %>% 
+  add_footer_lines('Note. M and SD represent mean and standard deviation, respectively.')
+```
+Das Ergebnis sieht dann so aus:
+
+```{r}
+#| label: tbl-irisSummary
+#| tbl-cap: Descriptive statistics for Petal.Length as a function of Species.
+
+iris %>% 
+  group_by(Species) %>% 
+  summarise(M = mean(Petal.Length), SD = sd(Petal.Length)) %>% 
+  flextable() %>% 
+  italic(part ="header", i= 1, j = 2:3) %>% 
+  theme_apa() %>% 
+  hline(i = 1, j = -1,part = 'header', 
+        border= list(width = 0.1, color = "black", style = "solid")) %>% 
+  align_text_col() %>% 
+  add_footer_lines('Note. M and SD represent mean and standard deviation, respectively.')
+```
+
 :::
-:::{.column width="80%"}
-> Aber da muss ich ja die Beschreibung doch noch nachträglich einfügen! Und was soll ich mit 15 einzelnen docs, dann muss ich ja doch alles rüberkopieren!
+:::{class="overlay"}
+Antwort aufdecken
 :::
-::::
+:::
+
+#### Aufgabe 2:
+
+Überfliegen Sie das Kapitel zu visuellen Eigenschaften im [`flextable`-Buch](https://ardata-fr.github.io/flextable-book/define-visual-properties.html) und machen Sie die Tabelle so bunt, wie Ihre Augen es aushalten.
+Ändern Sie sonst noch gern alles, was die Erfahrung weniger angenehm macht.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+#| label: tbl-irisColorfulSummary
+#| tbl-cap: Descriptive statistics for Petal.Length as a function of Species.
+
+tab = iris %>% 
+  group_by(Species) %>% 
+  summarise(M = mean(Petal.Length), SD = sd(Petal.Length)) %>% 
+  flextable() %>% 
+  italic(part ="header", i= 1, j = 2:3) %>% 
+  theme_apa() %>% 
+  hline(i = 1, j = -1,part = 'header', 
+        border= list(width = 0.1, color = "black", style = "solid")) %>% 
+  align_text_col() %>% 
+  add_footer_lines('Note. M and SD represent mean and standard deviation, respectively.') %>% 
+  bg(bg = "hotpink", part = "all") %>% 
+  bg(bg = "darksalmon", part = "header")%>% 
+  bg(bg = "violetred", part = "footer")
+  
 
 
 
-Natürlich gibt es da auch eine Lösung! Auftritt [`quarto`](quarto.html).
+rows = rep(1:3, times = 3)
+cols = rep(1:3, each = 3)
+colors = c('cyan', 'lawngreen', 'firebrick1', 'mediumorchid')
 
-## Aufgabe
+for(i in 1:9){
+  color <- colors[round(sqrt(rows[i]**2 + cols[i]**2))]
+  tab <- tab %>% 
+    style(rows[i], cols[i], fp_text_default(shading.color = color))
+}
+tab
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
 
-1. Erstelle eine Tabelle mit den deskriptiven Kennwerten der Blütenblatt-Länge im `iris`-Datensatz mit `apaTables`. Guck Dir dafür [die Dokumentation der `apa.1way.table`-Funktion](https://dstanley4.github.io/apaTables/reference/apa.1way.table.html) an.
+## Ergebnisse mit `papaja`
 
-2. Baue dieselbe Tabelle mit `flextable` nach.
+Im Gegensatz zu den beiden bisher vorgestellten Paketen ist `papaja` [@papajaManual2023] nicht nur ein Paket für Tabellen, sondern ein framework zur Erstellung ganzer Berichte. 
+Mit `papaja` erstellte RMarkdown-Dokumente werden direkt vollständig in APA-Format gerendert^[Rmarkdown ist der Vorgänger von quarto. Da quarto in Zukunft wesentlich mehr Support und Features verspricht, werden in diesem Workshop die `papaja`-Rmarkdown-Dokumente ausgelassen.].
+Außerdem gibt es noch einen ganzen Haufen an Plots, die von `papaja` angeboten werden.
+
+Für diesen Workshop sind aber zwei Features besonders interessant:
+
+`apa_print` und `apa_table`. In beide Funktionen lassen sich Ergebnisse von einer Reihe von statistischen Ergebnissen übergeben und Inline-Ergebnis-Prints und Tabellen erstellen.
+
+Am Beispiel der linearen Regression vom Anfang des Abschnitts zu @sec-tidymodels, könnte das Vorgehen wie folgt aussehen. Zuerst erstellen wir unseren Modell-Fit:
+
+```{r}
+lm_model <- linear_reg()
+
+lm_fit <- lm_model %>% 
+  fit(price ~ sqft + beds, data = Sacramento)
+
+```
+
+Dann lassen wir uns den fit als als apa_print ausgeben:
+
+```{r}
+library(papaja)
+lm_fit$fit %>% 
+  apa_print()  
+```
+
+Im Print sehen wir schon als Inline-Code formatierte Strings, die wir zum Beispiel so in den Text einfügen können:
+
+```
+Der Beitrag der Wohnungsgröße zum Modell zur Aufklärung des Wohnungspreises war signifikant von 0 unterschiedlich (`r apa_print(lm_fit$fit)$full_result$sqft`).
+```
+
+Im Text sähe der Satz dann wie folgt aus:
+
+> Der Beitrag der Wohnungsgröße zum Modell zur Aufklärung des Wohnungspreises war signifikant von 0 unterschiedlich (`r apa_print(lm_fit$fit)$full_result$sqft`).
+
+Den Output von `apa_print` können wir mit `apa_table` dann auch direkt als Tabelle rendern:
+
+```{r}
+lm_fit$fit %>% 
+  apa_print()  %>% 
+  apa_table()
+```
+
+Der Output ist dabei eine markdown-Tabelle. Das heißt das unsere Formatierungsmöglichkeiten aus dem Abschnitt zu `flextable` auch hier funktionieren. Der folgende Chunk:
+
+```
+#| label: tbl-papajaModelfit
+#| tbl-cap: Tabelle mit den Ergebnissen der Beispielregression
+
+lm_fit$fit %>% 
+  apa_print()  %>% 
+  apa_table()
+```
+
+wird zu:
+
+```{r}
+#| label: tbl-papajaModelfit
+#| tbl-cap: Tabelle mit den Ergebnissen der Beispielregression
+#| echo: false
+
+lm_fit$fit %>% 
+  apa_print()  %>% 
+  apa_table()
+```
+
+### Aufgaben
+
+#### Aufgabe 1:
+
+Rechnen Sie einen t-Test (`t.test`) mit der Breite der Blütenblätter als AV und den Spezies setosa und versicolor als Gruppen.
+
+:::{class="card"}
+:::{class="content"}
+
+```{r}
+test_data <- iris %>% 
+  filter(Species %in% c('setosa', 'versicolor')) %>% 
+  select(Species, Petal.Width)
+
+test = t.test(Petal.Width ~ Species, data = test_data)
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+#### Aufgabe 2:
+
+Fügen Sie die Ergebnisse des t-Tests als inline-Code und als Tabelle in ein quarto-Dokument ein.
+
+:::{class="card"}
+:::{class="content"}
+```
+#| label: tbl-ttest
+#| tbl-cap: Ergebnisse des t-Tests
+
+test_print <- apa_print(test)
+
+apa_table(test_print)
+```
+
+```{r}
+#| label: tbl-ttest
+#| tbl-cap: Ergebnisse des t-Tests
+#| echo: false
+
+test_print <- apa_print(test)
+
+apa_table(test_print)
+```
+
+Der Test war signifikant `r test_print$full_result`.
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+## Literatur
+
+TODO: Hast Du an alle Paket-Zitate gedacht?

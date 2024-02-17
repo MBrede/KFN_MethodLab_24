@@ -187,7 +187,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./tables.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Erstellung von APA-konformen Tabellen</span></a>
+  <a href="./tables.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Tabellen und Ergebnisdarstellungen</span></a>
   </div>
 </li>
       </ul>
@@ -258,10 +258,10 @@ Abb&nbsp;8.2: Neu erstelltes Quarto-Dokument
 </figcaption>
 </figure>
 </div>
-<p>Quarto-Dokumente basieren auf zwei Teilen, die in einem file oder getrennt voneinander existieren können. Der erste Teil der der sogenannte YAML-Header(1 in <a href="#fig-newQuarto" class="quarto-xref">Abbildung&nbsp;<span>Neu erstelltes Quarto-Dokument</span></a>), der die Parameter zum Rendern des Dokuments definiert - der zweite Teil ist das eigentliche Dokument(2).</p>
-<p>Im neu erstellten file erkennen wir des YAML-Header durch die Eingrenzung aus je drei Bindestrichen. Nach der Erstellung sind hier schon der Titel des Dokuments “Untitled” und die Nutzung des visuellen Editors festgelegt.</p>
+<p>Quarto-Dokumente basieren auf zwei Teilen, die in einem file oder getrennt voneinander existieren können. Der erste Teil ist der sogenannte YAML-Header (1 in <a href="#fig-newQuarto" class="quarto-xref">Abbildung&nbsp;<span>Neu erstelltes Quarto-Dokument</span></a>), der die Parameter zum Rendern des Dokuments definiert - der zweite Teil ist das eigentliche Dokument(2).</p>
+<p>Im neu erstellten file erkennen wir den YAML-Header durch die Eingrenzung aus je drei Bindestrichen. Nach der Erstellung sind hier schon der Titel des Dokuments “Untitled” und die Nutzung des visuellen Editors festgelegt.</p>
 <p>Der Rest des Files ist ein Markdown-Dokument in dem mit <a href="https://quarto.org/docs/authoring/markdown-basics.html">markdown-Formatierung</a> Fließtext geschrieben werden kann. Seit Einführung des visuellen Editors ist aber selbst diese Syntax nicht mehr nötig, Text kann wie aus anderen Verarbeitungsprogrammen bekannt mit den Bedienfeldern(3) formatiert werden. Durch Drücken der Source-Schaltfläche (4) kann aber auch immer noch in den Source-Editor zurückgekehrt werden.</p>
-<p>Wie schon angedeutet ist quarto kein WYSIWYG<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>-Editor, sondern erfordert das Rendern von Dokumenten. Dazu kann auf “Render”(5) geklickt oder <code>Strg + Shift + K</code> als Shortcut genutzt werden. Auf diesen Befehl hin wird neben dem qmd-file ein Output generiert in dem die formatierte Version zu finden ist. Beim ersten Rendern öffnet sich ein Dialog, in dem noch ein file-Name und Speicherort angegeben wird.</p>
+<p>Wie schon angedeutet ist quarto kein WYSIWYG<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>-Editor, sondern erfordert das Rendern von Dokumenten. Dazu kann auf “Render”(5) geklickt oder <code>Strg + Shift + K</code> als Shortcut genutzt werden. Auf diesen Befehl hin wird neben dem qmd-file ein Output generiert, in dem die formatierte Version zu finden ist. Beim ersten Rendern öffnet sich ein Dialog, in dem noch ein file-Name und Speicherort angegeben wird.</p>
 <div class="no-row-height column-margin column-container"><p><sup>1</sup>&nbsp;What you see is what you get</p></div><section id="code-chunks" class="level2">
 <h2 class="anchored" data-anchor-id="code-chunks">Code-chunks</h2>
 <p>Der große Vorteil quartos ist es, dass wir Code-chunks im Dokument anlegen können, deren Output direkt in das gerenderte Ergebnis eingebunden wird.</p>
@@ -290,9 +290,9 @@ Abb&nbsp;8.4: Code Chunks mit bisherigen Analysen.
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
-<p>In <a href="#fig-filledAnalysis" class="quarto-xref">Abbildung&nbsp;<span>Code Chunks mit bisherigen Analysen.</span></a> ist das neue file mit dem Code für die letzte Tabelle aus <a href="tables.html" class="quarto-xref"><span>Erstellung von APA-konformen Tabellen</span></a> und der Beispielgrafik aus <span class="quarto-unresolved-ref">?sec-ggplot</span> eingefügt.</p>
-<p>Der erste Chunk (1) ist dabei nur dafür da um Pakete und die Daten zu laden. Im zweiten Chunk (2) wird die Tabelle, im dritten Chunk (3) die Grafik erstellt. Der Text hinter dem r in der ersten Zeile der Chunks ist nur ein Titel und hat erstmal keine weitere Bedeutung.</p>
-<p>Wie in (4) und (5) zu sehen ist, kann zwischen den Chunks einfach Text eingefügt werden.</p>
+<p>In <a href="#fig-filledAnalysis" class="quarto-xref">Abbildung&nbsp;<span>Code Chunks mit bisherigen Analysen.</span></a> ist das neue file mit dem Code für die Grafik aus <a href="graphics.html" class="quarto-xref"><span>Grammar of Graphics und ggplot2</span></a> eingefügt.</p>
+<p>Der erste Chunk (1) ist dabei nur dafür da um Pakete und die Daten zu laden und ein theme zu setzen. Im zweiten Chunk (2) wird die Grafik erstellt.</p>
+<p>Wie in (3) und (4) zu sehen ist, kann zwischen den Chunks einfach Text eingefügt werden.</p>
 <p>Die Chunks können dabei wie ein ganz normales R-Skript genutzt werden und der Code an der Zeile des Cursors kann mit <code>Strg + Enter</code> ausgeführt werden. Der Output erscheint dabei unter dem Chunk, kann mit Hilfe der Einstellungen aber auch in die Konsole verschoben werden.</p>
 </div>
 </div>
@@ -310,7 +310,7 @@ fig-dpi: 300 # setzt alle plots auf 300 dpi</code></pre>
 <div id="fig-firstODT" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-firstODT-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="imgs/fst_odt_output.png" class="img-fluid figure-img">
+<img src="imgs/first_odt_output.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-firstODT-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Abb&nbsp;8.5: Erstes Render-Ergebnis.
@@ -322,8 +322,9 @@ Abb&nbsp;8.5: Erstes Render-Ergebnis.
 <pre><code>execute:
   warning: false
   message: false</code></pre>
+<p>Execute im YAML-Header setzt dabei Ausführungsstandards für alle Code-Chunks im Dokument. <code>warning: false</code> unterdrückt alle Warnungen, <code>message: false</code> alle Nachrichten von Paketen, etc. im Output.</p>
 <p>Was zu folgendem Output führt:</p>
-<p><img src="imgs/snd_odt_output.png" id="fig-secondODT" class="img-fluid" alt="Ergebnis ohne Nachrichten."> Schon viel besser, für einen Methodenteil stört aber noch der Code zwischen den Outputs. Um das rausschreiben der Chunks zu unterdrücken ergänzen wir nur noch <code>echo: false</code> um bei folgendem vollständigen Header zu enden:</p>
+<p><img src="imgs/snd_odt_output.png" id="fig-secondODT" class="img-fluid" alt="Ergebnis ohne Nachrichten."> Schon viel besser, für einen Bericht stört aber noch der Code zwischen den Outputs. Um das Rausschreiben der Chunks zu unterdrücken ergänzen wir nur noch <code>echo: false</code> um bei folgendem vollständigen Header zu enden:</p>
 <pre><code>title: "Methoden"
 editor: visual
 format: docx
@@ -334,12 +335,12 @@ execute:
   message: false
   echo: false</code></pre>
 <p>Und schon ist das Ergebnis nicht mehr allzu schlecht:</p>
-<div id="fig-secondODT" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-thrdODT" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-secondODT-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-thrdODT-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="imgs/thrd_odt_output.png" class="img-fluid figure-img">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-secondODT-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-thrdODT-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Abb&nbsp;8.6: Ergebnis ohne Chunks
 </figcaption>
 </figure>
@@ -348,8 +349,8 @@ Abb&nbsp;8.6: Ergebnis ohne Chunks
 <section id="code-chunk-optionen" class="level2">
 <h2 class="anchored" data-anchor-id="code-chunk-optionen">Code-Chunk-Optionen</h2>
 <p>Die letzten drei Parameter waren Beispiele für chunk-Optionen, die das Verhalten von Chunks anpassen. Das kann entweder global im YAML-Header unter execute oder lokal pro Chunk gesetzt werden.</p>
-<p>Auf der quarto-Seite gibt es einen Überblick über <a href="https://quarto.org/docs/reference/cells/cells-knitr.html">alle Optionen</a>, wir konzentrieren uns aber erstmal auf einen kleinen Teil zur Beschriftung von Grafiken und Tabellen.</p>
-<p>Um eine Grafik zu beschriften und im Text referenzierbar zu machen,müssen wir zwei Optionen für den Chunk setzten: <code>label</code> und <code>fig-cap</code>. In <a href="#fig-figChunk" class="quarto-xref">Abbildung&nbsp;<span>Chunk-Optionen für Grafiken</span></a> ist ein Beispiel wie das aussehen könnte. Die Chunk-Optionen werden dabei immer durch ein so genanntes “pipe-comment” eingeleitet.</p>
+<p>Auf der quarto-Seite gibt es einen Überblick über <a href="https://quarto.org/docs/reference/cells/cells-knitr.html">alle Optionen</a>, wir konzentrieren uns aber erstmal auf einen kleinen Teil zur Beschriftung von Grafiken.</p>
+<p>Um eine Grafik zu beschriften und im Text referenzierbar zu machen, müssen wir zwei Optionen für den Chunk setzten: <code>label</code> und <code>fig-cap</code>. In <a href="#fig-figChunk" class="quarto-xref">Abbildung&nbsp;<span>Chunk-Optionen für Grafiken</span></a> ist ein Beispiel wie das aussehen könnte. Die Chunk-Optionen werden dabei immer durch ein so genanntes “pipe-comment” eingeleitet.</p>
 <div id="fig-figChunk" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-figChunk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -361,37 +362,24 @@ Abb&nbsp;8.7: Chunk-Optionen für Grafiken
 </figure>
 </div>
 <p>Im text können wir die Grafik dann mit @fig-scatter referenzieren. Das label für Grafiken muss dabei durch “fig-” eingeleitet und referenziert werden, sonst schlägt die Formatierung fehl.</p>
-<p>Ähnliche Parameter sind auch für Tabellen implementiert, hier ist der Prefix nur <code>tbl</code>. Leider funktioniert das Crossreferenzieren in den aktuellen Versionen von quarto und flextable noch nicht reibungslos, es gibt aber einen <a href="https://github.com/quarto-dev/quarto-cli/issues/1556">workaround</a>.</p>
-<p>Statt mit @tbl-table müssen wir die Tabelle mit einem Call an das <code>officer</code>-Paket im Text referenzieren. Sonst ist das Format aber ähnlich, wie in <a href="#fig-tabChunk" class="quarto-xref">Abbildung&nbsp;<span>Chunk-Optionen für Tabellen</span></a> zu sehen ist..</p>
-<div id="fig-tabChunk" class="quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-tabChunk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="imgs/reference_table.png" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tabChunk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Abb&nbsp;8.8: Chunk-Optionen für Tabellen
-</figcaption>
-</figure>
-</div>
-<p>Der Output des so angepassten Skripts ist in <a href="#fig-forthRender" class="quarto-xref">Abbildung&nbsp;<span>Ergebnis mit Corss-Referenzen</span></a> zu sehen.</p>
+<p>Der Output des so angepassten Skripts ist in <a href="#fig-forthRender" class="quarto-xref">Abbildung&nbsp;<span>Ergebnis mit Cross-Referenzen</span></a> zu sehen.</p>
 <div id="fig-forthRender" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-forthRender-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="imgs/forth_render.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-forthRender-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Abb&nbsp;8.9: Ergebnis mit Corss-Referenzen
+Abb&nbsp;8.8: Ergebnis mit Cross-Referenzen
 </figcaption>
 </figure>
 </div>
-<p>Offensichtlich funktioniert auch der Workaround noch nicht perfekt - das Problem ist aber bekannt.</p>
-<p>In dem Beispiel haben wir aber einen weiteren Vorteil von Quarto gesehen: <a href="@sec-inline">Inline Code-Chunks</a></p>
+<p>In dem Beispiel ist außerdem ein weiterer Vorteil von Quarto zu sehen: <a href="@sec-inline">Inline Code-Chunks</a></p>
 </section>
 <section id="sec-inline" class="level2">
 <h2 class="anchored" data-anchor-id="sec-inline">Inline Code-Chunks</h2>
 <p>Im Fließtext kann mit der folgenden Syntax auf R zugegriffen und Output generiert werden:</p>
 <pre><code>`r &lt;some code&gt;`</code></pre>
-<p>Wozu ist das nützlich? Wir können so einfach statistische Kennwerte ohne sie kopieren zu müssen in den Text einflißen lassen! Und jedes mal wenn das Ergebnis erstellt wird, werden die Werte neu berechnet. So kann keine Aktualisierung vergessen werden.</p>
+<p>Wozu ist das nützlich? Wir können so einfach statistische Kennwerte ohne sie kopieren zu müssen in den Text einfließen lassen! Und jedes mal wenn das Ergebnis erstellt wird, werden die Werte neu berechnet. So kann keine Aktualisierung vergessen werden.</p>
 <p>Wir könnten unserem Beispiel-File so beispielsweise eine Stichprobenbeschreibung hinzufügen, wie in <a href="#fig-inlineCode" class="quarto-xref">Abbildung&nbsp;<span>Inline Chunk</span></a> zu sehen ist.</p>
 <div id="fig-inlineCode" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -399,7 +387,7 @@ Abb&nbsp;8.9: Ergebnis mit Corss-Referenzen
 <img src="imgs/inlineChunks.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-inlineCode-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Abb&nbsp;8.10: Inline Chunk
+Abb&nbsp;8.9: Inline Chunk
 </figcaption>
 </figure>
 </div>
@@ -410,17 +398,17 @@ Abb&nbsp;8.10: Inline Chunk
 <img src="imgs/inline_results.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-inlineRes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Abb&nbsp;8.11: Gerendertes Ergebnis der Inline-Chunks
+Abb&nbsp;8.10: Gerendertes Ergebnis der Inline-Chunks
 </figcaption>
 </figure>
 </div>
-<p>Das hier gezeigte Beispiel ist auch im <a href="https://github.com/MBrede/r_thesis_tools/blob/main/example.qmd">Repo des Skripts</a> zugänglich.</p>
+<p>Das hier gezeigte Beispiel ist auch im <a href="https://github.com/MBrede/KFN_MethodLab_24/blob/main/example.qmd">Repo des Skripts</a> zugänglich. Außerdem sind dort alle für die Erstellung dieses Skripts nötigen files zu finden.</p>
 </section>
 <section id="aufgabe" class="level2">
 <h2 class="anchored" data-anchor-id="aufgabe">Aufgabe</h2>
 <ol type="1">
-<li><p>Übertrage Deine Ergebnisse aus den anderen Aufgaben in ein <code>quarto</code>-Dokument</p></li>
-<li><p>Beschrifte alle Grafiken und Tabellen.</p></li>
+<li><p>Übertragen Sie Ihre Ergebnisse aus den Aufgaben zu <code>tidymodels</code> in ein <code>quarto</code>-Dokument</p></li>
+<li><p>Beschriften Sie alle Grafiken.</p></li>
 <li><p>Render das Dokument als <code>docx</code>.</p></li>
 </ol>
 </section>
@@ -428,7 +416,8 @@ Abb&nbsp;8.11: Gerendertes Ergebnis der Inline-Chunks
 <h2 class="anchored" data-anchor-id="zusammenarbeit">Zusammenarbeit</h2>
 <p>Der größte Nachteil an Quarto ist der etwas umständlichere Workflow beim Kommentieren und Zusammenarbeiten als das in Word möglich ist.</p>
 <p>Die Dokumente können zwar immer in word gerendert und dann ausgetauscht werden, etwaige Anmerkungen können aber nicht direkt in Quarto eingepflegt werden.</p>
-<p>Unter <a href="https://mbrede.github.io/blog/academic_collaboration_using_markdown_github/">diesem Link</a> findet Ihr aber eine Anleitung, wie man die Zusammenarbeit über git ermöglichen kann.</p>
+<p>Unter <a href="https://mbrede.github.io/blog/academic_collaboration_using_markdown_github/">diesem Link</a> findet sich aber eine Anleitung, wie man die Zusammenarbeit über git ermöglichen kann.</p>
+<p>Außerdem ist dort auch eine Anleitung zu finden, wie sich im Source-Editor mit quarto zitieren lässt. Für das Zitieren im allgemeinen ist der <a href="https://quarto.org/docs/authoring/footnotes-and-citations.html">quarto-Guide</a> zu diesem Thema ein guter Anlaufpunkt.</p>
 
 
 </section>
@@ -847,8 +836,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./tables.html" class="pagination-link" aria-label="<span class='chapter-number'>9</span>&nbsp; <span class='chapter-title'>Erstellung von APA-konformen Tabellen</span>">
-        <span class="nav-page-text"><span class="chapter-title">Erstellung von APA-konformen Tabellen</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./tables.html" class="pagination-link" aria-label="<span class='chapter-number'>9</span>&nbsp; <span class='chapter-title'>Tabellen und Ergebnisdarstellungen</span>">
+        <span class="nav-page-text"><span class="chapter-title">Tabellen und Ergebnisdarstellungen</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

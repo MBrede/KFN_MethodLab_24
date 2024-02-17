@@ -145,14 +145,13 @@ Die Ergebnisse im docx können in @fig-inlineRes gesehen werden.
 
 ![Gerendertes Ergebnis der Inline-Chunks](imgs/inline_results.png){#fig-inlineRes}
 
-
 Das hier gezeigte Beispiel ist auch im [Repo des Skripts](https://github.com/MBrede/KFN_MethodLab_24/blob/main/example.qmd) zugänglich. Außerdem sind dort alle für die Erstellung dieses Skripts nötigen files zu finden.
 
 ## Aufgabe
 
-1. Übertrage Deine Ergebnisse aus den anderen Aufgaben in ein `quarto`-Dokument
+1. Übertragen Sie Ihre Ergebnisse aus den Aufgaben zu `tidymodels` in ein `quarto`-Dokument
 
-2. Beschrifte alle Grafiken und Tabellen.
+2. Beschriften Sie alle Grafiken.
 
 3. Render das Dokument als `docx`.
 
@@ -162,4 +161,6 @@ Der größte Nachteil an Quarto ist der etwas umständlichere Workflow beim Komm
 
 Die Dokumente können zwar immer in word gerendert und dann ausgetauscht werden, etwaige Anmerkungen können aber nicht direkt in Quarto eingepflegt werden.
 
-Unter [diesem Link](https://mbrede.github.io/blog/academic_collaboration_using_markdown_github/) findet Ihr aber eine Anleitung, wie man die Zusammenarbeit über git ermöglichen kann.
+Unter [diesem Link](https://mbrede.github.io/blog/academic_collaboration_using_markdown_github/) findet sich aber eine Anleitung, wie man die Zusammenarbeit über git ermöglichen kann.
+
+Außerdem ist dort auch eine Anleitung zu finden, wie sich im Source-Editor mit quarto zitieren lässt. Für das Zitieren im allgemeinen ist der [quarto-Guide](https://quarto.org/docs/authoring/footnotes-and-citations.html) zu diesem Thema ein guter Anlaufpunkt.

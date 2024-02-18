@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.545">
+<meta name="generator" content="quarto-1.5.14">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Einführung in R - Tabellen und Ergebnisdarstellungen</title>
+<title>Einführung in R – Tabellen und Ergebnisdarstellungen</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -390,7 +390,7 @@ Square brackets are used to enclose the lower and upper limits of a confidence i
 </div>
 </div>
 <p>Das <code>table_number</code>-Argument setzt dabei nur die Zahl in der Tabellen-Überschrift.</p>
-<p>Das Ergebnis ist in <a href="#fig-apaTable" class="quarto-xref">Abbildung&nbsp;<span>Output von apa.reg.table</span></a> zu sehen.</p>
+<p>Das Ergebnis ist in <a href="#fig-apaTable" class="quarto-xref">Abbildung&nbsp;<span>9.1</span></a> zu sehen.</p>
 <div id="fig-apaTable" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-apaTable-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -700,7 +700,7 @@ Attaching package: 'flextable'</code></pre>
 <span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">align_text_col</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">save_as_docx</span>(<span class="at">path =</span> <span class="st">'flextable_out.docx'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Der Export ist in <a href="#fig-flextableOut" class="quarto-xref">Abbildung&nbsp;<span>Export des flextable-calls.</span></a> zu sehen.</p>
+<p>Der Export ist in <a href="#fig-flextableOut" class="quarto-xref">Abbildung&nbsp;<span>9.2</span></a> zu sehen.</p>
 <div id="fig-flextableOut" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-flextableOut-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -744,7 +744,7 @@ summary_table %&gt;%
   hline(i = 1, j = -1,part = 'header', 
         border= list(width = 0.1, color = "black", style = "solid")) %&gt;% 
   align_text_col()</code></pre>
-<p>Das Ergebnis ist in diesem quarto-Dokument in <a href="#tbl-penguinSummary" class="quarto-xref">Tabelle&nbsp;<span>Mittelwerte und Streuungen der Schnabellängen der beobachteten Pinguin-Populationen aufgeteilt nach Spezies und Insel.</span></a> zu sehen.</p>
+<p>Das Ergebnis ist in diesem quarto-Dokument in <a href="#tbl-penguinSummary" class="quarto-xref">Tabelle&nbsp;<span>9.1</span></a> zu sehen.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>summary_table <span class="sc">%&gt;%</span> </span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">Spezies =</span> species, <span class="fu">matches</span>(<span class="st">'Bis'</span>), <span class="fu">matches</span>(<span class="st">'Dre'</span>), <span class="fu">matches</span>(<span class="st">'Tor'</span>)) <span class="sc">%&gt;%</span> </span>
@@ -1600,7 +1600,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./quarto.html" class="pagination-link  aria-label=" &lt;span="">
+      <a href="./quarto.html" class="pagination-link" aria-label="`quarto`{#sec-quarto}">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title"><code id="sec-quarto">quarto</code></span></span>
       </a>          
   </div>

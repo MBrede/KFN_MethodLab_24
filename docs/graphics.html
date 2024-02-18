@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.545">
+<meta name="generator" content="quarto-1.5.14">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Einführung in R - Grammar of Graphics und ggplot2</title>
+<title>Einführung in R – Grammar of Graphics und ggplot2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -491,7 +491,7 @@ ggplot2<br>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>Für die Darstellung einer numerischen Variable bieten Histogramme und ähnliche Darstellungen der Verteilungen einer Variable an.</p>
-<p>In <a href="#fig-oneContinuous" class="quarto-xref">Abbildung&nbsp;<span>Eine Auswahl der in ggplot2 angelegten geoms, die die Verteilung einer Variable abbilden.</span></a> sind vier Beispiele, wie sich mit <code>ggplot2</code> eine numerische Variable darstellen ließe. Alle diese Plots haben den folgenden <code>ggplot</code>-Call als Grundlage:</p>
+<p>In <a href="#fig-oneContinuous" class="quarto-xref">Abbildung&nbsp;<span>6.1</span></a> sind vier Beispiele, wie sich mit <code>ggplot2</code> eine numerische Variable darstellen ließe. Alle diese Plots haben den folgenden <code>ggplot</code>-Call als Grundlage:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -621,7 +621,7 @@ The width of the bins. Can be specified as a numeric value or as a function that
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Beide kontinuierlich</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Eine diskret, eine kontinuierlich</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<p>In <a href="#fig-twoContinous" class="quarto-xref">Abbildung&nbsp;<span>Eine Auswahl der in ggplot2 angelegten geoms, die die Verteilung einer Variable abbilden.</span></a> wird die Basis des <code>geom_point</code>-Blocks aus dem Anfang des <code>ggplot</code>-Abschnitts für alle vier Plots genutzt. Die Basis ist also in jedem Fall der folgende Code-Schnipsel:</p>
+<p>In <a href="#fig-twoContinous" class="quarto-xref">Abbildung&nbsp;<span>6.2</span></a> wird die Basis des <code>geom_point</code>-Blocks aus dem Anfang des <code>ggplot</code>-Abschnitts für alle vier Plots genutzt. Die Basis ist also in jedem Fall der folgende Code-Schnipsel:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
@@ -697,7 +697,7 @@ Abb&nbsp;6.2: Eine Auswahl der in <code>ggplot2</code> angelegten <code>geom</co
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> bill_length_mm,</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>In <a href="#fig-oneContinousOneDiscrete" class="quarto-xref">Abbildung&nbsp;<span>Eine Auswahl der in ggplot2 angelegten geoms, die die Verteilung einer Variable abbilden.</span></a> sind drei Möglichkeiten abgetragen, wie sich diese Basis für eine Darstellung nutzen ließe.</p>
+<p>In <a href="#fig-oneContinousOneDiscrete" class="quarto-xref">Abbildung&nbsp;<span>6.3</span></a> sind drei Möglichkeiten abgetragen, wie sich diese Basis für eine Darstellung nutzen ließe.</p>
 <div id="fig-oneContinousOneDiscrete" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-oneContinousOneDiscrete-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1096,7 +1096,7 @@ year               1.00000000</code></pre>
 </div>
 </div>
 <p>Die Kombination von mehreren <code>geom</code>s kann außerdem interessant sein, wenn wir verschiedene kombinieren wollen, um mehrere Aspekte abzubilden. So könnte man mehrere der in <a href="#sec-geoms" class="quarto-xref"><span>Einfache Grafiken</span></a> besprochenen <code>geom</code>s zur Darstellung gleicher Daten auf einem Plot zusammenfügen.</p>
-<p>In <a href="#fig-multipleGeoms" class="quarto-xref">Abbildung&nbsp;<span>Abbildungen mit Kombinationen mehrerer geoms</span></a> sind Beispiele dargestellt, die mit dem eingeklappten Chunk erstellt wurden, um mit Hilfe mehrerer <code>geom</code>s mehr Informationen abzubilden.</p>
+<p>In <a href="#fig-multipleGeoms" class="quarto-xref">Abbildung&nbsp;<span>6.4</span></a> sind Beispiele dargestellt, die mit dem eingeklappten Chunk erstellt wurden, um mit Hilfe mehrerer <code>geom</code>s mehr Informationen abzubilden.</p>
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
@@ -1340,7 +1340,7 @@ Abb&nbsp;6.4: Abbildungen mit Kombinationen mehrerer <code>geom</code>s
 </div>
 </div>
 </div>
-<p>Für eine top-Level-Anpassung der optischen Erscheinung gibt es außerdem die Familie der <code>theme_</code> Funktionen. In <a href="#fig-themes" class="quarto-xref">Abbildung&nbsp;<span>Alle in ggplot2 angelegten Themes</span></a> ist der Pinguin-Plot von eben mit allen in <code>ggplot2</code> definierten themes kombiniert.</p>
+<p>Für eine top-Level-Anpassung der optischen Erscheinung gibt es außerdem die Familie der <code>theme_</code> Funktionen. In <a href="#fig-themes" class="quarto-xref">Abbildung&nbsp;<span>7.1</span></a> ist der Pinguin-Plot von eben mit allen in <code>ggplot2</code> definierten themes kombiniert.</p>
 <div id="fig-themes" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-themes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -2510,12 +2510,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./wrangling01.html" class="pagination-link  aria-label=" &lt;span="" einlesen&lt;="" span&gt;"="">
+      <a href="./wrangling01.html" class="pagination-link" aria-label="Daten einlesen">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Daten einlesen</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./wrangling02.html" class="pagination-link" aria-label="<span class='chapter-number'>6</span>&nbsp; <span class='chapter-title'>Zusammenführen von Datensätzen</span>">
+      <a href="./wrangling02.html" class="pagination-link" aria-label="Zusammenführen von Datensätzen">
         <span class="nav-page-text"><span class="chapter-title">Zusammenführen von Datensätzen</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

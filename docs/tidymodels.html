@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.545">
+<meta name="generator" content="quarto-1.5.14">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Einführung in R - tidymodels</title>
+<title>Einführung in R – tidymodels</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -1215,7 +1215,7 @@ rankdeficient="NA")</code></pre>
 <h2 class="anchored" data-anchor-id="inferenzstatistik-pipelines-mit-infer">Inferenzstatistik-Pipelines mit infer</h2>
 <p>Neben der Kombination von <code>parsnip</code> und <code>broom</code> bietet <code>tidymodels</code> mit <code>infer</code> ein weiteres Paket für den inferenzstatistischen Einsatz.</p>
 <p><code>infer</code> stellt dabei ein einfaches Interface zur Formulierung von Hypothesen und deren Testung mit Bootstrapping, Permutationstests und anderen Randomisierungsverfahren zur Verfügung.</p>
-<p>Der Ablauf sieht dabei immer wie in <a href="#fig-infer" class="quarto-xref">Abbildung&nbsp;<span>Infer-Workflow - von https://infer.tidymodels.org/</span></a> aus. Zuerst wird/werden mit <code>specify</code> die Variablen spezifiziert, die von Interesse sind. Daraufhin wird mit <code>hypothesize</code> in Textform angegeben, welche Nullhypothese man über diese Variablen testen will. Mit <code>generate</code> werden anschließend Daten generiert, die dieser Nullhypothese entsprechen. Abschließend kann mit <code>calculate</code> aus den generierten Werten eine Verteilung berechnet werden, die mit den beobachteten Werten verglichen werden kann.</p>
+<p>Der Ablauf sieht dabei immer wie in <a href="#fig-infer" class="quarto-xref">Abbildung&nbsp;<span>7.1</span></a> aus. Zuerst wird/werden mit <code>specify</code> die Variablen spezifiziert, die von Interesse sind. Daraufhin wird mit <code>hypothesize</code> in Textform angegeben, welche Nullhypothese man über diese Variablen testen will. Mit <code>generate</code> werden anschließend Daten generiert, die dieser Nullhypothese entsprechen. Abschließend kann mit <code>calculate</code> aus den generierten Werten eine Verteilung berechnet werden, die mit den beobachteten Werten verglichen werden kann.</p>
 <div id="fig-infer" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-infer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1827,12 +1827,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./wrangling02.html" class="pagination-link  aria-label=" &lt;span="" von="" datensätzen&lt;="" span&gt;"="">
+      <a href="./wrangling02.html" class="pagination-link" aria-label="Zusammenführen von Datensätzen">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Zusammenführen von Datensätzen</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./quarto.html" class="pagination-link" aria-label="<span class='chapter-number'>8</span>&nbsp; <span class='chapter-title'>`quarto`{#sec-quarto}</span>">
+      <a href="./quarto.html" class="pagination-link" aria-label="`quarto`{#sec-quarto}">
         <span class="nav-page-text"><span class="chapter-title"><code id="sec-quarto">quarto</code></span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

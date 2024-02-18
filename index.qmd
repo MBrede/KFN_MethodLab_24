@@ -1,5 +1,5 @@
 ---
-toc-title: '![](imgs/magpie_data_presentation.webp){width=240px}<br> Einführung'
+toc-title: '![](imgs/magpie_data_presentation.webp){width=240px}<br> <h3>Einführung</h3>'
 ---
 # Vorwort
 

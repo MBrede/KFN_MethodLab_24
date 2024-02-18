@@ -236,7 +236,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quarto.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Methodenteil in <code id="sec-quarto">quarto</code></span></a>
+  <a href="./quarto.html" class="sidebar-item-text sidebar-link"><span class="chapter-title"><code id="sec-quarto">quarto</code></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -253,7 +253,10 @@ div.csl-indent {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
-    <h2 id="toc-title"><img src="imgs/preparation.webp" class="img-fluid" width="240"><br> Datenaufbereitung</h2>
+    <h2 id="toc-title"><img src="imgs/preparation.webp" class="img-fluid" width="240"><br><br>
+</h2><h3 class="anchored"><br>
+Datenaufbereitung<br>
+</h3>
    
   <ul>
   <li><a href="#datensätze-in-r" id="toc-datensätze-in-r" class="nav-link active" data-scroll-target="#datensätze-in-r">Datensätze in R</a>
@@ -265,6 +268,7 @@ div.csl-indent {
   <li><a href="#tidy-aggregation" id="toc-tidy-aggregation" class="nav-link" data-scroll-target="#tidy-aggregation">tidy aggregation</a></li>
   <li><a href="#aufgabe" id="toc-aufgabe" class="nav-link" data-scroll-target="#aufgabe">Aufgabe</a></li>
   </ul></li>
+  <li><a href="#literatur" id="toc-literatur" class="nav-link" data-scroll-target="#literatur">Literatur</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/MBrede/KFN_MethodLab_24/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -400,8 +404,8 @@ Wie könnte ich den 3. Wert in der <code>b</code>-Spalte indizieren?
 <li><p>Darstellung der Mittelwerte und Streuungen der Blütenblattlänge und -breite pro verbleibende Spezies als Tabelle</p></li>
 </ol>
 </section>
-<section id="aufgabe-base-r-lösung" class="level3 small">
-<h3 class="small anchored" data-anchor-id="aufgabe-base-r-lösung">Aufgabe: Base-R Lösung</h3>
+<section id="aufgabe-base-r-lösung" class="level3">
+<h3 class="anchored" data-anchor-id="aufgabe-base-r-lösung">Aufgabe: Base-R Lösung</h3>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> iris[iris<span class="sc">$</span>Petal.Width <span class="sc">&lt;=</span> <span class="fl">1.5</span> <span class="sc">*</span> <span class="fu">mean</span>(iris<span class="sc">$</span>Petal.Width) <span class="sc">&amp;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>             iris<span class="sc">$</span>Sepal.Length <span class="sc">&gt;=</span> <span class="fu">mean</span>(iris<span class="sc">$</span>Sepal.Length),]</span>
@@ -448,11 +452,10 @@ Wie könnte ich den 3. Wert in der <code>b</code>-Spalte indizieren?
 </section>
 <section id="tidy-aggregation" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="tidy-aggregation">tidy aggregation</h3>
-<p>Das <code>tidyverse</code> ist eine Sammlung von Paketen, deren Hauptziel es ist, Datenaufbereitung in R intuitiver und leichter lesbar zu machen.</p>
+<p>Das <code>tidyverse</code> <span class="citation" data-cites="tidyverseManual2019">(<a href="#ref-tidyverseManual2019" role="doc-biblioref">Wickham et al., 2019</a>)</span> ist eine Sammlung von Paketen, deren Hauptziel es ist, Datenaufbereitung in R intuitiver und leichter lesbar zu machen.</p>
 <p>Ein zentrales Element dabei ist der <code>%&gt;%</code>-Operator, die sogenannte Pipeline<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. Beim Skript-Lesen und -Schreiben kann man sich diese am Besten als <em>‘dann’</em> vorstellen</p>
 <div class="no-row-height column-margin column-container"><p><sup>2</sup>&nbsp;<code>base</code>-R hat mit Version 4.1 auch eine native pipe eingeführt (<code>|&gt;</code>), da wir aber eh das tidyverse nutzen bleiben wir bei der <code>magrittr</code>-pipe</p></div><p>Mit ihrer Hilfe werden Aufbereitungsschritte in einer stringenten Reihe an Operationen formuliert, die sich am Besten als Satz verstehen lassen.</p>
 <p>Da die Funktionen im tidyverse alle mit einfachen Verben benannt sind, lässt sich die Operation von eben auch so lesen.</p>
-<!-- ### tidy aggregation -->
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="annotated-cell-8"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-8-1" class="code-annotation-target"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-8-2" class="code-annotation-target"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">%&gt;%</span></span>
@@ -655,14 +658,20 @@ You can override using the `.groups` argument.</code></pre>
 <p>Antwort aufdecken</p>
 </div>
 </div>
+</section>
+</section>
+<section id="literatur" class="level2">
+<h2 class="anchored" data-anchor-id="literatur">Literatur</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
 <div id="ref-andersonIrisesGaspePeninsula1935" class="csl-entry" role="listitem">
 Anderson, E. (1935). The irises of the <span>Gaspe</span> <span>Peninsula</span>. <em>Bull. Am. Iris Soc.</em>, <em>59</em>, 2–5.
 </div>
+<div id="ref-tidyverseManual2019" class="csl-entry" role="listitem">
+Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L. D., François, R., Grolemund, G., Hayes, A., Henry, L., Hester, J., Kuhn, M., Pedersen, T. L., Miller, E., Bache, S. M., Müller, K., Ooms, J., Robinson, D., Seidel, D. P., Spinu, V., … Yutani, H. (2019). Welcome to the <span class="nocase">tidyverse</span>. <em>Journal of Open Source Software</em>, <em>4</em>(43), 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>
 </div>
-</section>
+</div>
 </section>
 
 

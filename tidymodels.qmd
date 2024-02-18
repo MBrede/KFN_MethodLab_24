@@ -1,5 +1,5 @@
 ---
-toc-title: '![](imgs/modeling_magpie.webp){width=240px}<br> tidymodels'
+toc-title: '![](imgs/modeling_magpie.webp){width=240px}<br> <h3> tidymodels </h3>'
 execute: 
   cache: true
 ---
@@ -161,22 +161,131 @@ glmnet_fit <- glmnet_model %>%
 tidy(glmnet_fit)
 ```
 
-Alle standardmäßig implementierten möglichen Kombinationen von Modeltypen, Engines und Modes können in [dieser](https://www.tidymodels.org/find/parsnip/) Tabelle gefunden werden.
+Alle standardmäßig implementierten möglichen Kombinationen von Modelltypen, Engines und Modes können in [dieser](https://www.tidymodels.org/find/parsnip/) Tabelle gefunden werden.
 
 ### Aufgabe
 
-<!-- TODO -->
-1. Importieren Sie Daten
+Für diese Aufgaben benötigen Sie wieder den Datensatz der Worldbank, der Import lief so:
 
-2. Fitten Sie die Daten mit zwei linearen Regressionsmodellen, einmal mit `lm` und einmal mit `stan` als engine.
+```{r}
+#| collapse: true
+library(readxl)
+worldbank_indicators <- read_excel("data/worldbank_indicators.xlsx")
+```
 
-3. Fitten Sie die Daten mit einem Random Forest mit `randomForest` als engine
+Filtern Sie den Datensatz so, dass nur das Jahr 2019 vorliegt.
 
-4. Fügen Sie mit `predict(<Ihr Modell>, new_data=<Datensatz>)` und `mutate` drei Spalten an Ihren Datensatz an, in denen die jeweiligen Modellvorhersagen angegeben sind.
+Fitten Sie die Daten mit zwei linearen Regressionsmodellen, einmal mit `lm` und einmal mit `glm` als engine. Setzen Sie für das `quasi`-Modell die family auf "quasi".
+Dabei soll in beiden Fällen die mittlere Lebenserwartung als Kriterium mit dem Alkoholkonsum, dem GDP und dem Zugang zu Elektrizität vorhergesagt werden.
 
-5. pivotieren Sie den Datensatz ins long-Format, so dass alle Prognosen und die tatsächlichen Werte des Kriteriums in einer Spalte vorliegen.
+:::{class="card"}
+:::{class="content"}
+```{r}
+fit_data <- worldbank_indicators %>% 
+  filter(Year == 2019) %>% 
+  select(Lebenserwartung = `Life expectancy at birth, total (years)`,
+        GDP = `GDP per capita (current US$)`,
+        Zugang = `Access to electricity (% of population)`,
+        Alkoholkonsum = `Total alcohol consumption per capita (liters of pure alcohol, projected estimates, 15+ years of age)`)
 
-6. Erstellen Sie einen ggplot, der auf der x-Achse die TODO und auf der y-Achse die TODO abträgt. Färben Sie die Punkte nach neuen Spalte ein. Facettieren Sie den Plot nach den drei Modellen und der Ground-Truth.
+lm_model <- linear_reg()
+
+lm_fit <- lm_model %>% 
+  fit(Lebenserwartung ~ Zugang + GDP + Alkoholkonsum, data = fit_data)
+
+tidy(lm_fit)
+
+
+glm_model <- linear_reg() %>% 
+  set_engine('glm', family = 'quasi')
+
+glm_fit <- glm_model %>% 
+  fit(Lebenserwartung ~ Zugang + GDP + Alkoholkonsum, data = fit_data)
+
+tidy(glm_fit)
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+Fitten Sie die Daten mit einem Random Forest mit `randomForest` als engine und 200 gefitteten Bäumen.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+rf_model <- rand_forest(trees = 200) %>% 
+  set_mode('regression') %>% 
+  set_engine('randomForest')
+
+rf_fit <- rf_model %>% 
+  fit(Lebenserwartung ~ Zugang + GDP + Alkoholkonsum, data = fit_data)
+
+rf_fit
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+Fügen Sie mit `predict(<Ihr Modell-fit>, new_data=<Datensatz>)` und `mutate` drei Spalten an Ihren Datensatz an, in denen die jeweiligen Modellvorhersagen angegeben sind. Eventuell müssen Sie das Ergebnis der `predict`-Funktion mit `unlist` in einen Vektor überführen.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+fit_data <- fit_data %>% 
+  mutate(lm = unlist(predict(lm_fit, fit_data)),
+         glm = unlist(predict(glm_fit, fit_data)),
+         rf = unlist(predict(rf_fit, fit_data)))
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+Pivotieren Sie den Datensatz ins long-Format, so dass alle Prognosen in einer Spalte vorliegen.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+fit_data <- fit_data %>% 
+  pivot_longer(lm:rf,
+               values_to = 'Prognose',
+               names_to = 'Model')
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+Erstellen Sie einen ggplot, der auf der x-Achse die Prognosen und auf der y-Achse die tatsächlichen Werte abträgt. Färben Sie die Punkte nach dem GDP ein, skalieren Sie auc hdie Größe der Punkte nach dem GDP. Facettieren Sie den Plot nach den drei Modellen. Fügen Sie der Grafik mit `geom_abline` eine schwarze Linie hinzu, die mit einer Steigung von 1 und einem Intercept von 0 eine Diagonale einzeichnet.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+fit_data %>% 
+  ggplot(aes(x = Prognose, y = Lebenserwartung, color = GDP, size = GDP)) +
+  geom_abline(intercept = 0, slope = 1) +
+  geom_point() +
+  facet_wrap(~Model) 
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
 
 ## Recipes und Workflows
 
@@ -299,13 +408,131 @@ my_wf %>%
 
 ### Aufgabe
 
-1. Erstellen Sie einen Workflow, mit dem in einem gegebenem Datensatz alle Werte per KNN imputiert werden und alle numerischen Werte auf einen Wertebereich von 0 bis 1 skaliert werden. Die [Liste aller Steps](https://www.tidymodels.org/find/recipes/) kann Ihnen dabei helfen. Der Workflow soll dann alle Variablen als Kriterium nutzen um die Variable `target` vorherzusagen. Anfänglich soll der Workflow eine lm-engine dazu nutzen.
+Sie benötigen wieder den Datensatz der Worldbank. Erstellen Sie damit zwei Datensätze, einen mit den Daten zum Jahr 2019 und einen zum Jahr 2015.
+Beide Datensätze sollen die Gesamt-Lebenserwartung als Spalte mit dem Namen "target" enthalten, außerdem alle Variablen mit Ausnahme der Jahreszahl und der spezifischen Lebenserwartungen.
 
-2. Fitten Sie die Daten auf den Datensatz TODO und den Datensatz TODO
+:::{class="card"}
+:::{class="content"}
+```{r}
+worldbank_indicators <- read_excel("data/worldbank_indicators.xlsx")
 
-3. Tauschen Sie das Modell gegen einen randomForest mit Regressions-Mode aus und fitten Sie wieder beide Modelle.
+fit_data <- worldbank_indicators %>% 
+  select(target = `Life expectancy at birth, total (years)`,
+         everything(),
+         - matches('ale'))
 
-4. Lesen Sie die Hilfeseite der `mape`-Funktion aus dem `yardstick` Paket und nutzen Sie diese zusammen mit `predict` um die Modelle oberflächlich zu vergleichen. 
+fit_data_2015 <- fit_data %>% 
+  filter(Year == 2015) %>% 
+  select(-Year)
+
+fit_data_2019 <- fit_data %>% 
+  filter(Year == 2019) %>% 
+  select(-Year)
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+Erstellen Sie einen Workflow, mit dem für alle numerische Variablen alle fehlenden Werte durch die Spalten-Mittelwerte ersetzt werden. Außerdem sollen alle numerischen Werte auf einen Wertebereich von 0 bis 1 skaliert werden.
+Die [Liste aller Steps](https://www.tidymodels.org/find/recipes/) kann Ihnen dabei helfen. 
+Entfernen Sie außerdem mit `step_zv` alle Spalten, die nur einen Wert enthalten.
+Der Workflow soll dann alle Variablen als Kriterium nutzen um die Variable `target` vorherzusagen. Anfänglich soll der Workflow eine lm-engine dazu nutzen.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+my_recipe <- recipe(target ~ ., data = fit_data_2015) %>% 
+  step_impute_mean(all_numeric_predictors()) %>% 
+  step_range(all_numeric_predictors()) %>% 
+  step_zv(all_predictors())
+
+lm_model <- linear_reg() 
+
+my_wf <- workflow() %>% 
+  add_recipe(my_recipe) %>% 
+  add_model(lm_model)
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+Fitten Sie den Workflow auf die Datensätze zu den Jahren 2015 und 2019.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+lm_fit_2015 <- my_wf %>% 
+  fit(data = fit_data_2015)
+
+lm_fit_2019 <- my_wf %>% 
+  fit(data = fit_data_2019)
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+Tauschen Sie das Modell gegen einen randomForest mit Regressions-Mode aus und fitten Sie wieder beide Modelle.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+rf_model <- rand_forest() %>% 
+  set_mode('regression') %>% 
+  set_engine('randomForest')
+
+my_wf <- my_wf %>% 
+  update_model(rf_model)
+
+rf_fit_2015 <- my_wf %>% 
+  fit(data = fit_data_2015)
+
+rf_fit_2019 <- my_wf %>% 
+  fit(data = fit_data_2019)
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+Erstellen Sie einen Datensatz mit allen Prognosen und targets. Pivotieren Sie diesen So, dass die targets in einer und die Prognosen in einer zweiten Spalte stehen. Nutzen Sie dazu zuerst das `names_pattern`-Argument der `pivot_longer`-Funktion und den `.value`-Platzhalter des `names_to`-Arguments. Anschließend müssen Sie vielleicht ein zweites Mal pivotieren.
+Lesen Sie die Hilfeseite der `mape`-Funktion aus dem `yardstick` Paket und nutzen Sie diese um die Modelle oberflächlich zu vergleichen. 
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+results = tibble(target_2015 = fit_data_2015$target,
+                 target_2019 = fit_data_2019$target,
+                 lm_2015 = unlist(predict(lm_fit_2015, fit_data_2015)),
+                 lm_2019 = unlist(predict(lm_fit_2019, fit_data_2019)),
+                 rf_2015 = unlist(predict(rf_fit_2015, fit_data_2015)),
+                 rf_2019 = unlist(predict(rf_fit_2019, fit_data_2019))) %>% 
+  pivot_longer(everything(),
+               names_pattern = '(.+)_(.+)',
+               names_to = c('.value', 'year')) %>% 
+  pivot_longer(c(lm, rf))
+
+results %>% 
+  group_by(name) %>% 
+  mape(target, value)
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
 
 
 ## Inferenzstatistik-Pipelines mit infer
@@ -384,8 +611,48 @@ Sacramento %>%
 
 
 ### Aufgabe 
+Für diese Aufgabe benötigen Sie den `attrition`-Datensatz, der mit `tidymodels` geliefert und geladen wird.
 
-1. Stellen Sie eine `specify` -> `hypothesize` -> `generate`-Pipeline für einen t-Test auf den Unterschied in TODO zwischen den Bedingungen TODO auf. 
+Verschaffen Sie sich einen Überblick über den Datensatz. Wir benötigen die Variable `Gender` und die Variable `HourlyRate`.
 
-2. TODO TODO
+Stellen Sie eine `specify` -> `hypothesize` -> `generate`-Pipeline für einen t-Test auf den Unterschied in `HourlyRate` zwischen den Auspärgungen von `Gender` auf. Lesen Sie die Hilfeseiten von `hypothesize` und `generate` um den richtigen Begriff für die angemessene Nullhypothese und das angemessene Sampling-Vorgehen zu bestimmen.
 
+:::{class="card"}
+:::{class="content"}
+```{r}
+hypothesis <- attrition %>% 
+  specify(HourlyRate ~ Gender) %>% 
+  hypothesize('independence') %>% 
+  generate(reps = 1000, type = 'bootstrap')
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+Berechnen Sie mit `calculate` den empirischen t-Wert und vergleichen Sie ihn mit `visualize` mit der simulierten Verteilung.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+simulated <- attrition %>% 
+  specify(HourlyRate ~ Gender) %>% 
+  hypothesize('independence') %>% 
+  generate(reps = 1000, type = 'permute') %>% 
+  calculate('t', order = c('Male', 'Female'))
+
+observed <- attrition %>% 
+  specify(HourlyRate ~ Gender) %>% 
+  calculate('t', order = c('Male', 'Female'))
+
+simulated %>% 
+  visualize() +
+  shade_p_value(obs_stat = observed, direction = "two.sided")
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::

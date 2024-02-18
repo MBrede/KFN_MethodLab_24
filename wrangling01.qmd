@@ -1,5 +1,5 @@
 ---
-toc-title: '![](imgs/data_importer.webp){width=80%}<br> Daten einlesen und aufbereiten'
+toc-title: '![](imgs/data_importer.webp){width=80%}<br> <h3>Daten einlesen und aufbereiten</h3>'
 ---
 
 ```{r setup 03, include=FALSE}
@@ -186,9 +186,6 @@ Antwort aufdecken
 :::
 
 
-
-### Dateien aus SPSS einlesen
-
 Wenn man sich die Daten in der RStudio-Oberfläche anguckt, sieht man, dass die für SPSS typischen Variablendefinitionen konserviert wurden:
 
 ```{r, echo = F,out.width='80%'}
@@ -230,11 +227,43 @@ Für Tipps zur weitergehenden Bearbeitung von SPSS und Stata-Daten noch [hier](h
 
 
 
-### Aufgabe
+### Aufgabe {#sec-import}
 
-<!-- TODO -->
 
 Lesen Sie die drei Datensätze `temp.csv`, `charts.xlsx` und `covid_cases.sav` ein und verschaffen Sie sich einen Überblick.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+#| eval: false
+
+temp <-  read_csv2('data/temp.csv')
+summary(temp)
+
+library(haven)
+covid_cases <- read_sav("data/covid_cases.sav")
+summary(covid_cases)
+
+library(readxl)
+charts <- read_excel("data/charts.xlsx")
+summary(charts)
+```
+```{r}
+#| echo: false
+temp <-  read_csv2('data/temp.csv')
+
+library(haven)
+covid_cases <- read_sav("data/covid_cases.sav")
+
+library(readxl)
+charts <- read_excel("data/charts.xlsx")
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
 
 
 ## Datenaufbereitung
@@ -354,6 +383,18 @@ Auch bei dem Recodieren von Werten können wir eine `mutate`-pipeline benutzen.
 
 Für Kategoriale Daten bietet das `tidyverse` die `case_match`-Funktion, die so ähnlich wie die `case_when`-Funktion funktioniert, die wir ja auch schon kennen. Für numerische Werte funktioniert natürlich weiter `case_when` oder auch einfache arithmetische Operationen.
 
+Im folgenden Beispiel benutzen wir `case_match` auf dem `iris`-Datensatz, um die Spezies auf deutsch zu übersetzen:
+
+```{r}
+iris %>% 
+  mutate(Spezies = case_match(Species,
+                              'virginica' ~ 'Virginische Schwertlinie',
+                              'versicolor' ~ 'Verschiedenfarbige Schwertlilie',
+                              'setosa' ~ 'Borsten-Schwertlilie'))
+```
+
+Um arithmetisch umzucodieren, kann in `mutate` eine Spalte verrechnet werden.
+
 <p class='q'> Wie könnte ich die _Anxiety_-Skala im `satisfaction`-Datensatz umpolen? </p>
 
 :::{class="card"}
@@ -371,15 +412,83 @@ Antwort aufdecken
 
 ### Aufgabe
 
-<!-- TODO -->
-
 Transformieren Sie nun die Datensätze in der folgenden Art und Weise:
 
-* Fassen Sie den Covid-Datensatz so zusammen, dass pro Kalenderwoche eine Summe der jeweils neuen Fälle übrigbleibt. Ersetzen Sie vorher die fehlenden Werte entweder durch Nullen, oder wenn Sie sich eine kleine Herausforderung wünschen, durch die Mittelwerte der jeweiligen Kalenderwoche. Als kleiner Tipp: schauen Sie sich dafür die Hilfeseiten von `group_split` und `map_dfr` an.
+* Fassen Sie den Covid-Datensatz so zusammen, dass pro Kalenderwoche eine Summe der jeweils neuen Fälle übrigbleibt. Ersetzen Sie vorher die fehlenden Werte entweder durch Nullen, oder, wenn Sie sich eine kleine Herausforderung wünschen, durch die Mittelwerte der jeweiligen Kalenderwoche. Als kleiner Tipp: schauen Sie sich dafür die Hilfeseiten von `group_split` und `map_dfr` an.
+
+:::{class="card"}
+:::{class="content"}
+
+```{r}
+covid_summary <- covid_cases %>% #Ersetzen mit 0
+  mutate(new_cases = case_when(is.na(new_cases) ~ 0, T ~ new_cases)) %>% 
+  group_by(calendar_week) %>% 
+  summarise(new_cases = sum(new_cases))
+
+covid_summary <- covid_cases %>% #Ersetzen mit Mittelwert
+  group_by(calendar_week) %>%
+  group_split() %>%
+  map_dfr( ~ mutate(., new_cases = case_when(
+    is.na(new_cases) ~ mean(new_cases, na.rm = T),
+    T ~ new_cases
+  ))) %>% 
+  group_by(calendar_week) %>%
+  summarise(new_cases = sum(new_cases))
+
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
 
 * Fassen Sie den Temperatur-Datensatz bitte auch pro Kalenderwoche zusammen, diesmal aber mit der mittleren Temperatur als Ergebnis
 
-* Im Charts-Datensatz haben sich ein paar unrealistische Platzierungen eingeschlichen. Entfernen Sie diese bitte. Wir wollen für unsere folgenden Analysen pro Lied einen Score benutzen, der zwischen 1 und 0 liegt. Je größer dieser Score ist, desto höher soll der Song platziert gewesen sein und umgekehrt. Rechnen Sie die Position bitte in diesen Score um.
+:::{class="card"}
+:::{class="content"}
+```{r}
+temp_summary <- temp %>% 
+  group_by(cw) %>% 
+  summarise(temp = mean(temp))
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+* Im Charts-Datensatz haben sich ein paar unrealistische Platzierungen eingeschlichen. Entfernen Sie diese bitte. Wir wollen für unsere folgenden Analysen pro Lied einen Score benutzen, der zwischen 1 und 0 liegt. Je größer dieser Score ist, desto höher soll der Song platziert gewesen sein und umgekehrt. Rechnen Sie die Position bitte pro Kalenderwoche in diesen Score um.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+remove_outlier <- function(x){
+  ifelse(
+      between(x,
+              quantile(x,.25) - 1.5 * IQR(x),
+              quantile(x,.75) + 1.5 * IQR(x)),
+          x, 
+          NA)
+  }
+
+charts <- charts %>% 
+  mutate(across(where(is.numeric), ~remove_outlier(.))) %>% 
+  drop_na() %>% 
+  group_by(kw) %>% 
+  arrange(Position) %>% 
+  mutate(score = seq(1, 0, along.with = Position))
+  
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
 
 
 ```{r}

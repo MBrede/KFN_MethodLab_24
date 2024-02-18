@@ -1,5 +1,5 @@
 ---
-toc-title: '![](imgs/magpie_presenting_table.webp){width=240px}<br> Tabellen und Ergebnisdarstellungen'
+toc-title: '![](imgs/magpie_presenting_table.webp){width=240px}<br> <h3>Tabellen und Ergebnisdarstellungen</h3>'
 ---
 
 # Tabellen und Ergebnisdarstellungen {#sec-tables}
@@ -589,5 +589,3 @@ Antwort aufdecken
 
 
 ## Literatur
-
-TODO: Hast Du an alle Paket-Zitate gedacht?

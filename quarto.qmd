@@ -1,9 +1,9 @@
 ---
-toc-title: '![](imgs/magpie_quarto.webp){width=240px}<br> Quarto'
+toc-title: '![](imgs/magpie_quarto.webp){width=240px}<br> <h3>quarto</h3>'
 kernel: knitr
 ---
 
-# Methodenteil in `quarto`{#sec-quarto}
+# `quarto`{#sec-quarto}
 
 `quarto` ist ein Markdown-basiertes Dokumenten-Format, mit dem Dokumente direkt in RStudio erstellt werden und Ergebnisse, Tabellen und Abbildungen eingebunden werden können. Dieses Skript hier wurde auch in `quarto` erstellt.
 
@@ -149,11 +149,11 @@ Das hier gezeigte Beispiel ist auch im [Repo des Skripts](https://github.com/MBr
 
 ## Aufgabe
 
-1. Übertragen Sie Ihre Ergebnisse aus den Aufgaben zu `tidymodels` in ein `quarto`-Dokument
+1. Übertragen Sie Ihre Ergebnisse aus den Aufgaben zu `tidymodels` in ein `quarto`-Dokument.
 
 2. Beschriften Sie alle Grafiken.
 
-3. Render das Dokument als `docx`.
+3. Rendern Sie das Dokument als `docx`.
 
 ## Zusammenarbeit
 

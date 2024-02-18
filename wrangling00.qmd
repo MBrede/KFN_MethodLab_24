@@ -1,5 +1,5 @@
 ---
-toc-title: '![](imgs/preparation.webp){width=240px}<br> Datenaufbereitung'
+toc-title: '![](imgs/preparation.webp){width=240px}<br> <h3>Datenaufbereitung</h3>'
 ---
 
 ```{r setup 02, include=FALSE}
@@ -104,8 +104,7 @@ Wir wollen für diesen Datensatz jetzt die folgenden Schritte der Auswertung vol
 2. Darstellung der Mittelwerte und Streuungen der Blütenblattlänge und -breite pro verbleibende Spezies als Tabelle
 
 
-
-### Aufgabe: Base-R Lösung{.small}
+### Aufgabe: Base-R Lösung
 
 ```{r}
 df <- iris[iris$Petal.Width <= 1.5 * mean(iris$Petal.Width) &
@@ -142,7 +141,7 @@ iris %>%
 
 ### tidy aggregation 
 
-Das `tidyverse` ist eine Sammlung von Paketen, deren Hauptziel es ist, Datenaufbereitung in R intuitiver und leichter lesbar zu machen. 
+Das `tidyverse` [@tidyverseManual2019] ist eine Sammlung von Paketen, deren Hauptziel es ist, Datenaufbereitung in R intuitiver und leichter lesbar zu machen. 
 
 Ein zentrales Element dabei ist der `%>%`-Operator, die sogenannte Pipeline^[`base`-R hat mit Version 4.1 auch eine native pipe eingeführt (`|>`), da wir aber eh das tidyverse nutzen bleiben wir bei der `magrittr`-pipe]. Beim Skript-Lesen und -Schreiben kann man sich diese am Besten als *'dann'* vorstellen
 
@@ -150,7 +149,6 @@ Mit ihrer Hilfe werden Aufbereitungsschritte in einer stringenten Reihe an Opera
 
 Da die Funktionen im tidyverse alle mit einfachen Verben benannt sind, lässt sich die Operation von eben auch so lesen.
 
-<!-- ### tidy aggregation -->
 
 ```{r}
 #| eval: false
@@ -283,3 +281,4 @@ Antwort aufdecken
 :::
 :::
 
+## Literatur

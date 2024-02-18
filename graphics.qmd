@@ -1,5 +1,5 @@
 ---
-toc-title: '![](imgs/elster_survival_model.webp){width=240px}<br> ggplot2'
+toc-title: '![](imgs/elster_survival_model.webp){width=240px}<br> <h3> ggplot2 </h3>'
 ---
 
 ```{r}
@@ -12,7 +12,7 @@ knitr::opts_chunk$set(warning=F)
 
 ## *Grammar of Graphics*
 
-Hadley Wickhams Paket `ggplot2` versucht, die Erstellung von Grafiken in einer einheitlichen Grammatik, der "grammar of graphics", auszudrücken. Das Ziel hier ist es, nicht mehr in "Scatterplot" und "Boxplot" als einzelne Kategorien zu denken und diese einzeln erstellen lernen zu müssen, sondern alle Abbildungen mit derselben Logik erstellen zu können.
+Hadley Wickhams Paket `ggplot2` [@ggplot2Manual2016] versucht, die Erstellung von Grafiken in einer einheitlichen Grammatik, der "grammar of graphics", auszudrücken. Das Ziel hier ist es, nicht mehr in "Scatterplot" und "Boxplot" als einzelne Kategorien zu denken und diese einzeln erstellen lernen zu müssen, sondern alle Abbildungen mit derselben Logik erstellen zu können.
 
 In Seinem Paper [@wickhamLayeredGrammarGraphics2010] werden die folgenden Komponenten als grundlegende Bausteine einer Grafik eingeführt:
 
@@ -398,9 +398,137 @@ ggcorrplot::ggcorrplot(r)
 
 :::
 
-### Aufgabe
+### Aufgaben
 
-<!-- TODO -->
+```{r}
+#| include: false
+#| eval: false
+
+worldbank_indicators <- read_excel("data/worldbank_indicators.xlsx",na = '..')
+
+worldbank_indicators %>% 
+  select(-`Series Code`, -`Country Code`) %>% 
+  pivot_longer(matches('YR'),
+              names_to = 'Year') %>% 
+  pivot_wider(names_from = `Series Name`) %>% 
+  mutate(Year = as.numeric(str_extract(Year, '\\d{4}'))) %>% 
+  openxlsx::write.xlsx("data/worldbank_indicators.xlsx")
+```
+
+
+#### Aufgabe 1
+
+Lesen Sie den Datensatz "worldbank_indicators.xlsx" ein. In ihm sind Daten von der [worldbank](https://www.worldbank.org/en/home) zu verschiedenen Indikatoren in mehreren Ländern für die Jahre von 2000 bis 2021 vorgehalten.
+
+Wählen Sie ein Jahr aus und filtern Sie den Datensatz, so dass nur noch dieses Jahr enthalten ist.
+
+Erstellen Sie mit den Daten
+
+1. eine Grafik mit einer kontinuierlichen Variable
+
+2. eine Grafik mit zwei kontinuierlichen Variablen
+
+3. eine Grafik mit dem Länder-Namen und einer kontinuierlichen Variable Ihrer Wahl
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+library(readxl)
+
+worldbank_indicators <- read_excel("data/worldbank_indicators.xlsx")
+
+one_year <- worldbank_indicators %>% 
+  filter(Year == 2019)
+
+one_year %>% 
+  ggplot(aes(x = `Life expectancy at birth, total (years)`)) +
+  geom_histogram(fill = 'white',
+                 color = 'darkblue')
+
+one_year %>% 
+  ggplot(aes(`Life expectancy at birth, total (years)`,
+             `GDP per capita (current US$)`,
+             color = `Country Name`)) +
+  geom_point()
+
+one_year %>% 
+  ggplot(aes(`Country Name`,
+             `Total alcohol consumption per capita (liters of pure alcohol, projected estimates, 15+ years of age)`,
+             fill = `Country Name`)) +
+  geom_col() +
+  coord_flip()
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+
+#### Aufgabe 2
+
+Lesen Sie die Hilfeseite für `geom_line`. Erstellen Sie ein Liniendiagramm mit der Zeit auf der x-Achse und einer Variable Ihrer Wahl auf der y-Achse. 
+
+Sollten Sie noch Zeit haben, fügen Sie dem Datensatz eine Variable hinzu, die den Mittelwert des Alkoholkonsums über die Jahre pro Land enthält. Nutzen Sie diese Variable um eine neue Variable zu erstellen, die einen Median-Split enthält. Sie müssen dafür wahrscheinlich einmal `ungroup` aufrufen.
+
+Facettieren Sie das Liniendiagramm nach diesem Split.
+
+:::{class="card"}
+:::{class="content"}
+
+```{r}
+worldbank_indicators %>% 
+  ggplot(aes(Year,
+             `Life expectancy at birth, total (years)`,
+             color = `Country Name`)) +
+  geom_line()
+
+
+worldbank_indicators %>% 
+  group_by(`Country Name`) %>% 
+  mutate(mean_consumption = mean(`Total alcohol consumption per capita (liters of pure alcohol, projected estimates, 15+ years of age)`, na.rm = T)) %>% 
+  ungroup() %>% 
+  mutate(median_split = case_when(mean_consumption > median(mean_consumption) ~ 'Hoher Konsum',
+                                  mean_consumption <= median(mean_consumption) ~ 'Weniger hoher Konsum')) %>% 
+  ggplot(aes(Year,
+             `Life expectancy at birth, total (years)`,
+             color = `Country Name`)) +
+  geom_line() +
+  facet_wrap(~median_split)
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+
+#### Aufgabe 3
+
+Erstellen Sie eine Grafik mit `geom_tile` auf Basis des Original-Datensatz. Auf der x-Achse sollen die Jahre zu sehen sein, auf der y-Achse die Länder. 
+Die Flächen sollen so eingefärbt werden, dass der Quotient des GDPs und der Lebenserwartung sichtbar wird.
+
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+worldbank_indicators %>% 
+  mutate(quotient = `GDP per capita (current US$)` / `Life expectancy at birth, total (years)`) %>% 
+  ggplot(aes(Year,
+             `Country Name`,
+             fill = quotient)) +
+  geom_tile()
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
 
 ## Kombination mehrerer `geom`s
 
@@ -532,38 +660,130 @@ palmerpenguins::penguins %>%
   scale_shape_manual(values = c(Original = 20, Mittelwert = 3))
 ```
 
-<!-- ## `facet`s und mehrere `geom`s -->
 
-<!-- Nachdem -->
+## Aufgabe {#sec-multipleGeomTask}
 
-<!-- ```{r} -->
-<!-- penguin_means <- palmerpenguins::penguins %>%  -->
-<!--   group_by(species, island) %>%  -->
-<!--   summarise(across(c(bill_length_mm, body_mass_g),  -->
-<!--                    ~mean(., na.rm=T))) -->
-<!-- ``` -->
+Für diese Aufgabe benötigen Sie wieder den Worldbank-Datensatz.
+
+Erstellen Sie ein Liniendiagramm, das für drei von Ihnen ausgewählte Länder die Entwicklung der Lebenserwartung für Frauen und Männer darstellt.
+
+Die Länder sollen in eigenen Facetten zu sehen sein.
+
+Passen Sie die `scale` der Farbe so an, dass Ihnen die Farben gefallen.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+worldbank_indicators %>% 
+  filter(`Country Name` %in% c('Germany', 'United States', 'United Kingdom')) %>% 
+  ggplot(aes(x = Year)) +
+  geom_line(aes(y = `Life expectancy at birth, female (years)`,
+                color = 'female')) +
+  geom_line(aes(y = `Life expectancy at birth, male (years)`,
+                color = 'male')) +
+  facet_wrap(~`Country Name`) +
+  scale_color_manual(values = c('female' = 'royalblue1', 'male' = 'darkslategrey'))
+
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
 
 
-<!-- ```{r} -->
-<!-- #| warning: false -->
-<!-- palmerpenguins::penguins %>%  -->
-<!--   ggplot(aes(x = bill_length_mm,  -->
-<!--              y = body_mass_g, -->
-<!--              color = species)) +  -->
-<!--   geom_point(aes(shape = 'Original'), -->
-<!--              alpha = .5) + -->
-<!--   geom_point(data=penguin_means, -->
-<!--              aes(shape = 'Mittelwert'), -->
-<!--              size = 3) + -->
-<!--   scale_color_viridis_d(end = 0.7) + -->
-<!--   scale_shape_manual(values = c(Original = 20, Mittelwert = 3))+ -->
-<!--   coord_fixed(ratio = 10/1000) + -->
-<!--   facet_wrap(~island) -->
-<!-- ``` -->
+Berechnen Sie dann die mittlere Lebenserwartung im ganzen Datensatz pro Jahr und Geschlecht.
 
-## Aufgabe
+Fügen Sie diese Verläufe nach der Facettierung der Grafik hinzu.
 
-<!-- TODO -->
+Passen Sie die Linientypen (`linetype`) so an, dass die Mittelwerte schraffiert und die tatsächlichen Werte durchgezogen sind.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+mean_life_expectancy <- worldbank_indicators %>% 
+  group_by(Year) %>% 
+  summarise(across(matches('male'), mean))
+
+worldbank_indicators %>% 
+  filter(`Country Name` %in% c('Germany', 'United States', 'United Kingdom')) %>% 
+  ggplot(aes(x = Year)) +
+  geom_line(aes(y = `Life expectancy at birth, female (years)`,
+                color = 'female',
+                lty = 'country')) +
+  geom_line(aes(y = `Life expectancy at birth, male (years)`,
+                color = 'male',
+                lty = 'country')) +
+  facet_wrap(~`Country Name`)+
+  geom_line(data = mean_life_expectancy,
+            aes(y = `Life expectancy at birth, female (years)`,
+                color = 'female',
+                lty = 'average')) +
+  geom_line(data = mean_life_expectancy,
+            aes(y = `Life expectancy at birth, male (years)`,
+                color = 'male',
+                lty = 'average'))+
+  scale_color_manual(values = c('female' = 'royalblue1', 'male' = 'darkslategrey')) +
+  scale_linetype_manual(values = c('country' = 1, 'average' = 2))
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+Berechnen Sie zuletzt pro Land einen Mittelwert der Lebenserwartung pro Geschlecht über den Messzeitraum. Lesen Sie sich die Hilfeseite der `geom_hline`-Funktion durch und fügen Sie die Mittelwerte für die drei von Ihnen ausgewählten Länder zu der Grafik hinzu.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+mean_per_country <- worldbank_indicators  %>% 
+  filter(`Country Name` %in% c('Germany', 'United States', 'United Kingdom')) %>% 
+  group_by(`Country Name`) %>% 
+  summarise(across(matches('male'), mean))
+
+
+worldbank_indicators %>% 
+  filter(`Country Name` %in% c('Germany', 'United States', 'United Kingdom')) %>% 
+  ggplot(aes(x = Year)) +
+  geom_line(aes(y = `Life expectancy at birth, female (years)`,
+                color = 'female',
+                lty = 'country')) +
+  geom_line(aes(y = `Life expectancy at birth, male (years)`,
+                color = 'male',
+                lty = 'country')) +
+  geom_hline(data = mean_per_country,
+             aes(yintercept = `Life expectancy at birth, female (years)`,
+                color = 'female',
+                lty = 'average')) +
+  geom_hline(data = mean_per_country,
+             aes(yintercept = `Life expectancy at birth, male (years)`,
+                color = 'male',
+                lty = 'average')) +
+  facet_wrap(~`Country Name`)+
+  geom_line(data = mean_life_expectancy,
+            aes(y = `Life expectancy at birth, female (years)`,
+                color = 'female',
+                lty = 'average')) +
+  geom_line(data = mean_life_expectancy,
+            aes(y = `Life expectancy at birth, male (years)`,
+                color = 'male',
+                lty = 'average'))+
+  scale_color_manual(values = c('female' = 'royalblue1', 'male' = 'darkslategrey')) +
+  scale_linetype_manual(values = c('country' = 1, 'average' = 2))
+
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
 
 # Fortgeschrittene Grafiken mit `ggplot2`
 
@@ -927,9 +1147,9 @@ palmerpenguins::penguins %>%
   scale_color_viridis_d()
 ```
 
-Wie (so gut wie) immer bietet das `tidyverse` aber auch hier natürlich eine bequemere und felxiblere Lösung.
+Wie (so gut wie) immer bietet das `tidyverse` aber auch hier natürlich eine bequemere und flexiblere Lösung.
 
-Mit dem `forcats`-Paket lassen sich Faktoren mit einer Reihe von Ordnungsfunktionen anordnen:
+Mit dem `forcats`-Paket [@forcatsManual2023] lassen sich Faktoren mit einer Reihe von Ordnungsfunktionen anordnen:
 
 ```{r}
 #| warning: false
@@ -981,7 +1201,221 @@ palmerpenguins::penguins %>%
 
 ### Aufgabe
 
-<!-- TODO -->
+Sie benötigen wieder die Worldbank-Daten.
+
+Erstellen Sie einen Boxplot mit den Jahren von 2015 aufwärts auf der x-Achse und der `Prevalence of severe food insecurity in the population (%)` auf der y-Achse. Wandeln Sie dazu die Jahreszahlen in einen Faktor um.
+
+Wenden Sie auf diesen Graphen ein `theme` Ihrer Wahl an.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+worldbank_indicators %>% 
+  filter(Year > 2015) %>% 
+  mutate(Year = factor(Year)) %>% 
+  ggplot(aes(x = Year,
+             y = `Prevalence of severe food insecurity in the population (%)`)) +
+  geom_boxplot() +
+  theme_light()
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+Fügen Sie dem Graphen Mittelwerte als Punkte und Streuungen mit `geom_errorbar` hinzu.
+
+Tun sie dies entweder mit einem neuen Datensatz oder gehen Sie die etwas anspruchsvollere Route, die Funktion (`fun.data`) der `stat_summary`-Funktion anzupassen.
+
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+means_and_sds <- worldbank_indicators %>% 
+  filter(Year > 2015) %>% 
+  mutate(Year = factor(Year)) %>% 
+  group_by(Year) %>% 
+  summarise(m = mean(`Prevalence of severe food insecurity in the population (%)`, na.rm = T),
+            sd = sd(`Prevalence of severe food insecurity in the population (%)`, na.rm = T))
+
+worldbank_indicators %>% 
+  filter(Year > 2015) %>% 
+  mutate(Year = factor(Year)) %>% 
+  ggplot(aes(x = Year)) +
+  geom_boxplot(aes(y = `Prevalence of severe food insecurity in the population (%)`)) +
+  geom_point(data = means_and_sds,
+             aes(y = m,
+                 pch = 'mean')) +
+  geom_errorbar(data = means_and_sds,
+                aes(ymin = m - sd,
+                    ymax = m + sd),
+                lty = 3) +
+  theme_light()
+
+## alternativ:
+
+range_fun <- \(x)tibble(y = mean(x, na.rm = T),
+                                     ymin = y - sd(x, na.rm = T),
+                                     ymax = y + sd(x, na.rm = T))
+
+worldbank_indicators %>% 
+  filter(Year > 2015) %>% 
+  mutate(Year = factor(Year)) %>% 
+  ggplot(aes(x = Year,
+             y = `Prevalence of severe food insecurity in the population (%)`)) +
+  geom_boxplot() +
+  stat_summary(fun.data = range_fun,
+               geom = "errorbar") +
+  stat_summary(fun.data = range_fun,
+               geom = "point") +
+  theme_light()
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+Färben Sie die hinzugefügten Statistiken rot ein. Übersetzen Sie die Achsen-Beschriftungen auf Deutsch und setzen Sie die Überschrift der Farb-Skala auf einen leeren String ('').
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+range_fun <- \(x)tibble(y = mean(x, na.rm = T),
+                                     ymin = y - sd(x, na.rm = T),
+                                     ymax = y + sd(x, na.rm = T))
+
+worldbank_indicators %>% 
+  filter(Year > 2015) %>% 
+  mutate(Year = factor(Year)) %>% 
+  ggplot(aes(x = Year,
+             y = `Prevalence of severe food insecurity in the population (%)`)) +
+  geom_boxplot() +
+  stat_summary(fun.data = range_fun,
+               geom = "errorbar",
+               aes(color = 'M+/-SD')) +
+  stat_summary(fun.data = range_fun,
+               geom = "point",
+               aes(color = 'M+/-SD')) +
+  theme_light() +
+  scale_color_manual(values = c('M+/-SD' = 'firebrick4')) +
+  labs(color = '',
+       y = 'Prävalenz von schwerer Ernährungsunsicherheit in der Bevölkerung (%)',
+       x = 'Jahr')
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+Hier ist ein etwas angepasstes theme, das ich für mich erstellt habe:
+
+```{r}
+#| eval: false
+my_theme <- \(){
+  theme_minimal(base_size = 12) +
+    theme(
+      # Beschriftung allgemein:
+      text = element_text(colour = "#335272", family = "DejaVu Sans",
+                          lineheight = 1.1),
+      
+      # spezifische Beschriftungen:
+      plot.title = element_text(colour = '#01284F', family = "DejaVu Sans", 
+                                size = rel(1.6), margin = margin(12, 0, 8, 0)),
+      plot.subtitle = element_text(size = rel(1.1), margin = margin(4, 0, 0, 0)),
+      axis.text.y = element_text(colour = "#667E95", size = rel(0.8)),
+      axis.title.y = element_text(size = rel(1), margin = margin(0, 4, 0, 0)),
+      axis.text.x = element_text(colour = "#667E95", size = rel(0.8)),
+      axis.title.x = element_text(size = rel(1), margin = margin(0, 4, 0, 0)),
+      plot.caption = element_text(size = rel(0.8), margin = margin(8, 0, 0, 0)),
+      
+      # Formatierung der Legenden:
+      legend.position = "top",
+      legend.justification = 1,
+      
+      # Formatierung des Orientierungs-grids:
+      panel.grid = element_line(colour = "#F3F4F5"),
+      panel.grid.major.x = element_line(colour = "#F5F6F7", linetype = 1, linewidth = 0.2),
+      panel.grid.minor.x = element_blank(),
+      panel.grid.major.y =  element_line(colour = "#F5F6F7", linetype = 1, linewidth = 0.2),
+      panel.grid.minor.y = element_blank(),
+      
+      # Formatierung der Einzüge und des Umrisses:
+      plot.margin = margin(0.25, 0.25, 0.25, 0.25,"cm"),
+      panel.border = element_rect(colour = "#F3F4F5", fill = NA, linetype = 1),
+      panel.background = element_rect(fill = NA))
+}
+
+```
+
+
+Benutzen Sie dieses Beispiel und die Hilfeseite der `theme`-Funktion als Orientierung, um Ihre Grafik so unansehnlich wie möglich zu gestalten.
+
+:::{class="card"}
+:::{class="content"}
+
+```{r}
+worldbank_indicators %>% 
+  filter(Year > 2015) %>% 
+  mutate(Year = factor(Year)) %>% 
+  ggplot(aes(x = Year,
+             y = `Prevalence of severe food insecurity in the population (%)`)) +
+  geom_boxplot() +
+  stat_summary(fun.data = range_fun,
+               geom = "errorbar",
+               aes(color = 'M+/-SD')) +
+  stat_summary(fun.data = range_fun,
+               geom = "point",
+               aes(color = 'M+/-SD')) +
+  scale_color_manual(values = c('M+/-SD' = 'firebrick4')) +
+  labs(color = '',
+       y = 'Prävalenz von schwerer Ernährungsunsicherheit in der Bevölkerung (%)',
+       x = 'Jahr') +
+    theme(
+      # Beschriftung allgemein:
+      text = element_text(colour = "plum", family = "Zapf Dingbats",
+                          lineheight = 1.1),
+      
+      # spezifische Beschriftungen:
+      plot.title = element_text(colour = 'olivedrab1', family = "Zapf Dingbats", 
+                                size = rel(1.6), margin = margin(12, 0, 8, 0)),
+      plot.subtitle = element_text(size = rel(1.1), margin = margin(4, 0, 0, 0)),
+      axis.text.y = element_text(colour = "hotpink", size = rel(0.8)),
+      axis.title.y = element_text(size = rel(1), margin = margin(0, 4, 0, 0)),
+      axis.text.x = element_text(colour = "black", size = rel(0.8)),
+      axis.title.x = element_text(size = rel(1), margin = margin(0, 4, 0, 0)),
+      plot.caption = element_text(size = rel(0.8), margin = margin(8, 0, 0, 0)),
+      
+      # Formatierung der Legenden:
+      legend.position = "top",
+      legend.justification = 1,
+      
+      # Formatierung des Orientierungs-grids:
+      panel.grid = element_line(colour = "black"),
+      panel.grid.major.x = element_line(colour = "black", linetype = 3, linewidth = 8),
+      panel.grid.minor.x = element_blank(),
+      panel.grid.major.y =  element_line(colour = "orange", linetype = 1, linewidth = 16),
+      panel.grid.minor.y = element_blank(),
+      
+      # Formatierung der Einzüge und des Umrisses:
+      plot.margin = margin(0.25, 0.25, 0.25, 0.25,"cm"),
+      panel.border = element_rect(colour = "purple", fill = NA, linetype = 1),
+      panel.background = element_rect(fill = "greenyellow"))
+  
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+
+
 
 
 ## Hilfreiche Links
@@ -996,38 +1430,6 @@ palmerpenguins::penguins %>%
 
 * Unter [diesem Link](http://www.cookbook-r.com/Graphs/) findet sich eine Sammlung von Farben, Formen, usw., die mit ggplot nutzbar sind.
 
-## Aufgabe
-
-```{r}
-#| include: false
-#| eval: false
-
-read_csv('../data/example.csv') %>% 
-  filter(seq_along(x) %% 10 == 0) %>% 
-  transmute(RT = y + 300,
-            Accuracy = x/max(x),
-            group = as.numeric(as.factor(color))) %>% 
-  write_csv('../data/example.csv')
-```
 
 
-1. Lese den [im Repo zu diesem Skript](https://raw.githubusercontent.com/MBrede/r_thesis_tools/main/data/example.csv) zur Verfügung gestellten Datensatz `example.csv` ein. Dazu kann einfach der folgende Chunk genutzt werden:
-
-```{r}
-#| eval: false
-read_csv('https://raw.githubusercontent.com/MBrede/r_thesis_tools/main/data/example.csv')
-```
-
-
-2. Stelle die Reaktionszeiten und Accuracies in einem Scatterplot dar.
-
-3. Färbe den Graphen nach Gruppen ein
-
-4. Füge Mittelwerte und Standardabweichungen pro Gruppe hinzu. Füge die Standardabweichungen dabei mit `geom_linerange` in zwei layern hinzu (einem für die x- und einem für die y-Richtung)
-
-5. Passe die Grafik so an, dass sie APA-konform ist
-
-6. Mache die Grafik so unästhetisch, wie es die APA-Richtlinien zulassen. [Hier](http://www.cookbook-r.com/Graphs/) sind Fonts, Farben und Formen zu finden.
-
-
-
+## Literatur

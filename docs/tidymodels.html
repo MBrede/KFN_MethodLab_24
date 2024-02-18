@@ -245,7 +245,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quarto.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Methodenteil in <code id="sec-quarto">quarto</code></span></a>
+  <a href="./quarto.html" class="sidebar-item-text sidebar-link"><span class="chapter-title"><code id="sec-quarto">quarto</code></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -262,7 +262,10 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
-    <h2 id="toc-title"><img src="imgs/modeling_magpie.webp" class="img-fluid" width="240"><br> tidymodels</h2>
+    <h2 id="toc-title"><img src="imgs/modeling_magpie.webp" class="img-fluid" width="240"><br><br>
+</h2><h3 class="anchored"><br>
+tidymodels<br>
+</h3>
    
   <ul>
   <li><a href="#modelltypen-modes-und-engines" id="toc-modelltypen-modes-und-engines" class="nav-link active" data-scroll-target="#modelltypen-modes-und-engines">Modelltypen, Modes und Engines</a>
@@ -661,18 +664,144 @@ glmnet::glmnet(x = missing_arg(), y = missing_arg(), weights = missing_arg(),
 3 beds        -0.0556      0.95</code></pre>
 </div>
 </div>
-<p>Alle standardmäßig implementierten möglichen Kombinationen von Modeltypen, Engines und Modes können in <a href="https://www.tidymodels.org/find/parsnip/">dieser</a> Tabelle gefunden werden.</p>
+<p>Alle standardmäßig implementierten möglichen Kombinationen von Modelltypen, Engines und Modes können in <a href="https://www.tidymodels.org/find/parsnip/">dieser</a> Tabelle gefunden werden.</p>
 <section id="aufgabe" class="level3">
 <h3 class="anchored" data-anchor-id="aufgabe">Aufgabe</h3>
-<!-- TODO -->
-<ol type="1">
-<li><p>Importieren Sie Daten</p></li>
-<li><p>Fitten Sie die Daten mit zwei linearen Regressionsmodellen, einmal mit <code>lm</code> und einmal mit <code>stan</code> als engine.</p></li>
-<li><p>Fitten Sie die Daten mit einem Random Forest mit <code>randomForest</code> als engine</p></li>
-<li><p>Fügen Sie mit <code>predict(&lt;Ihr Modell&gt;, new_data=&lt;Datensatz&gt;)</code> und <code>mutate</code> drei Spalten an Ihren Datensatz an, in denen die jeweiligen Modellvorhersagen angegeben sind.</p></li>
-<li><p>pivotieren Sie den Datensatz ins long-Format, so dass alle Prognosen und die tatsächlichen Werte des Kriteriums in einer Spalte vorliegen.</p></li>
-<li><p>Erstellen Sie einen ggplot, der auf der x-Achse die TODO und auf der y-Achse die TODO abträgt. Färben Sie die Punkte nach neuen Spalte ein. Facettieren Sie den Plot nach den drei Modellen und der Ground-Truth.</p></li>
-</ol>
+<p>Für diese Aufgaben benötigen Sie wieder den Datensatz der Worldbank, der Import lief so:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>worldbank_indicators <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/worldbank_indicators.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Filtern Sie den Datensatz so, dass nur das Jahr 2019 vorliegt.</p>
+<p>Fitten Sie die Daten mit zwei linearen Regressionsmodellen, einmal mit <code>lm</code> und einmal mit <code>glm</code> als engine. Setzen Sie für das <code>quasi</code>-Modell die family auf “quasi”. Dabei soll in beiden Fällen die mittlere Lebenserwartung als Kriterium mit dem Alkoholkonsum, dem GDP und dem Zugang zu Elektrizität vorhergesagt werden.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>fit_data <span class="ot">&lt;-</span> worldbank_indicators <span class="sc">%&gt;%</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="dv">2019</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">Lebenserwartung =</span> <span class="st">`</span><span class="at">Life expectancy at birth, total (years)</span><span class="st">`</span>,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">GDP =</span> <span class="st">`</span><span class="at">GDP per capita (current US$)</span><span class="st">`</span>,</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">Zugang =</span> <span class="st">`</span><span class="at">Access to electricity (% of population)</span><span class="st">`</span>,</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">Alkoholkonsum =</span> <span class="st">`</span><span class="at">Total alcohol consumption per capita (liters of pure alcohol, projected estimates, 15+ years of age)</span><span class="st">`</span>)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>()</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="ot">&lt;-</span> lm_model <span class="sc">%&gt;%</span> </span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Lebenserwartung <span class="sc">~</span> Zugang <span class="sc">+</span> GDP <span class="sc">+</span> Alkoholkonsum, <span class="at">data =</span> fit_data)</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lm_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 5
+  term             estimate  std.error statistic p.value
+  &lt;chr&gt;               &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 (Intercept)   -90.9       75.1          -1.21   0.244 
+2 Zugang          1.66       0.758         2.19   0.0437
+3 GDP             0.0000978  0.0000366     2.67   0.0167
+4 Alkoholkonsum   0.207      0.222         0.931  0.365 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>glm_model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">'glm'</span>, <span class="at">family =</span> <span class="st">'quasi'</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>glm_fit <span class="ot">&lt;-</span> glm_model <span class="sc">%&gt;%</span> </span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Lebenserwartung <span class="sc">~</span> Zugang <span class="sc">+</span> GDP <span class="sc">+</span> Alkoholkonsum, <span class="at">data =</span> fit_data)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(glm_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 5
+  term             estimate  std.error statistic p.value
+  &lt;chr&gt;               &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 (Intercept)   -90.9       75.1          -1.21   0.244 
+2 Zugang          1.66       0.758         2.19   0.0437
+3 GDP             0.0000978  0.0000366     2.67   0.0167
+4 Alkoholkonsum   0.207      0.222         0.931  0.365 </code></pre>
+</div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
+<p>Fitten Sie die Daten mit einem Random Forest mit <code>randomForest</code> als engine und 200 gefitteten Bäumen.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>rf_model <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(<span class="at">trees =</span> <span class="dv">200</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">'regression'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">'randomForest'</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>rf_fit <span class="ot">&lt;-</span> rf_model <span class="sc">%&gt;%</span> </span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Lebenserwartung <span class="sc">~</span> Zugang <span class="sc">+</span> GDP <span class="sc">+</span> Alkoholkonsum, <span class="at">data =</span> fit_data)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>rf_fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+
+Call:
+ randomForest(x = maybe_data_frame(x), y = y, ntree = ~200) 
+               Type of random forest: regression
+                     Number of trees: 200
+No. of variables tried at each split: 1
+
+          Mean of squared residuals: 4.709591
+                    % Var explained: 75.31</code></pre>
+</div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
+<p>Fügen Sie mit <code>predict(&lt;Ihr Modell-fit&gt;, new_data=&lt;Datensatz&gt;)</code> und <code>mutate</code> drei Spalten an Ihren Datensatz an, in denen die jeweiligen Modellvorhersagen angegeben sind. Eventuell müssen Sie das Ergebnis der <code>predict</code>-Funktion mit <code>unlist</code> in einen Vektor überführen.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>fit_data <span class="ot">&lt;-</span> fit_data <span class="sc">%&gt;%</span> </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lm =</span> <span class="fu">unlist</span>(<span class="fu">predict</span>(lm_fit, fit_data)),</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">glm =</span> <span class="fu">unlist</span>(<span class="fu">predict</span>(glm_fit, fit_data)),</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">rf =</span> <span class="fu">unlist</span>(<span class="fu">predict</span>(rf_fit, fit_data)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
+<p>Pivotieren Sie den Datensatz ins long-Format, so dass alle Prognosen in einer Spalte vorliegen.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>fit_data <span class="ot">&lt;-</span> fit_data <span class="sc">%&gt;%</span> </span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(lm<span class="sc">:</span>rf,</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">'Prognose'</span>,</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">'Model'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
+<p>Erstellen Sie einen ggplot, der auf der x-Achse die Prognosen und auf der y-Achse die tatsächlichen Werte abträgt. Färben Sie die Punkte nach dem GDP ein, skalieren Sie auc hdie Größe der Punkte nach dem GDP. Facettieren Sie den Plot nach den drei Modellen. Fügen Sie der Grafik mit <code>geom_abline</code> eine schwarze Linie hinzu, die mit einer Steigung von 1 und einem Intercept von 0 eine Diagonale einzeichnet.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>fit_data <span class="sc">%&gt;%</span> </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Prognose, <span class="at">y =</span> Lebenserwartung, <span class="at">color =</span> GDP, <span class="at">size =</span> GDP)) <span class="sc">+</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Model) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tidymodels_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
 </section>
 </section>
 <section id="recipes-und-workflows" class="level2">
@@ -682,22 +811,22 @@ glmnet::glmnet(x = missing_arg(), y = missing_arg(), weights = missing_arg(),
 <p>Neben dem Erstellen der Modelle bietet <code>tidymodels</code> auch pipeline-Interfaces für das standardisieren von der Vor- und Nachbereitung von Analysen. Das Vorbereiten können dabei relativ aufwändige Aufgaben des feature-Engineerings wie Methoden zur Dimensionsreduktion sein, aber auch für den inferenzstatistischen Alltag relevantere Schritte wie die Logarithmierung oder Dummyfizierung von Variablen.</p>
 <p>Das dafür genutzte Paket heißt passenderweise <code>recipes</code>. Wenn wir in unserem Wohnungs-Beispiel vor der Analyse die Prädiktoren standardisieren wollen, fangen wir mit der Definition eines Rezeptes an:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>my_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(price <span class="sc">~</span> sqft <span class="sc">+</span> beds,</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> Sacramento)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>my_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(price <span class="sc">~</span> sqft <span class="sc">+</span> beds,</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> Sacramento)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Das Rezept können wir nun schrittweise ergänzen. Wenn alle Prädiktoren und vielleicht auch das Kriterium standardisieren wollen, müssen wir zuerst die Daten zentrieren und dann skalieren.</p>
 <p>Diese Schritte sind in <code>recipes</code> mit den angemessen als <code>step</code>-Funktionen benannten Anweisungen implementiert. Für die Schritte muss jeweils angegeben werden, auf welche Teile der Designmatrix die Operationen angewandt werden sollen.</p>
 <p>Dazu können wir die schon bekannten tidy-select-helper nutzen, wir können aber auch die sepzifischen, von <code>recipes</code> gelieferten Auswahl-Helfer genutzt werden. Auf der mit <code>?selections</code> aufrufbaren Hifleseite sind alle aufgelistet.</p>
 <p>Wir wollen wie gesagt alle numerischen Variablen z-transformieren, ergänzen unser Rezept also wie folgt:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>my_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(price <span class="sc">~</span> sqft <span class="sc">+</span> beds,</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> Sacramento) <span class="sc">%&gt;%</span> </span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_center</span>(<span class="fu">all_numeric</span>()) <span class="sc">%&gt;%</span> </span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_scale</span>(<span class="fu">all_numeric</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>my_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(price <span class="sc">~</span> sqft <span class="sc">+</span> beds,</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> Sacramento) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_center</span>(<span class="fu">all_numeric</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_scale</span>(<span class="fu">all_numeric</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Wenn wir das Recipe aufrufen, wird uns eine Zusammenfassung unserer Vorbereitungsschritte angezeigt:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>my_recipe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>my_recipe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code></code></pre>
 </div>
@@ -733,10 +862,10 @@ predictor: 2</code></pre>
 <p>Neben diesen Einfachen steps gibt es natürlich auch wesentlich kompliziertere, unter <a href="https://www.tidymodels.org/find/recipes/">diesem Link</a> sind alle implementierten Steps aufgelistet.</p>
 <p>Die für das Rezept nötigen “Zutaten” können wir uns mit <code>prep</code> vorbereiten lassen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>my_prep <span class="ot">&lt;-</span> my_recipe <span class="sc">%&gt;%</span> </span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prep</span>(Sacramento)</span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>my_prep</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>my_prep <span class="ot">&lt;-</span> my_recipe <span class="sc">%&gt;%</span> </span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prep</span>(Sacramento)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>my_prep</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code></code></pre>
 </div>
@@ -780,10 +909,10 @@ predictor: 2</code></pre>
 </div>
 <p>Und mit <code>bake</code> können wir das Rezept abschließend anwenden:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>scaled_data <span class="ot">&lt;-</span> my_prep <span class="sc">%&gt;%</span> </span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bake</span>(Sacramento)</span>
-<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>scaled_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>scaled_data <span class="ot">&lt;-</span> my_prep <span class="sc">%&gt;%</span> </span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bake</span>(Sacramento)</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>scaled_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 932 × 3
      sqft   beds price
@@ -803,14 +932,14 @@ predictor: 2</code></pre>
 </div>
 <p>Diesen Datensatz können wir dann wieder nutzen, um eine Regression zu fitten:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() </span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="ot">&lt;-</span> lm_model <span class="sc">%&gt;%</span> </span>
-<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(price <span class="sc">~</span> sqft <span class="sc">+</span> beds, <span class="at">data =</span> scaled_data)</span>
-<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="sc">%&gt;%</span> </span>
-<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() </span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="ot">&lt;-</span> lm_model <span class="sc">%&gt;%</span> </span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(price <span class="sc">~</span> sqft <span class="sc">+</span> beds, <span class="at">data =</span> scaled_data)</span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="sc">%&gt;%</span> </span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 5
   term         estimate std.error statistic   p.value
@@ -826,19 +955,19 @@ predictor: 2</code></pre>
 <p>Rezepte, Modelldefinition und -fit lassen sich im <code>tidymodels</code>-framework auch zu einer pipeline zusammenfügen.</p>
 <p>Wie bei <code>parsnip</code> und <code>recipes</code> beginnt die Definition eines sogenannten Workflows aus <code>workflows</code> mit einer Objektdefinition.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>my_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>my_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Diesem Workflow können wir dann Rezept und Modell hinzufügen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>my_wf <span class="ot">&lt;-</span> my_wf <span class="sc">%&gt;%</span> </span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(my_recipe) <span class="sc">%&gt;%</span> </span>
-<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(lm_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>my_wf <span class="ot">&lt;-</span> my_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(my_recipe) <span class="sc">%&gt;%</span> </span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(lm_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Anschließend können wir den ganzen Workflow fitten:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>my_wf <span class="sc">%&gt;%</span> </span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> Sacramento) <span class="sc">%&gt;%</span> </span>
-<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>my_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> Sacramento) <span class="sc">%&gt;%</span> </span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 5
   term         estimate std.error statistic   p.value
@@ -855,10 +984,10 @@ predictor: 2</code></pre>
 <p>Oder einen Workflow einmal mit und einmal ohne Logarithmierung des Kriteriums ausprobieren wollen.</p>
 <p>Mit <code>update_recipe</code> können wir das ganz einfach testen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>my_wf <span class="sc">%&gt;%</span></span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_recipe</span>(my_recipe <span class="sc">%&gt;%</span>  <span class="fu">step_log</span>(<span class="fu">all_outcomes</span>())) <span class="sc">%&gt;%</span> </span>
-<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> Sacramento) <span class="sc">%&gt;%</span> </span>
-<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>my_wf <span class="sc">%&gt;%</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_recipe</span>(my_recipe <span class="sc">%&gt;%</span>  <span class="fu">step_log</span>(<span class="fu">all_outcomes</span>())) <span class="sc">%&gt;%</span> </span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> Sacramento) <span class="sc">%&gt;%</span> </span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in bake.step_log(x$steps[[i]], new_data = training): NaNs produced</code></pre>
 </div>
@@ -873,50 +1002,50 @@ predictor: 2</code></pre>
 </div>
 <p>Außerdem lässt sich natürlich das Modell austauschen, wenn ich das möchte:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>my_wf <span class="sc">%&gt;%</span></span>
-<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_model</span>(keras_model) <span class="sc">%&gt;%</span> </span>
-<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> Sacramento)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>my_wf <span class="sc">%&gt;%</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_model</span>(keras_model) <span class="sc">%&gt;%</span> </span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> Sacramento)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Epoch 1/20
-30/30 - 1s - loss: 0.9360 - 730ms/epoch - 24ms/step
+30/30 - 1s - loss: 0.7295 - 818ms/epoch - 27ms/step
 Epoch 2/20
-30/30 - 0s - loss: 0.5614 - 84ms/epoch - 3ms/step
+30/30 - 0s - loss: 0.5119 - 97ms/epoch - 3ms/step
 Epoch 3/20
-30/30 - 0s - loss: 0.4816 - 47ms/epoch - 2ms/step
+30/30 - 0s - loss: 0.4602 - 58ms/epoch - 2ms/step
 Epoch 4/20
-30/30 - 0s - loss: 0.4485 - 50ms/epoch - 2ms/step
+30/30 - 0s - loss: 0.4416 - 56ms/epoch - 2ms/step
 Epoch 5/20
-30/30 - 0s - loss: 0.4365 - 48ms/epoch - 2ms/step
+30/30 - 0s - loss: 0.4305 - 50ms/epoch - 2ms/step
 Epoch 6/20
-30/30 - 0s - loss: 0.4313 - 49ms/epoch - 2ms/step
+30/30 - 0s - loss: 0.4273 - 49ms/epoch - 2ms/step
 Epoch 7/20
-30/30 - 0s - loss: 0.4271 - 41ms/epoch - 1ms/step
+30/30 - 0s - loss: 0.4260 - 54ms/epoch - 2ms/step
 Epoch 8/20
-30/30 - 0s - loss: 0.4235 - 58ms/epoch - 2ms/step
+30/30 - 0s - loss: 0.4209 - 52ms/epoch - 2ms/step
 Epoch 9/20
-30/30 - 0s - loss: 0.4211 - 48ms/epoch - 2ms/step
+30/30 - 0s - loss: 0.4213 - 52ms/epoch - 2ms/step
 Epoch 10/20
-30/30 - 0s - loss: 0.4193 - 42ms/epoch - 1ms/step
+30/30 - 0s - loss: 0.4174 - 50ms/epoch - 2ms/step
 Epoch 11/20
-30/30 - 0s - loss: 0.4190 - 40ms/epoch - 1ms/step
+30/30 - 0s - loss: 0.4158 - 46ms/epoch - 2ms/step
 Epoch 12/20
-30/30 - 0s - loss: 0.4190 - 39ms/epoch - 1ms/step
+30/30 - 0s - loss: 0.4149 - 47ms/epoch - 2ms/step
 Epoch 13/20
-30/30 - 0s - loss: 0.4166 - 46ms/epoch - 2ms/step
+30/30 - 0s - loss: 0.4154 - 46ms/epoch - 2ms/step
 Epoch 14/20
-30/30 - 0s - loss: 0.4144 - 46ms/epoch - 2ms/step
+30/30 - 0s - loss: 0.4116 - 46ms/epoch - 2ms/step
 Epoch 15/20
-30/30 - 0s - loss: 0.4125 - 43ms/epoch - 1ms/step
+30/30 - 0s - loss: 0.4115 - 53ms/epoch - 2ms/step
 Epoch 16/20
-30/30 - 0s - loss: 0.4134 - 44ms/epoch - 1ms/step
+30/30 - 0s - loss: 0.4090 - 43ms/epoch - 1ms/step
 Epoch 17/20
-30/30 - 0s - loss: 0.4125 - 44ms/epoch - 1ms/step
+30/30 - 0s - loss: 0.4082 - 41ms/epoch - 1ms/step
 Epoch 18/20
-30/30 - 0s - loss: 0.4110 - 53ms/epoch - 2ms/step
+30/30 - 0s - loss: 0.4105 - 45ms/epoch - 2ms/step
 Epoch 19/20
-30/30 - 0s - loss: 0.4121 - 48ms/epoch - 2ms/step
+30/30 - 0s - loss: 0.4083 - 46ms/epoch - 2ms/step
 Epoch 20/20
-30/30 - 0s - loss: 0.4124 - 46ms/epoch - 2ms/step</code></pre>
+30/30 - 0s - loss: 0.4079 - 47ms/epoch - 2ms/step</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>══ Workflow [trained] ══════════════════════════════════════════════════════════
@@ -946,12 +1075,140 @@ ________________________________________________________________________________
 </section>
 <section id="aufgabe-1" class="level3">
 <h3 class="anchored" data-anchor-id="aufgabe-1">Aufgabe</h3>
-<ol type="1">
-<li><p>Erstellen Sie einen Workflow, mit dem in einem gegebenem Datensatz alle Werte per KNN imputiert werden und alle numerischen Werte auf einen Wertebereich von 0 bis 1 skaliert werden. Die <a href="https://www.tidymodels.org/find/recipes/">Liste aller Steps</a> kann Ihnen dabei helfen. Der Workflow soll dann alle Variablen als Kriterium nutzen um die Variable <code>target</code> vorherzusagen. Anfänglich soll der Workflow eine lm-engine dazu nutzen.</p></li>
-<li><p>Fitten Sie die Daten auf den Datensatz TODO und den Datensatz TODO</p></li>
-<li><p>Tauschen Sie das Modell gegen einen randomForest mit Regressions-Mode aus und fitten Sie wieder beide Modelle.</p></li>
-<li><p>Lesen Sie die Hilfeseite der <code>mape</code>-Funktion aus dem <code>yardstick</code> Paket und nutzen Sie diese zusammen mit <code>predict</code> um die Modelle oberflächlich zu vergleichen.</p></li>
-</ol>
+<p>Sie benötigen wieder den Datensatz der Worldbank. Erstellen Sie damit zwei Datensätze, einen mit den Daten zum Jahr 2019 und einen zum Jahr 2015. Beide Datensätze sollen die Gesamt-Lebenserwartung als Spalte mit dem Namen “target” enthalten, außerdem alle Variablen mit Ausnahme der Jahreszahl und der spezifischen Lebenserwartungen.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>worldbank_indicators <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/worldbank_indicators.xlsx"</span>)</span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>fit_data <span class="ot">&lt;-</span> worldbank_indicators <span class="sc">%&gt;%</span> </span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">target =</span> <span class="st">`</span><span class="at">Life expectancy at birth, total (years)</span><span class="st">`</span>,</span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a>         <span class="fu">everything</span>(),</span>
+<span id="cb88-6"><a href="#cb88-6" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span> <span class="fu">matches</span>(<span class="st">'ale'</span>))</span>
+<span id="cb88-7"><a href="#cb88-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-8"><a href="#cb88-8" aria-hidden="true" tabindex="-1"></a>fit_data_2015 <span class="ot">&lt;-</span> fit_data <span class="sc">%&gt;%</span> </span>
+<span id="cb88-9"><a href="#cb88-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="dv">2015</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb88-10"><a href="#cb88-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Year)</span>
+<span id="cb88-11"><a href="#cb88-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-12"><a href="#cb88-12" aria-hidden="true" tabindex="-1"></a>fit_data_2019 <span class="ot">&lt;-</span> fit_data <span class="sc">%&gt;%</span> </span>
+<span id="cb88-13"><a href="#cb88-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="dv">2019</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb88-14"><a href="#cb88-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
+<p>Erstellen Sie einen Workflow, mit dem für alle numerische Variablen alle fehlenden Werte durch die Spalten-Mittelwerte ersetzt werden. Außerdem sollen alle numerischen Werte auf einen Wertebereich von 0 bis 1 skaliert werden. Die <a href="https://www.tidymodels.org/find/recipes/">Liste aller Steps</a> kann Ihnen dabei helfen. Entfernen Sie außerdem mit <code>step_zv</code> alle Spalten, die nur einen Wert enthalten. Der Workflow soll dann alle Variablen als Kriterium nutzen um die Variable <code>target</code> vorherzusagen. Anfänglich soll der Workflow eine lm-engine dazu nutzen.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>my_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(target <span class="sc">~</span> ., <span class="at">data =</span> fit_data_2015) <span class="sc">%&gt;%</span> </span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_impute_mean</span>(<span class="fu">all_numeric_predictors</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_range</span>(<span class="fu">all_numeric_predictors</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>())</span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() </span>
+<span id="cb89-7"><a href="#cb89-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-8"><a href="#cb89-8" aria-hidden="true" tabindex="-1"></a>my_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb89-9"><a href="#cb89-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(my_recipe) <span class="sc">%&gt;%</span> </span>
+<span id="cb89-10"><a href="#cb89-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(lm_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
+<p>Fitten Sie den Workflow auf die Datensätze zu den Jahren 2015 und 2019.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>lm_fit_2015 <span class="ot">&lt;-</span> my_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> fit_data_2015)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Column `Electric power consumption (kWh per capita)` returned NaN. Consider
+using `step_zv()` to remove variables containing only a single value.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>lm_fit_2019 <span class="ot">&lt;-</span> my_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> fit_data_2019)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Column `Electric power consumption (kWh per capita)` returned NaN. Consider
+using `step_zv()` to remove variables containing only a single value.</code></pre>
+</div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
+<p>Tauschen Sie das Modell gegen einen randomForest mit Regressions-Mode aus und fitten Sie wieder beide Modelle.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>rf_model <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">'regression'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">'randomForest'</span>)</span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>my_wf <span class="ot">&lt;-</span> my_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_model</span>(rf_model)</span>
+<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-8"><a href="#cb94-8" aria-hidden="true" tabindex="-1"></a>rf_fit_2015 <span class="ot">&lt;-</span> my_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb94-9"><a href="#cb94-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> fit_data_2015)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Column `Electric power consumption (kWh per capita)` returned NaN. Consider
+using `step_zv()` to remove variables containing only a single value.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>rf_fit_2019 <span class="ot">&lt;-</span> my_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> fit_data_2019)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Column `Electric power consumption (kWh per capita)` returned NaN. Consider
+using `step_zv()` to remove variables containing only a single value.</code></pre>
+</div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
+<p>Erstellen Sie einen Datensatz mit allen Prognosen und targets. Pivotieren Sie diesen So, dass die targets in einer und die Prognosen in einer zweiten Spalte stehen. Nutzen Sie dazu zuerst das <code>names_pattern</code>-Argument der <code>pivot_longer</code>-Funktion und den <code>.value</code>-Platzhalter des <code>names_to</code>-Arguments. Anschließend müssen Sie vielleicht ein zweites Mal pivotieren. Lesen Sie die Hilfeseite der <code>mape</code>-Funktion aus dem <code>yardstick</code> Paket und nutzen Sie diese um die Modelle oberflächlich zu vergleichen.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">target_2015 =</span> fit_data_2015<span class="sc">$</span>target,</span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">target_2019 =</span> fit_data_2019<span class="sc">$</span>target,</span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">lm_2015 =</span> <span class="fu">unlist</span>(<span class="fu">predict</span>(lm_fit_2015, fit_data_2015)),</span>
+<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">lm_2019 =</span> <span class="fu">unlist</span>(<span class="fu">predict</span>(lm_fit_2019, fit_data_2019)),</span>
+<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">rf_2015 =</span> <span class="fu">unlist</span>(<span class="fu">predict</span>(rf_fit_2015, fit_data_2015)),</span>
+<span id="cb98-6"><a href="#cb98-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">rf_2019 =</span> <span class="fu">unlist</span>(<span class="fu">predict</span>(rf_fit_2019, fit_data_2019))) <span class="sc">%&gt;%</span> </span>
+<span id="cb98-7"><a href="#cb98-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(),</span>
+<span id="cb98-8"><a href="#cb98-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_pattern =</span> <span class="st">'(.+)_(.+)'</span>,</span>
+<span id="cb98-9"><a href="#cb98-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">'.value'</span>, <span class="st">'year'</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb98-10"><a href="#cb98-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(lm, rf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in predict.lm(object = object$fit, newdata = new_data, type =
+"response", : prediction from rank-deficient fit; consider predict(.,
+rankdeficient="NA")
+
+Warning in predict.lm(object = object$fit, newdata = new_data, type =
+"response", : prediction from rank-deficient fit; consider predict(.,
+rankdeficient="NA")</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span> </span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(name) <span class="sc">%&gt;%</span> </span>
+<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mape</span>(target, value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  name  .metric .estimator .estimate
+  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 lm    mape    standard    5.33e-14
+2 rf    mape    standard    1.44e+ 0</code></pre>
+</div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
 </section>
 </section>
 <section id="inferenzstatistik-pipelines-mit-infer" class="level2">
@@ -971,8 +1228,8 @@ Abb&nbsp;7.1: Infer-Workflow - von <a href="https://infer.tidymodels.org/">https
 </div>
 <p>Wir könnten zum Beispiel die Annahme haben, dass die Art der Mietwohnungen unterschiedlich in den verschiedenen Städten verteilt sind. Die uns interessierenden Variablen sind also <code>type</code> und <code>city</code>. Das legen wir zuallererst mit <code>specify</code> fest:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>Sacramento <span class="sc">%&gt;%</span> </span>
-<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(type <span class="sc">~</span> city)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>Sacramento <span class="sc">%&gt;%</span> </span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(type <span class="sc">~</span> city)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Response: type (factor)
 Explanatory: city (factor)
@@ -994,9 +1251,9 @@ Explanatory: city (factor)
 </div>
 <p>Unsere Nullhypothese ist unabhängigkeit, die können wir also direkt hinzufügen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>Sacramento <span class="sc">%&gt;%</span> </span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(type <span class="sc">~</span> city) <span class="sc">%&gt;%</span> </span>
-<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="st">'independence'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>Sacramento <span class="sc">%&gt;%</span> </span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(type <span class="sc">~</span> city) <span class="sc">%&gt;%</span> </span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="st">'independence'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Response: type (factor)
 Explanatory: city (factor)
@@ -1019,10 +1276,10 @@ Null Hypothesis: independence
 </div>
 <p>Um nun Daten für den Test zu generieren, können wir 1000 Datensätze mit Permuationen der Reihenfolge einer der Variablen generieren:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>Sacramento <span class="sc">%&gt;%</span> </span>
-<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(type <span class="sc">~</span> city) <span class="sc">%&gt;%</span> </span>
-<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="st">'independence'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">'permute'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>Sacramento <span class="sc">%&gt;%</span> </span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(type <span class="sc">~</span> city) <span class="sc">%&gt;%</span> </span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="st">'independence'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">'permute'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Response: type (factor)
 Explanatory: city (factor)
@@ -1046,11 +1303,11 @@ Null Hypothesis: independence
 </div>
 <p>Zuletzt müssen wir noch eine Teststatistik berechnen, deren Verteilung wir betrachten können. Bei unserem Fall bietet sich natürlich <span class="math inline">\(\chi^2\)</span> an:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>Sacramento <span class="sc">%&gt;%</span> </span>
-<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(type <span class="sc">~</span> city) <span class="sc">%&gt;%</span> </span>
-<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="st">'independence'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">'permute'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="st">'Chisq'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>Sacramento <span class="sc">%&gt;%</span> </span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(type <span class="sc">~</span> city) <span class="sc">%&gt;%</span> </span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="st">'independence'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">'permute'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="st">'Chisq'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Response: type (factor)
 Explanatory: city (factor)
@@ -1058,62 +1315,104 @@ Null Hypothesis: independence
 # A tibble: 1,000 × 2
    replicate  stat
        &lt;int&gt; &lt;dbl&gt;
- 1         1 130. 
- 2         2 107. 
- 3         3  45.1
- 4         4  38.0
- 5         5  57.3
- 6         6  52.6
- 7         7  99.1
- 8         8  62.3
- 9         9  76.5
-10        10  52.5
+ 1         1  26.8
+ 2         2 121. 
+ 3         3  46.1
+ 4         4  61.5
+ 5         5  96.6
+ 6         6  36.0
+ 7         7  98.2
+ 8         8  42.0
+ 9         9  68.1
+10        10  71.8
 # ℹ 990 more rows</code></pre>
 </div>
 </div>
 <p>Die Verteilung können wir jetzt mit mitgelieferten <code>ggplot2</code>-Wrappern darstellen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>Sacramento <span class="sc">%&gt;%</span> </span>
-<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(type <span class="sc">~</span> city) <span class="sc">%&gt;%</span> </span>
-<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="st">'independence'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">'permute'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="st">'Chisq'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visualize</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>Sacramento <span class="sc">%&gt;%</span> </span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(type <span class="sc">~</span> city) <span class="sc">%&gt;%</span> </span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="st">'independence'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">'permute'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="st">'Chisq'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb110-6"><a href="#cb110-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visualize</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="tidymodels_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="tidymodels_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Und wenn wir die beobachtete Teststatistik berechnen, können wir auch eine Signifikanz-Aussage tätigen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>obs_chisq <span class="ot">&lt;-</span> Sacramento <span class="sc">%&gt;%</span> </span>
-<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(type <span class="sc">~</span> city) <span class="sc">%&gt;%</span> </span>
-<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="st">'Chisq'</span>)</span>
-<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>Sacramento <span class="sc">%&gt;%</span> </span>
-<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(type <span class="sc">~</span> city) <span class="sc">%&gt;%</span> </span>
-<span id="cb87-7"><a href="#cb87-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="st">'independence'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb87-8"><a href="#cb87-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">'permute'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb87-9"><a href="#cb87-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="st">'Chisq'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb87-10"><a href="#cb87-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb87-11"><a href="#cb87-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_chisq, <span class="at">direction =</span> <span class="st">"greater"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>obs_chisq <span class="ot">&lt;-</span> Sacramento <span class="sc">%&gt;%</span> </span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(type <span class="sc">~</span> city) <span class="sc">%&gt;%</span> </span>
+<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="st">'Chisq'</span>)</span>
+<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a>Sacramento <span class="sc">%&gt;%</span> </span>
+<span id="cb111-6"><a href="#cb111-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(type <span class="sc">~</span> city) <span class="sc">%&gt;%</span> </span>
+<span id="cb111-7"><a href="#cb111-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="st">'independence'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb111-8"><a href="#cb111-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">'permute'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb111-9"><a href="#cb111-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="st">'Chisq'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb111-10"><a href="#cb111-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb111-11"><a href="#cb111-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_chisq, <span class="at">direction =</span> <span class="st">"greater"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="tidymodels_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="tidymodels_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <section id="aufgabe-2" class="level3">
 <h3 class="anchored" data-anchor-id="aufgabe-2">Aufgabe</h3>
-<ol type="1">
-<li><p>Stellen Sie eine <code>specify</code> -&gt; <code>hypothesize</code> -&gt; <code>generate</code>-Pipeline für einen t-Test auf den Unterschied in TODO zwischen den Bedingungen TODO auf.</p></li>
-<li><p>TODO TODO</p></li>
-</ol>
+<p>Für diese Aufgabe benötigen Sie den <code>attrition</code>-Datensatz, der mit <code>tidymodels</code> geliefert und geladen wird.</p>
+<p>Verschaffen Sie sich einen Überblick über den Datensatz. Wir benötigen die Variable <code>Gender</code> und die Variable <code>HourlyRate</code>.</p>
+<p>Stellen Sie eine <code>specify</code> -&gt; <code>hypothesize</code> -&gt; <code>generate</code>-Pipeline für einen t-Test auf den Unterschied in <code>HourlyRate</code> zwischen den Auspärgungen von <code>Gender</code> auf. Lesen Sie die Hilfeseiten von <code>hypothesize</code> und <code>generate</code> um den richtigen Begriff für die angemessene Nullhypothese und das angemessene Sampling-Vorgehen zu bestimmen.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>hypothesis <span class="ot">&lt;-</span> attrition <span class="sc">%&gt;%</span> </span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(HourlyRate <span class="sc">~</span> Gender) <span class="sc">%&gt;%</span> </span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="st">'independence'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">'bootstrap'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
+<p>Berechnen Sie mit <code>calculate</code> den empirischen t-Wert und vergleichen Sie ihn mit <code>visualize</code> mit der simulierten Verteilung.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>simulated <span class="ot">&lt;-</span> attrition <span class="sc">%&gt;%</span> </span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(HourlyRate <span class="sc">~</span> Gender) <span class="sc">%&gt;%</span> </span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="st">'independence'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">'permute'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="st">'t'</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">'Male'</span>, <span class="st">'Female'</span>))</span>
+<span id="cb113-6"><a href="#cb113-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-7"><a href="#cb113-7" aria-hidden="true" tabindex="-1"></a>observed <span class="ot">&lt;-</span> attrition <span class="sc">%&gt;%</span> </span>
+<span id="cb113-8"><a href="#cb113-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(HourlyRate <span class="sc">~</span> Gender) <span class="sc">%&gt;%</span> </span>
+<span id="cb113-9"><a href="#cb113-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="st">'t'</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">'Male'</span>, <span class="st">'Female'</span>))</span>
+<span id="cb113-10"><a href="#cb113-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-11"><a href="#cb113-11" aria-hidden="true" tabindex="-1"></a>simulated <span class="sc">%&gt;%</span> </span>
+<span id="cb113-12"><a href="#cb113-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb113-13"><a href="#cb113-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> observed, <span class="at">direction =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tidymodels_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
 
 
 </section>
@@ -1533,8 +1832,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./quarto.html" class="pagination-link" aria-label="<span class='chapter-number'>8</span>&nbsp; <span class='chapter-title'>Methodenteil in `quarto`{#sec-quarto}</span>">
-        <span class="nav-page-text"><span class="chapter-title">Methodenteil in <code id="sec-quarto">quarto</code></span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./quarto.html" class="pagination-link" aria-label="<span class='chapter-number'>8</span>&nbsp; <span class='chapter-title'>`quarto`{#sec-quarto}</span>">
+        <span class="nav-page-text"><span class="chapter-title"><code id="sec-quarto">quarto</code></span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

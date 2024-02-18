@@ -236,7 +236,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quarto.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Methodenteil in <code id="sec-quarto">quarto</code></span></a>
+  <a href="./quarto.html" class="sidebar-item-text sidebar-link"><span class="chapter-title"><code id="sec-quarto">quarto</code></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -253,7 +253,10 @@ div.csl-indent {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
-    <h2 id="toc-title"><img src="imgs/elster_survival_model.webp" class="img-fluid" width="240"><br> ggplot2</h2>
+    <h2 id="toc-title"><img src="imgs/elster_survival_model.webp" class="img-fluid" width="240"><br><br>
+</h2><h3 class="anchored"><br>
+ggplot2<br>
+</h3>
    
   <ul>
   <li><a href="#grammar-of-graphics" id="toc-grammar-of-graphics" class="nav-link active" data-scroll-target="#grammar-of-graphics"><em>Grammar of Graphics</em></a>
@@ -272,11 +275,11 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#sec-geoms" id="toc-sec-geoms" class="nav-link" data-scroll-target="#sec-geoms">Einfache Grafiken</a>
   <ul class="collapse">
-  <li><a href="#aufgabe" id="toc-aufgabe" class="nav-link" data-scroll-target="#aufgabe">Aufgabe</a></li>
+  <li><a href="#aufgaben" id="toc-aufgaben" class="nav-link" data-scroll-target="#aufgaben">Aufgaben</a></li>
   </ul></li>
   <li><a href="#kombination-mehrerer-geoms" id="toc-kombination-mehrerer-geoms" class="nav-link" data-scroll-target="#kombination-mehrerer-geoms">Kombination mehrerer <code>geom</code>s</a></li>
   <li><a href="#mehrere-scales" id="toc-mehrere-scales" class="nav-link" data-scroll-target="#mehrere-scales">Mehrere <code>scale</code>s</a></li>
-  <li><a href="#aufgabe-1" id="toc-aufgabe-1" class="nav-link" data-scroll-target="#aufgabe-1">Aufgabe</a></li>
+  <li><a href="#sec-multipleGeomTask" id="toc-sec-multipleGeomTask" class="nav-link" data-scroll-target="#sec-multipleGeomTask">Aufgabe</a></li>
   </ul></li>
   <li><a href="#fortgeschrittene-grafiken-mit-ggplot2" id="toc-fortgeschrittene-grafiken-mit-ggplot2" class="nav-link" data-scroll-target="#fortgeschrittene-grafiken-mit-ggplot2">Fortgeschrittene Grafiken mit <code>ggplot2</code></a>
   <ul class="collapse">
@@ -287,10 +290,10 @@ div.csl-indent {
   </ul></li>
   <li><a href="#summary-layer" id="toc-summary-layer" class="nav-link" data-scroll-target="#summary-layer">Summary-Layer</a>
   <ul class="collapse">
-  <li><a href="#aufgabe-2" id="toc-aufgabe-2" class="nav-link" data-scroll-target="#aufgabe-2">Aufgabe</a></li>
+  <li><a href="#aufgabe" id="toc-aufgabe" class="nav-link" data-scroll-target="#aufgabe">Aufgabe</a></li>
   </ul></li>
   <li><a href="#hilfreiche-links" id="toc-hilfreiche-links" class="nav-link" data-scroll-target="#hilfreiche-links">Hilfreiche Links</a></li>
-  <li><a href="#aufgabe-3" id="toc-aufgabe-3" class="nav-link" data-scroll-target="#aufgabe-3">Aufgabe</a></li>
+  <li><a href="#literatur" id="toc-literatur" class="nav-link" data-scroll-target="#literatur">Literatur</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/MBrede/KFN_MethodLab_24/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
@@ -319,7 +322,7 @@ div.csl-indent {
 
 <section id="grammar-of-graphics" class="level2">
 <h2 class="anchored" data-anchor-id="grammar-of-graphics"><em>Grammar of Graphics</em></h2>
-<p>Hadley Wickhams Paket <code>ggplot2</code> versucht, die Erstellung von Grafiken in einer einheitlichen Grammatik, der “grammar of graphics”, auszudrücken. Das Ziel hier ist es, nicht mehr in “Scatterplot” und “Boxplot” als einzelne Kategorien zu denken und diese einzeln erstellen lernen zu müssen, sondern alle Abbildungen mit derselben Logik erstellen zu können.</p>
+<p>Hadley Wickhams Paket <code>ggplot2</code> <span class="citation" data-cites="ggplot2Manual2016">(<a href="#ref-ggplot2Manual2016" role="doc-biblioref">Wickham, 2016</a>)</span> versucht, die Erstellung von Grafiken in einer einheitlichen Grammatik, der “grammar of graphics”, auszudrücken. Das Ziel hier ist es, nicht mehr in “Scatterplot” und “Boxplot” als einzelne Kategorien zu denken und diese einzeln erstellen lernen zu müssen, sondern alle Abbildungen mit derselben Logik erstellen zu können.</p>
 <p>In Seinem Paper <span class="citation" data-cites="wickhamLayeredGrammarGraphics2010">(<a href="#ref-wickhamLayeredGrammarGraphics2010" role="doc-biblioref">Wickham, 2010</a>)</span> werden die folgenden Komponenten als grundlegende Bausteine einer Grafik eingeführt:</p>
 <blockquote class="blockquote">
 <ul>
@@ -867,32 +870,35 @@ year               1.00000000</code></pre>
 </div>
 </div>
 </div>
-<section id="aufgabe" class="level3">
-<h3 class="anchored" data-anchor-id="aufgabe">Aufgabe</h3>
-<!-- TODO -->
-</section>
-</section>
-<section id="kombination-mehrerer-geoms" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="kombination-mehrerer-geoms">Kombination mehrerer <code>geom</code>s</h2>
-<p>Plots müssen nicht nur aus einem <code>geom</code> bestehen.</p>
-<p>Ein möglicher Fall ist der Wunsch nach der Darstellung von Summary-Statistics in Grafiken mit Rohdaten.</p>
-<p>Im Pinguin-Scatter-Plot vom Anfang könnten wir uns zum Beispiel wünschen, die Mittelwerte pro Gruppe darzustellen. Dazu müssen wir zuerst diesen neuen Datensatz berechnen. :</p>
+<section id="aufgaben" class="level3">
+<h3 class="anchored" data-anchor-id="aufgaben">Aufgaben</h3>
+<section id="aufgabe-1" class="level4">
+<h4 class="anchored" data-anchor-id="aufgabe-1">Aufgabe 1</h4>
+<p>Lesen Sie den Datensatz “worldbank_indicators.xlsx” ein. In ihm sind Daten von der <a href="https://www.worldbank.org/en/home">worldbank</a> zu verschiedenen Indikatoren in mehreren Ländern für die Jahre von 2000 bis 2021 vorgehalten.</p>
+<p>Wählen Sie ein Jahr aus und filtern Sie den Datensatz, so dass nur noch dieses Jahr enthalten ist.</p>
+<p>Erstellen Sie mit den Daten</p>
+<ol type="1">
+<li><p>eine Grafik mit einer kontinuierlichen Variable</p></li>
+<li><p>eine Grafik mit zwei kontinuierlichen Variablen</p></li>
+<li><p>eine Grafik mit dem Länder-Namen und einer kontinuierlichen Variable Ihrer Wahl</p></li>
+</ol>
+<div class="card">
+<div class="content">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>penguin_means <span class="ot">&lt;-</span> palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(bill_length_mm, </span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                     body_mass_g), </span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                   <span class="sc">~</span><span class="fu">mean</span>(., <span class="at">na.rm=</span>T)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>worldbank_indicators <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/worldbank_indicators.xlsx"</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>one_year <span class="ot">&lt;-</span> worldbank_indicators <span class="sc">%&gt;%</span> </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="dv">2019</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>one_year <span class="sc">%&gt;%</span> </span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Life expectancy at birth, total (years)</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">'white'</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">'darkblue'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
-<p>…und auf den Plot in einem neuen Layer hinzufügen<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
-<div class="no-row-height column-margin column-container"><p><sup>2</sup>&nbsp;alternativ würde natürlich wieder eine (Lambda-)Funktion im data-Argument funktionieren.</p></div><div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means)<span class="sc">+</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -900,16 +906,51 @@ year               1.00000000</code></pre>
 </figure>
 </div>
 </div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>one_year <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="st">`</span><span class="at">Life expectancy at birth, total (years)</span><span class="st">`</span>,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">GDP per capita (current US$)</span><span class="st">`</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">`</span><span class="at">Country Name</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="graphics_files/figure-html/unnamed-chunk-25-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<p>Für den Layer können wir dann auch wieder spezifische geometrische Eigenschaften einfügen:</p>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>one_year <span class="sc">%&gt;%</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="st">`</span><span class="at">Country Name</span><span class="st">`</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Total alcohol consumption per capita (liters of pure alcohol, projected estimates, 15+ years of age)</span><span class="st">`</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> <span class="st">`</span><span class="at">Country Name</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="graphics_files/figure-html/unnamed-chunk-25-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
+</section>
+<section id="aufgabe-2" class="level4">
+<h4 class="anchored" data-anchor-id="aufgabe-2">Aufgabe 2</h4>
+<p>Lesen Sie die Hilfeseite für <code>geom_line</code>. Erstellen Sie ein Liniendiagramm mit der Zeit auf der x-Achse und einer Variable Ihrer Wahl auf der y-Achse.</p>
+<p>Sollten Sie noch Zeit haben, fügen Sie dem Datensatz eine Variable hinzu, die den Mittelwert des Alkoholkonsums über die Jahre pro Land enthält. Nutzen Sie diese Variable um eine neue Variable zu erstellen, die einen Median-Split enthält. Sie müssen dafür wahrscheinlich einmal <code>ungroup</code> aufrufen.</p>
+<p>Facettieren Sie das Liniendiagramm nach diesem Split.</p>
+<div class="card">
+<div class="content">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means, <span class="at">shape =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>worldbank_indicators <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(Year,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Life expectancy at birth, total (years)</span><span class="st">`</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">`</span><span class="at">Country Name</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -917,17 +958,43 @@ year               1.00000000</code></pre>
 </figure>
 </div>
 </div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>worldbank_indicators <span class="sc">%&gt;%</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="st">`</span><span class="at">Country Name</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_consumption =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">Total alcohol consumption per capita (liters of pure alcohol, projected estimates, 15+ years of age)</span><span class="st">`</span>, <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">median_split =</span> <span class="fu">case_when</span>(mean_consumption <span class="sc">&gt;</span> <span class="fu">median</span>(mean_consumption) <span class="sc">~</span> <span class="st">'Hoher Konsum'</span>,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                                  mean_consumption <span class="sc">&lt;=</span> <span class="fu">median</span>(mean_consumption) <span class="sc">~</span> <span class="st">'Weniger hoher Konsum'</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(Year,</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Life expectancy at birth, total (years)</span><span class="st">`</span>,</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">`</span><span class="at">Country Name</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>median_split)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="graphics_files/figure-html/unnamed-chunk-26-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<p>Oder direkt ein neues Mapping einführen:</p>
+</div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
+</section>
+<section id="aufgabe-3" class="level4">
+<h4 class="anchored" data-anchor-id="aufgabe-3">Aufgabe 3</h4>
+<p>Erstellen Sie eine Grafik mit <code>geom_tile</code> auf Basis des Original-Datensatz. Auf der x-Achse sollen die Jahre zu sehen sein, auf der y-Achse die Länder. Die Flächen sollen so eingefärbt werden, dass der Quotient des GDPs und der Lebenserwartung sichtbar wird.</p>
+<div class="card">
+<div class="content">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>)) <span class="sc">+</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>))<span class="sc">+</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>worldbank_indicators <span class="sc">%&gt;%</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">quotient =</span> <span class="st">`</span><span class="at">GDP per capita (current US$)</span><span class="st">`</span> <span class="sc">/</span> <span class="st">`</span><span class="at">Life expectancy at birth, total (years)</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(Year,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Country Name</span><span class="st">`</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> quotient)) <span class="sc">+</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -936,22 +1003,94 @@ year               1.00000000</code></pre>
 </div>
 </div>
 </div>
-<p>Und auch beide Varianten kombinieren:</p>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="kombination-mehrerer-geoms" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="kombination-mehrerer-geoms">Kombination mehrerer <code>geom</code>s</h2>
+<p>Plots müssen nicht nur aus einem <code>geom</code> bestehen.</p>
+<p>Ein möglicher Fall ist der Wunsch nach der Darstellung von Summary-Statistics in Grafiken mit Rohdaten.</p>
+<p>Im Pinguin-Scatter-Plot vom Anfang könnten wir uns zum Beispiel wünschen, die Mittelwerte pro Gruppe darzustellen. Dazu müssen wir zuerst diesen neuen Datensatz berechnen. :</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>),</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>),</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>penguin_means <span class="ot">&lt;-</span> palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(bill_length_mm, </span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                     body_mass_g), </span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>                   <span class="sc">~</span><span class="fu">mean</span>(., <span class="at">na.rm=</span>T)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>…und auf den Plot in einem neuen Layer hinzufügen<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
+<div class="no-row-height column-margin column-container"><p><sup>2</sup>&nbsp;alternativ würde natürlich wieder eine (Lambda-)Funktion im data-Argument funktionieren.</p></div><div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means)<span class="sc">+</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="graphics_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="graphics_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Für den Layer können wir dann auch wieder spezifische geometrische Eigenschaften einfügen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means, <span class="at">shape =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="graphics_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Oder direkt ein neues Mapping einführen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>)) <span class="sc">+</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>))<span class="sc">+</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="graphics_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Und auch beide Varianten kombinieren:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>),</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>),</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="graphics_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -960,27 +1099,27 @@ year               1.00000000</code></pre>
 <p>In <a href="#fig-multipleGeoms" class="quarto-xref">Abbildung&nbsp;<span>Abbildungen mit Kombinationen mehrerer geoms</span></a> sind Beispiele dargestellt, die mit dem eingeklappten Chunk erstellt wurden, um mit Hilfe mehrerer <code>geom</code>s mehr Informationen abzubilden.</p>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm, </span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> bill_length_mm,</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>) <span class="sc">+</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_quantile</span>(<span class="at">lty =</span> <span class="dv">3</span>)</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> species, </span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> bill_length_mm,</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span></span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">scale =</span> <span class="st">'area'</span>,</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">fill =</span> species),</span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> .<span class="dv">25</span>) <span class="sc">+</span></span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.25</span>,</span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>               <span class="at">position =</span> <span class="fu">position_nudge</span>(<span class="at">x =</span> <span class="sc">-</span><span class="fl">0.125</span>)) <span class="sc">+</span></span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="fu">aes</span>(<span class="at">fill =</span> species),</span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>               <span class="at">binaxis =</span> <span class="st">'y'</span>, </span>
-<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>               <span class="at">stackdir =</span> <span class="st">'up'</span>,</span>
-<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>               <span class="at">dotsize =</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm, </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> bill_length_mm,</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>) <span class="sc">+</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_quantile</span>(<span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> species, </span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> bill_length_mm,</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">scale =</span> <span class="st">'area'</span>,</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">fill =</span> species),</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> .<span class="dv">25</span>) <span class="sc">+</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.25</span>,</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>               <span class="at">position =</span> <span class="fu">position_nudge</span>(<span class="at">x =</span> <span class="sc">-</span><span class="fl">0.125</span>)) <span class="sc">+</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="fu">aes</span>(<span class="at">fill =</span> species),</span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>               <span class="at">binaxis =</span> <span class="st">'y'</span>, </span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>               <span class="at">stackdir =</span> <span class="st">'up'</span>,</span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>               <span class="at">dotsize =</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="fig-multipleGeoms" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1022,53 +1161,151 @@ Abb&nbsp;6.4: Abbildungen mit Kombinationen mehrerer <code>geom</code>s
 <h2 class="anchored" data-anchor-id="mehrere-scales">Mehrere <code>scale</code>s</h2>
 <p>Genauso wie die Verwendung mehrerer <code>geom</code>s, können natürlich auch mehrere Skalen gesetzt werden. So können wir im Scatter-Plot mit den Mittwelwerten zum Beispiel noch die Symbole für die unterschiedlichen dargestellten Daten anpassen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>),</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>),</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">Original =</span> <span class="dv">20</span>, <span class="at">Mittelwert =</span> <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>),</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>),</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">Original =</span> <span class="dv">20</span>, <span class="at">Mittelwert =</span> <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="graphics_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="graphics_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<!-- ## `facet`s und mehrere `geom`s -->
-<!-- Nachdem -->
-<!-- ```{r} -->
-<!-- penguin_means <- palmerpenguins::penguins %>%  -->
-<!--   group_by(species, island) %>%  -->
-<!--   summarise(across(c(bill_length_mm, body_mass_g),  -->
-<!--                    ~mean(., na.rm=T))) -->
-<!-- ``` -->
-<!-- ```{r} -->
-<!-- #| warning: false -->
-<!-- palmerpenguins::penguins %>%  -->
-<!--   ggplot(aes(x = bill_length_mm,  -->
-<!--              y = body_mass_g, -->
-<!--              color = species)) +  -->
-<!--   geom_point(aes(shape = 'Original'), -->
-<!--              alpha = .5) + -->
-<!--   geom_point(data=penguin_means, -->
-<!--              aes(shape = 'Mittelwert'), -->
-<!--              size = 3) + -->
-<!--   scale_color_viridis_d(end = 0.7) + -->
-<!--   scale_shape_manual(values = c(Original = 20, Mittelwert = 3))+ -->
-<!--   coord_fixed(ratio = 10/1000) + -->
-<!--   facet_wrap(~island) -->
-<!-- ``` -->
 </section>
-<section id="aufgabe-1" class="level2">
-<h2 class="anchored" data-anchor-id="aufgabe-1">Aufgabe</h2>
-<!-- TODO -->
+<section id="sec-multipleGeomTask" class="level2">
+<h2 class="anchored" data-anchor-id="sec-multipleGeomTask">Aufgabe</h2>
+<p>Für diese Aufgabe benötigen Sie wieder den Worldbank-Datensatz.</p>
+<p>Erstellen Sie ein Liniendiagramm, das für drei von Ihnen ausgewählte Länder die Entwicklung der Lebenserwartung für Frauen und Männer darstellt.</p>
+<p>Die Länder sollen in eigenen Facetten zu sehen sein.</p>
+<p>Passen Sie die <code>scale</code> der Farbe so an, dass Ihnen die Farben gefallen.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>worldbank_indicators <span class="sc">%&gt;%</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Country Name</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Germany'</span>, <span class="st">'United States'</span>, <span class="st">'United Kingdom'</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year)) <span class="sc">+</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="st">`</span><span class="at">Life expectancy at birth, female (years)</span><span class="st">`</span>,</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">'female'</span>)) <span class="sc">+</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="st">`</span><span class="at">Life expectancy at birth, male (years)</span><span class="st">`</span>,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">'male'</span>)) <span class="sc">+</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span><span class="st">`</span><span class="at">Country Name</span><span class="st">`</span>) <span class="sc">+</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'female'</span> <span class="ot">=</span> <span class="st">'royalblue1'</span>, <span class="st">'male'</span> <span class="ot">=</span> <span class="st">'darkslategrey'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="graphics_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
+<p>Berechnen Sie dann die mittlere Lebenserwartung im ganzen Datensatz pro Jahr und Geschlecht.</p>
+<p>Fügen Sie diese Verläufe nach der Facettierung der Grafik hinzu.</p>
+<p>Passen Sie die Linientypen (<code>linetype</code>) so an, dass die Mittelwerte schraffiert und die tatsächlichen Werte durchgezogen sind.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>mean_life_expectancy <span class="ot">&lt;-</span> worldbank_indicators <span class="sc">%&gt;%</span> </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Year) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">matches</span>(<span class="st">'male'</span>), mean))</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>worldbank_indicators <span class="sc">%&gt;%</span> </span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Country Name</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Germany'</span>, <span class="st">'United States'</span>, <span class="st">'United Kingdom'</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year)) <span class="sc">+</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="st">`</span><span class="at">Life expectancy at birth, female (years)</span><span class="st">`</span>,</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">'female'</span>,</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">lty =</span> <span class="st">'country'</span>)) <span class="sc">+</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="st">`</span><span class="at">Life expectancy at birth, male (years)</span><span class="st">`</span>,</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">'male'</span>,</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">lty =</span> <span class="st">'country'</span>)) <span class="sc">+</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span><span class="st">`</span><span class="at">Country Name</span><span class="st">`</span>)<span class="sc">+</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> mean_life_expectancy,</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">y =</span> <span class="st">`</span><span class="at">Life expectancy at birth, female (years)</span><span class="st">`</span>,</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">'female'</span>,</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">lty =</span> <span class="st">'average'</span>)) <span class="sc">+</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> mean_life_expectancy,</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">y =</span> <span class="st">`</span><span class="at">Life expectancy at birth, male (years)</span><span class="st">`</span>,</span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">'male'</span>,</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>                <span class="at">lty =</span> <span class="st">'average'</span>))<span class="sc">+</span></span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'female'</span> <span class="ot">=</span> <span class="st">'royalblue1'</span>, <span class="st">'male'</span> <span class="ot">=</span> <span class="st">'darkslategrey'</span>)) <span class="sc">+</span></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'country'</span> <span class="ot">=</span> <span class="dv">1</span>, <span class="st">'average'</span> <span class="ot">=</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="graphics_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
+<p>Berechnen Sie zuletzt pro Land einen Mittelwert der Lebenserwartung pro Geschlecht über den Messzeitraum. Lesen Sie sich die Hilfeseite der <code>geom_hline</code>-Funktion durch und fügen Sie die Mittelwerte für die drei von Ihnen ausgewählten Länder zu der Grafik hinzu.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>mean_per_country <span class="ot">&lt;-</span> worldbank_indicators  <span class="sc">%&gt;%</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Country Name</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Germany'</span>, <span class="st">'United States'</span>, <span class="st">'United Kingdom'</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="st">`</span><span class="at">Country Name</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">matches</span>(<span class="st">'male'</span>), mean))</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>worldbank_indicators <span class="sc">%&gt;%</span> </span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Country Name</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Germany'</span>, <span class="st">'United States'</span>, <span class="st">'United Kingdom'</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year)) <span class="sc">+</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="st">`</span><span class="at">Life expectancy at birth, female (years)</span><span class="st">`</span>,</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">'female'</span>,</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">lty =</span> <span class="st">'country'</span>)) <span class="sc">+</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="st">`</span><span class="at">Life expectancy at birth, male (years)</span><span class="st">`</span>,</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">'male'</span>,</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>                <span class="at">lty =</span> <span class="st">'country'</span>)) <span class="sc">+</span></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">data =</span> mean_per_country,</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">yintercept =</span> <span class="st">`</span><span class="at">Life expectancy at birth, female (years)</span><span class="st">`</span>,</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">'female'</span>,</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">lty =</span> <span class="st">'average'</span>)) <span class="sc">+</span></span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">data =</span> mean_per_country,</span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">yintercept =</span> <span class="st">`</span><span class="at">Life expectancy at birth, male (years)</span><span class="st">`</span>,</span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">'male'</span>,</span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>                <span class="at">lty =</span> <span class="st">'average'</span>)) <span class="sc">+</span></span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span><span class="st">`</span><span class="at">Country Name</span><span class="st">`</span>)<span class="sc">+</span></span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> mean_life_expectancy,</span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">y =</span> <span class="st">`</span><span class="at">Life expectancy at birth, female (years)</span><span class="st">`</span>,</span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">'female'</span>,</span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a>                <span class="at">lty =</span> <span class="st">'average'</span>)) <span class="sc">+</span></span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> mean_life_expectancy,</span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">y =</span> <span class="st">`</span><span class="at">Life expectancy at birth, male (years)</span><span class="st">`</span>,</span>
+<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">'male'</span>,</span>
+<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a>                <span class="at">lty =</span> <span class="st">'average'</span>))<span class="sc">+</span></span>
+<span id="cb38-33"><a href="#cb38-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'female'</span> <span class="ot">=</span> <span class="st">'royalblue1'</span>, <span class="st">'male'</span> <span class="ot">=</span> <span class="st">'darkslategrey'</span>)) <span class="sc">+</span></span>
+<span id="cb38-34"><a href="#cb38-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'country'</span> <span class="ot">=</span> <span class="dv">1</span>, <span class="st">'average'</span> <span class="ot">=</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="graphics_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
 </section>
 </section>
 <section id="fortgeschrittene-grafiken-mit-ggplot2" class="level1 page-columns page-full">
@@ -1078,27 +1315,27 @@ Abb&nbsp;6.4: Abbildungen mit Kombinationen mehrerer <code>geom</code>s
 <p><code>ggplot2</code> hat neben den in der Grammar of Graphics beschriebenen Komponenten außerdem noch Gruppen von Funktionen die die Usability verbessern oder die Einstellung zur optischen Erscheinung neben den <code>scales</code> ermöglichen.</p>
 <p>Die wohl wichtigste dieser Funktionen ist die <code>labs</code>-Funktion, mit der sich die Beschriftungen des Graphen anpassen lassen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>),</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>),</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">Original =</span> <span class="dv">20</span>, <span class="at">Mittelwert =</span> <span class="dv">3</span>))<span class="sc">+</span></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">10</span><span class="sc">/</span><span class="dv">1000</span>) <span class="sc">+</span></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>island) <span class="sc">+</span></span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Schnabellänge (mm)'</span>,</span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Körpergewicht (g)'</span>,</span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">'Pinguin-Spezies'</span>,</span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">shape =</span> <span class="st">'Aggregations-Niveau'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>),</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>),</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">Original =</span> <span class="dv">20</span>, <span class="at">Mittelwert =</span> <span class="dv">3</span>))<span class="sc">+</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">10</span><span class="sc">/</span><span class="dv">1000</span>) <span class="sc">+</span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>island) <span class="sc">+</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Schnabellänge (mm)'</span>,</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Körpergewicht (g)'</span>,</span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">'Pinguin-Spezies'</span>,</span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">shape =</span> <span class="st">'Aggregations-Niveau'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="graphics_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="graphics_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1230,111 +1467,111 @@ Abb&nbsp;7.1: Alle in <code>ggplot2</code> angelegten Themes
 <p>Mir gefallen aus dieser Aufstellung “light” und “minimal” am Besten, die anderen sind aber je nach Anlass auch gute Startpunkte.</p>
 <p>Unserem Plot können wir das theme wie alle bisherigen layer hinzufügen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>),</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>),</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">Original =</span> <span class="dv">20</span>, <span class="at">Mittelwert =</span> <span class="dv">3</span>))<span class="sc">+</span></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Schnabellänge (mm)'</span>,</span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Körpergewicht (g)'</span>,</span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">'Pinguin-Spezies'</span>,</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">shape =</span> <span class="st">'Aggregations-Niveau'</span>) <span class="sc">+</span></span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>),</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>),</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">Original =</span> <span class="dv">20</span>, <span class="at">Mittelwert =</span> <span class="dv">3</span>))<span class="sc">+</span></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Schnabellänge (mm)'</span>,</span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Körpergewicht (g)'</span>,</span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">'Pinguin-Spezies'</span>,</span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">shape =</span> <span class="st">'Aggregations-Niveau'</span>) <span class="sc">+</span></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="graphics_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="graphics_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>In diesem Zusammenhang können wir auch gleich Base-Font und Schriftgröße setzen. <code>theme_light</code> setzt die kleinste Schriftgröße auf .8 mal die <code>base_size</code><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>, wenn wir minimal 8pt große Schrift haben wollen, wie es zum Beispiel von der APA gefordert wird. Außerdem lässt sich eine APA-konforme Schriftart auswählen.</p>
 <div class="no-row-height column-margin column-container"><p><sup>3</sup>&nbsp;Diese Info findet man nicht auf der Hilfeseite, wenn man aber in RStudio eine Funktion markiert und F2 drückt, kann man den Quellcode einsehen. <code>theme_light</code> ist dabei auch ein gutes Beispiel als Ausgangpunkt für ein eigenes <code>theme</code></p></div><div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>),</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>),</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">Original =</span> <span class="dv">20</span>, <span class="at">Mittelwert =</span> <span class="dv">3</span>))<span class="sc">+</span></span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Schnabellänge (mm)'</span>,</span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Körpergewicht (g)'</span>,</span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">'Pinguin-Spezies'</span>,</span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">shape =</span> <span class="st">'Aggregations-Niveau'</span>) <span class="sc">+</span></span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">base_family =</span> <span class="st">'Helvetica'</span>,</span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">base_size =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>),</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>),</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">Original =</span> <span class="dv">20</span>, <span class="at">Mittelwert =</span> <span class="dv">3</span>))<span class="sc">+</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Schnabellänge (mm)'</span>,</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Körpergewicht (g)'</span>,</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">'Pinguin-Spezies'</span>,</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">shape =</span> <span class="st">'Aggregations-Niveau'</span>) <span class="sc">+</span></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">base_family =</span> <span class="st">'Helvetica'</span>,</span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">base_size =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="graphics_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="graphics_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Für genauere Kontrolle der optischen Eigenschaften kann die <code>theme</code>-Funktion benutzt werden. Wir kratzen nur mal an der Oberfläche der Möglichkeiten und verschieben die Legende an den unteren Rand des Graphen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>),</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>),</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">Original =</span> <span class="dv">20</span>, <span class="at">Mittelwert =</span> <span class="dv">3</span>))<span class="sc">+</span></span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Schnabellänge (mm)'</span>,</span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Körpergewicht (g)'</span>,</span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">'Pinguin-Spezies'</span>,</span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">shape =</span> <span class="st">'Aggregations-Niveau'</span>) <span class="sc">+</span></span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">base_family =</span> <span class="st">'Helvetica'</span>,</span>
-<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
-<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'bottom'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>),</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>),</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">Original =</span> <span class="dv">20</span>, <span class="at">Mittelwert =</span> <span class="dv">3</span>))<span class="sc">+</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Schnabellänge (mm)'</span>,</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Körpergewicht (g)'</span>,</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">'Pinguin-Spezies'</span>,</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">shape =</span> <span class="st">'Aggregations-Niveau'</span>) <span class="sc">+</span></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">base_family =</span> <span class="st">'Helvetica'</span>,</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'bottom'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="graphics_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="graphics_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Um die zu breite Beschriftung zu reparieren nutzen wir die <code>guides</code>-Funktion <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
 <div class="no-row-height column-margin column-container"><p><sup>4</sup>&nbsp;<code>ggplot2</code> hat eine ganze Familie an <code>guide_</code>-Funktionen, die unterschiedliche Legenden-Arten und Legenden-Anpassungen bieten - aus Zeitgründen sei hier aber nur auf deren Existenz verwiesen.</p></div><div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>),</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>),</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">Original =</span> <span class="dv">20</span>, <span class="at">Mittelwert =</span> <span class="dv">3</span>))<span class="sc">+</span></span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Schnabellänge (mm)'</span>,</span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Körpergewicht (g)'</span>,</span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">'Pinguin-Spezies'</span>,</span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">shape =</span> <span class="st">'Aggregations-Niveau'</span>) <span class="sc">+</span></span>
-<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">base_family =</span> <span class="st">'Helvetica'</span>,</span>
-<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
-<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'bottom'</span>) <span class="sc">+</span></span>
-<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">3</span>),</span>
-<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">shape =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>),</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>),</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">Original =</span> <span class="dv">20</span>, <span class="at">Mittelwert =</span> <span class="dv">3</span>))<span class="sc">+</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Schnabellänge (mm)'</span>,</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Körpergewicht (g)'</span>,</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">'Pinguin-Spezies'</span>,</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">shape =</span> <span class="st">'Aggregations-Niveau'</span>) <span class="sc">+</span></span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">base_family =</span> <span class="st">'Helvetica'</span>,</span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'bottom'</span>) <span class="sc">+</span></span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">3</span>),</span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">shape =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="graphics_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="graphics_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1346,30 +1583,30 @@ Abb&nbsp;7.1: Alle in <code>ggplot2</code> angelegten Themes
 <p>Eine Din A4-Seite ist 8.2 x 11.6 Zoll groß. Wenn wir eine Grafik auf 80% der Seitenbreite haben wollen, brauchen wir also eine 6.56 Zoll breite Grafik.</p>
 <p>Zum Speichern setzen wir unsere Grafik und die Maße in ggsave ein:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>),</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>),</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">Original =</span> <span class="dv">20</span>, <span class="at">Mittelwert =</span> <span class="dv">3</span>))<span class="sc">+</span></span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Schnabellänge (mm)'</span>,</span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Körpergewicht (g)'</span>,</span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">'Pinguin-Spezies'</span>,</span>
-<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">shape =</span> <span class="st">'Aggregations-Niveau'</span>) <span class="sc">+</span></span>
-<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">base_family =</span> <span class="st">'Helvetica'</span>,</span>
-<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
-<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'bottom'</span>) <span class="sc">+</span></span>
-<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">3</span>),</span>
-<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">shape =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">2</span>))</span>
-<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">plot =</span> p,</span>
-<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">filename =</span> <span class="st">'imgs/penguin_scatter.png'</span>,</span>
-<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="fl">6.56</span>,<span class="at">units =</span> <span class="st">'in'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span> </span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Original'</span>),</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">'Mittelwert'</span>),</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">Original =</span> <span class="dv">20</span>, <span class="at">Mittelwert =</span> <span class="dv">3</span>))<span class="sc">+</span></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Schnabellänge (mm)'</span>,</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Körpergewicht (g)'</span>,</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">'Pinguin-Spezies'</span>,</span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">shape =</span> <span class="st">'Aggregations-Niveau'</span>) <span class="sc">+</span></span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">base_family =</span> <span class="st">'Helvetica'</span>,</span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'bottom'</span>) <span class="sc">+</span></span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">3</span>),</span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">shape =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">2</span>))</span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">plot =</span> p,</span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">filename =</span> <span class="st">'imgs/penguin_scatter.png'</span>,</span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="fl">6.56</span>,<span class="at">units =</span> <span class="st">'in'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Saving 6.56 x 5 in image</code></pre>
 </div>
@@ -1383,31 +1620,31 @@ Abb&nbsp;7.1: Alle in <code>ggplot2</code> angelegten Themes
 </div>
 <p>Der Plot ist für meinen Geschmack etwas zu sehr vertikal geraten, das können wir im Export mit “hight” anpassen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">plot =</span> p,</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">filename =</span> <span class="st">'imgs/shorter_penguin_scatter.png'</span>,</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="fl">6.56</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">units =</span> <span class="st">'in'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">plot =</span> p,</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">filename =</span> <span class="st">'imgs/shorter_penguin_scatter.png'</span>,</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="fl">6.56</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">units =</span> <span class="st">'in'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="convenient-standards" class="level3">
 <h3 class="anchored" data-anchor-id="convenient-standards">Convenient Standards</h3>
 <p>Die beiden <code>theme</code>-Funktionen müssten wir so an jede Grafik anfügen. Solche Wiederholungen sind schlechter Stil und stören beim Lesen des Skripts, deswegen bietet <code>ggplot2</code> convenience-Funktionen um allgemeine Einstellungen zu setzen. Mit dem folgenden Snippet am Anfang des Skripts werden die Standards für alle Grafiken genutzt:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>my_theme <span class="ot">&lt;-</span>  <span class="fu">theme_light</span>(<span class="at">base_family =</span> <span class="st">'Helvetica'</span>,</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'bottom'</span>)</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(my_theme)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>my_theme <span class="ot">&lt;-</span>  <span class="fu">theme_light</span>(<span class="at">base_family =</span> <span class="st">'Helvetica'</span>,</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'bottom'</span>)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(my_theme)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So kann ich jetzt beispielsweise einfach ein eingefärbtes Histogramm für die Flossen-Länge mit den gesetzten Standards erstellen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm,</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> sex)) <span class="sc">+</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> sex)) <span class="sc">+</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="graphics_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="graphics_files/figure-html/unnamed-chunk-47-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1418,25 +1655,25 @@ Abb&nbsp;7.1: Alle in <code>ggplot2</code> angelegten Themes
 <h2 class="anchored" data-anchor-id="summary-layer">Summary-Layer</h2>
 <p>Um einer Grafik deskriptive Statistiken hinzuzufügen, gibt es mehrere Möglichkeiten. Eine haben wir bereits genutzt, indem wir ein geom erstellt haben, dass einen anderen Wert für das <code>data</code>-Argument<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> übergeben bekommt:</p>
 <div class="no-row-height column-margin column-container"><p><sup>5</sup>&nbsp;Oder halt wieder eine Lambda-Funktion als <code>data</code>-Argument</p></div><div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>penguin_means <span class="ot">&lt;-</span> palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span> </span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(bill_length_mm, </span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>                     body_mass_g), </span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>                   <span class="sc">~</span><span class="fu">mean</span>(., <span class="at">na.rm=</span>T)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>penguin_means <span class="ot">&lt;-</span> palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span> </span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(bill_length_mm, </span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>                     body_mass_g), </span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>                   <span class="sc">~</span><span class="fu">mean</span>(., <span class="at">na.rm=</span>T)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> species, </span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species))<span class="sc">+</span> </span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> species, </span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> body_mass_g,</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species))<span class="sc">+</span> </span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>penguin_means,</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="graphics_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="graphics_files/figure-html/unnamed-chunk-49-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1492,7 +1729,7 @@ Abb&nbsp;7.1: Alle in <code>ggplot2</code> angelegten Themes
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="graphics_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="graphics_files/figure-html/unnamed-chunk-50-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1500,26 +1737,26 @@ Abb&nbsp;7.1: Alle in <code>ggplot2</code> angelegten Themes
 <p>Ab einem bestimmten Punkt werden diese Operationen aber natürlich etwas unübersichtlich. Für diesen Fall bietet <code>ggplot2</code> die <code>stat_</code>-Layer und die Lambda-Funktionen im <code>data</code>-Argument.</p>
 <p>Derselbe Graph lässt sich damit auch wie folgt erstellen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">color =</span> species,</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">x =</span> species,</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> body_mass_g)) <span class="sc">+</span> </span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>() <span class="sc">+</span></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> <span class="sc">~</span> <span class="fu">group_by</span>(., species) <span class="sc">%&gt;%</span>  </span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>              <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(body_mass_g)),</span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>                        <span class="at">body_mass_g =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> T)),</span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste</span>(<span class="st">'N ='</span>, n)),</span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_nudge</span>(<span class="at">x =</span> <span class="fl">0.175</span>, <span class="at">y =</span> <span class="dv">30</span>),</span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">'black'</span>) <span class="sc">+</span></span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">color =</span> species,</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">x =</span> species,</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> body_mass_g)) <span class="sc">+</span> </span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>() <span class="sc">+</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> <span class="sc">~</span> <span class="fu">group_by</span>(., species) <span class="sc">%&gt;%</span>  </span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>              <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(body_mass_g)),</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>                        <span class="at">body_mass_g =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> T)),</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste</span>(<span class="st">'N ='</span>, n)),</span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_nudge</span>(<span class="at">x =</span> <span class="fl">0.175</span>, <span class="at">y =</span> <span class="dv">30</span>),</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">'black'</span>) <span class="sc">+</span></span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>No summary function supplied, defaulting to `mean_se()`</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="graphics_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="graphics_files/figure-html/unnamed-chunk-51-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1530,33 +1767,33 @@ Abb&nbsp;7.1: Alle in <code>ggplot2</code> angelegten Themes
 <p>Wir können uns zum Beispiel wünschen, dass die Spezies in der Reihenfolge <em>Gentoo, Chinstrap, Adelie</em> aufgelistet werden, also genau umgekehrt.</p>
 <p>Dazu können wir die <code>species</code>-Variable in einer Pipeline in einen Faktor umwandeln und die levels entsprechend unserer Vorstellung sortieren:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">species =</span> <span class="fu">factor</span>(species, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">'Gentoo'</span>, <span class="st">'Chinstrap'</span>, <span class="st">'Adelie'</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">color =</span> species,</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">x =</span> species,</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> body_mass_g)) <span class="sc">+</span> </span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>() <span class="sc">+</span></span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> <span class="sc">~</span> <span class="fu">group_by</span>(., species) <span class="sc">%&gt;%</span>  </span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>              <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(body_mass_g)),</span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>                        <span class="at">body_mass_g =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> T)),</span>
-<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste</span>(<span class="st">'N ='</span>, n)),</span>
-<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_nudge</span>(<span class="at">x =</span> <span class="fl">0.175</span>, <span class="at">y =</span> <span class="dv">30</span>),</span>
-<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">'black'</span>) <span class="sc">+</span></span>
-<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">species =</span> <span class="fu">factor</span>(species, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">'Gentoo'</span>, <span class="st">'Chinstrap'</span>, <span class="st">'Adelie'</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">color =</span> species,</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">x =</span> species,</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> body_mass_g)) <span class="sc">+</span> </span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>() <span class="sc">+</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> <span class="sc">~</span> <span class="fu">group_by</span>(., species) <span class="sc">%&gt;%</span>  </span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>              <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(body_mass_g)),</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>                        <span class="at">body_mass_g =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> T)),</span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste</span>(<span class="st">'N ='</span>, n)),</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_nudge</span>(<span class="at">x =</span> <span class="fl">0.175</span>, <span class="at">y =</span> <span class="dv">30</span>),</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">'black'</span>) <span class="sc">+</span></span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>No summary function supplied, defaulting to `mean_se()`</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="graphics_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="graphics_files/figure-html/unnamed-chunk-52-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Wie (so gut wie) immer bietet das <code>tidyverse</code> aber auch hier natürlich eine bequemere und felxiblere Lösung.</p>
-<p>Mit dem <code>forcats</code>-Paket lassen sich Faktoren mit einer Reihe von Ordnungsfunktionen anordnen:</p>
+<p>Wie (so gut wie) immer bietet das <code>tidyverse</code> aber auch hier natürlich eine bequemere und flexiblere Lösung.</p>
+<p>Mit dem <code>forcats</code>-Paket <span class="citation" data-cites="forcatsManual2023">(<a href="#ref-forcatsManual2023" role="doc-biblioref">Wickham, 2023</a>)</span> lassen sich Faktoren mit einer Reihe von Ordnungsfunktionen anordnen:</p>
 <div id="fig-forcats" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-forcats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1604,9 +1841,233 @@ Abb&nbsp;7.2: Drei Möglichkeiten, Faktoren mit forcats umzusortieren.
 </figcaption>
 </figure>
 </div>
-<section id="aufgabe-2" class="level3">
-<h3 class="anchored" data-anchor-id="aufgabe-2">Aufgabe</h3>
-<!-- TODO -->
+<section id="aufgabe" class="level3">
+<h3 class="anchored" data-anchor-id="aufgabe">Aufgabe</h3>
+<p>Sie benötigen wieder die Worldbank-Daten.</p>
+<p>Erstellen Sie einen Boxplot mit den Jahren von 2015 aufwärts auf der x-Achse und der <code>Prevalence of severe food insecurity in the population (%)</code> auf der y-Achse. Wandeln Sie dazu die Jahreszahlen in einen Faktor um.</p>
+<p>Wenden Sie auf diesen Graphen ein <code>theme</code> Ihrer Wahl an.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>worldbank_indicators <span class="sc">%&gt;%</span> </span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">&gt;</span> <span class="dv">2015</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">factor</span>(Year)) <span class="sc">%&gt;%</span> </span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year,</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> <span class="st">`</span><span class="at">Prevalence of severe food insecurity in the population (%)</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="graphics_files/figure-html/unnamed-chunk-54-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
+<p>Fügen Sie dem Graphen Mittelwerte als Punkte und Streuungen mit <code>geom_errorbar</code> hinzu.</p>
+<p>Tun sie dies entweder mit einem neuen Datensatz oder gehen Sie die etwas anspruchsvollere Route, die Funktion (<code>fun.data</code>) der <code>stat_summary</code>-Funktion anzupassen.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>means_and_sds <span class="ot">&lt;-</span> worldbank_indicators <span class="sc">%&gt;%</span> </span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">&gt;</span> <span class="dv">2015</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">factor</span>(Year)) <span class="sc">%&gt;%</span> </span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Year) <span class="sc">%&gt;%</span> </span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">Prevalence of severe food insecurity in the population (%)</span><span class="st">`</span>, <span class="at">na.rm =</span> T),</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd =</span> <span class="fu">sd</span>(<span class="st">`</span><span class="at">Prevalence of severe food insecurity in the population (%)</span><span class="st">`</span>, <span class="at">na.rm =</span> T))</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>worldbank_indicators <span class="sc">%&gt;%</span> </span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">&gt;</span> <span class="dv">2015</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">factor</span>(Year)) <span class="sc">%&gt;%</span> </span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year)) <span class="sc">+</span></span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="st">`</span><span class="at">Prevalence of severe food insecurity in the population (%)</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> means_and_sds,</span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">y =</span> m,</span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">pch =</span> <span class="st">'mean'</span>)) <span class="sc">+</span></span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">data =</span> means_and_sds,</span>
+<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a>                <span class="fu">aes</span>(<span class="at">ymin =</span> m <span class="sc">-</span> sd,</span>
+<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ymax =</span> m <span class="sc">+</span> sd),</span>
+<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">lty =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb56-20"><a href="#cb56-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="graphics_files/figure-html/unnamed-chunk-55-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="do">## alternativ:</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>range_fun <span class="ot">&lt;-</span> \(x)<span class="fu">tibble</span>(<span class="at">y =</span> <span class="fu">mean</span>(x, <span class="at">na.rm =</span> T),</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">ymin =</span> y <span class="sc">-</span> <span class="fu">sd</span>(x, <span class="at">na.rm =</span> T),</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">ymax =</span> y <span class="sc">+</span> <span class="fu">sd</span>(x, <span class="at">na.rm =</span> T))</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>worldbank_indicators <span class="sc">%&gt;%</span> </span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">&gt;</span> <span class="dv">2015</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">factor</span>(Year)) <span class="sc">%&gt;%</span> </span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year,</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> <span class="st">`</span><span class="at">Prevalence of severe food insecurity in the population (%)</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> range_fun,</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>               <span class="at">geom =</span> <span class="st">"errorbar"</span>) <span class="sc">+</span></span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> range_fun,</span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>               <span class="at">geom =</span> <span class="st">"point"</span>) <span class="sc">+</span></span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="graphics_files/figure-html/unnamed-chunk-55-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
+<p>Färben Sie die hinzugefügten Statistiken rot ein. Übersetzen Sie die Achsen-Beschriftungen auf Deutsch und setzen Sie die Überschrift der Farb-Skala auf einen leeren String (’’).</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>range_fun <span class="ot">&lt;-</span> \(x)<span class="fu">tibble</span>(<span class="at">y =</span> <span class="fu">mean</span>(x, <span class="at">na.rm =</span> T),</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">ymin =</span> y <span class="sc">-</span> <span class="fu">sd</span>(x, <span class="at">na.rm =</span> T),</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">ymax =</span> y <span class="sc">+</span> <span class="fu">sd</span>(x, <span class="at">na.rm =</span> T))</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>worldbank_indicators <span class="sc">%&gt;%</span> </span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">&gt;</span> <span class="dv">2015</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">factor</span>(Year)) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year,</span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> <span class="st">`</span><span class="at">Prevalence of severe food insecurity in the population (%)</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> range_fun,</span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">geom =</span> <span class="st">"errorbar"</span>,</span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">color =</span> <span class="st">'M+/-SD'</span>)) <span class="sc">+</span></span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> range_fun,</span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">geom =</span> <span class="st">"point"</span>,</span>
+<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">color =</span> <span class="st">'M+/-SD'</span>)) <span class="sc">+</span></span>
+<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb58-18"><a href="#cb58-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'M+/-SD'</span> <span class="ot">=</span> <span class="st">'firebrick4'</span>)) <span class="sc">+</span></span>
+<span id="cb58-19"><a href="#cb58-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">''</span>,</span>
+<span id="cb58-20"><a href="#cb58-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Prävalenz von schwerer Ernährungsunsicherheit in der Bevölkerung (%)'</span>,</span>
+<span id="cb58-21"><a href="#cb58-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'Jahr'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="graphics_files/figure-html/unnamed-chunk-56-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
+<p>Hier ist ein etwas angepasstes theme, das ich für mich erstellt habe:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>my_theme <span class="ot">&lt;-</span> \(){</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Beschriftung allgemein:</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"#335272"</span>, <span class="at">family =</span> <span class="st">"DejaVu Sans"</span>,</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">lineheight =</span> <span class="fl">1.1</span>),</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>      <span class="co"># spezifische Beschriftungen:</span></span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">'#01284F'</span>, <span class="at">family =</span> <span class="st">"DejaVu Sans"</span>, </span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>                                <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.6</span>), <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">12</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">0</span>)),</span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.1</span>), <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)),</span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"#667E95"</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">0.8</span>)),</span>
+<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="dv">1</span>), <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">0</span>)),</span>
+<span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"#667E95"</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">0.8</span>)),</span>
+<span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="dv">1</span>), <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">0</span>)),</span>
+<span id="cb59-16"><a href="#cb59-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">0.8</span>), <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">8</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)),</span>
+<span id="cb59-17"><a href="#cb59-17" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb59-18"><a href="#cb59-18" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Formatierung der Legenden:</span></span>
+<span id="cb59-19"><a href="#cb59-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">"top"</span>,</span>
+<span id="cb59-20"><a href="#cb59-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.justification =</span> <span class="dv">1</span>,</span>
+<span id="cb59-21"><a href="#cb59-21" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb59-22"><a href="#cb59-22" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Formatierung des Orientierungs-grids:</span></span>
+<span id="cb59-23"><a href="#cb59-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"#F3F4F5"</span>),</span>
+<span id="cb59-24"><a href="#cb59-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"#F5F6F7"</span>, <span class="at">linetype =</span> <span class="dv">1</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>),</span>
+<span id="cb59-25"><a href="#cb59-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb59-26"><a href="#cb59-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.major.y =</span>  <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"#F5F6F7"</span>, <span class="at">linetype =</span> <span class="dv">1</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>),</span>
+<span id="cb59-27"><a href="#cb59-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb59-28"><a href="#cb59-28" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb59-29"><a href="#cb59-29" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Formatierung der Einzüge und des Umrisses:</span></span>
+<span id="cb59-30"><a href="#cb59-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.25</span>,<span class="st">"cm"</span>),</span>
+<span id="cb59-31"><a href="#cb59-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">"#F3F4F5"</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">linetype =</span> <span class="dv">1</span>),</span>
+<span id="cb59-32"><a href="#cb59-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="cn">NA</span>))</span>
+<span id="cb59-33"><a href="#cb59-33" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Benutzen Sie dieses Beispiel und die Hilfeseite der <code>theme</code>-Funktion als Orientierung, um Ihre Grafik so unansehnlich wie möglich zu gestalten.</p>
+<div class="card">
+<div class="content">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>worldbank_indicators <span class="sc">%&gt;%</span> </span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">&gt;</span> <span class="dv">2015</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">factor</span>(Year)) <span class="sc">%&gt;%</span> </span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year,</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> <span class="st">`</span><span class="at">Prevalence of severe food insecurity in the population (%)</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> range_fun,</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">geom =</span> <span class="st">"errorbar"</span>,</span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">color =</span> <span class="st">'M+/-SD'</span>)) <span class="sc">+</span></span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> range_fun,</span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">geom =</span> <span class="st">"point"</span>,</span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">color =</span> <span class="st">'M+/-SD'</span>)) <span class="sc">+</span></span>
+<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'M+/-SD'</span> <span class="ot">=</span> <span class="st">'firebrick4'</span>)) <span class="sc">+</span></span>
+<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">''</span>,</span>
+<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Prävalenz von schwerer Ernährungsunsicherheit in der Bevölkerung (%)'</span>,</span>
+<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'Jahr'</span>) <span class="sc">+</span></span>
+<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Beschriftung allgemein:</span></span>
+<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"plum"</span>, <span class="at">family =</span> <span class="st">"Zapf Dingbats"</span>,</span>
+<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a>                          <span class="at">lineheight =</span> <span class="fl">1.1</span>),</span>
+<span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb60-22"><a href="#cb60-22" aria-hidden="true" tabindex="-1"></a>      <span class="co"># spezifische Beschriftungen:</span></span>
+<span id="cb60-23"><a href="#cb60-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">'olivedrab1'</span>, <span class="at">family =</span> <span class="st">"Zapf Dingbats"</span>, </span>
+<span id="cb60-24"><a href="#cb60-24" aria-hidden="true" tabindex="-1"></a>                                <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.6</span>), <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">12</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">0</span>)),</span>
+<span id="cb60-25"><a href="#cb60-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.1</span>), <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)),</span>
+<span id="cb60-26"><a href="#cb60-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"hotpink"</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">0.8</span>)),</span>
+<span id="cb60-27"><a href="#cb60-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="dv">1</span>), <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">0</span>)),</span>
+<span id="cb60-28"><a href="#cb60-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">0.8</span>)),</span>
+<span id="cb60-29"><a href="#cb60-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="dv">1</span>), <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">0</span>)),</span>
+<span id="cb60-30"><a href="#cb60-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">0.8</span>), <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">8</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)),</span>
+<span id="cb60-31"><a href="#cb60-31" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb60-32"><a href="#cb60-32" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Formatierung der Legenden:</span></span>
+<span id="cb60-33"><a href="#cb60-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">"top"</span>,</span>
+<span id="cb60-34"><a href="#cb60-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.justification =</span> <span class="dv">1</span>,</span>
+<span id="cb60-35"><a href="#cb60-35" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb60-36"><a href="#cb60-36" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Formatierung des Orientierungs-grids:</span></span>
+<span id="cb60-37"><a href="#cb60-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"black"</span>),</span>
+<span id="cb60-38"><a href="#cb60-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">linetype =</span> <span class="dv">3</span>, <span class="at">linewidth =</span> <span class="dv">8</span>),</span>
+<span id="cb60-39"><a href="#cb60-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb60-40"><a href="#cb60-40" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.major.y =</span>  <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"orange"</span>, <span class="at">linetype =</span> <span class="dv">1</span>, <span class="at">linewidth =</span> <span class="dv">16</span>),</span>
+<span id="cb60-41"><a href="#cb60-41" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb60-42"><a href="#cb60-42" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb60-43"><a href="#cb60-43" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Formatierung der Einzüge und des Umrisses:</span></span>
+<span id="cb60-44"><a href="#cb60-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.25</span>,<span class="st">"cm"</span>),</span>
+<span id="cb60-45"><a href="#cb60-45" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">"purple"</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">linetype =</span> <span class="dv">1</span>),</span>
+<span id="cb60-46"><a href="#cb60-46" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"greenyellow"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="graphics_files/figure-html/unnamed-chunk-58-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="overlay">
+<p>Antwort aufdecken</p>
+</div>
+</div>
 </section>
 </section>
 <section id="hilfreiche-links" class="level2">
@@ -1619,21 +2080,8 @@ Abb&nbsp;7.2: Drei Möglichkeiten, Faktoren mit forcats umzusortieren.
 <li><p>Unter <a href="http://www.cookbook-r.com/Graphs/">diesem Link</a> findet sich eine Sammlung von Farben, Formen, usw., die mit ggplot nutzbar sind.</p></li>
 </ul>
 </section>
-<section id="aufgabe-3" class="level2">
-<h2 class="anchored" data-anchor-id="aufgabe-3">Aufgabe</h2>
-<ol type="1">
-<li>Lese den <a href="https://raw.githubusercontent.com/MBrede/r_thesis_tools/main/data/example.csv">im Repo zu diesem Skript</a> zur Verfügung gestellten Datensatz <code>example.csv</code> ein. Dazu kann einfach der folgende Chunk genutzt werden:</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/MBrede/r_thesis_tools/main/data/example.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<ol start="2" type="1">
-<li><p>Stelle die Reaktionszeiten und Accuracies in einem Scatterplot dar.</p></li>
-<li><p>Färbe den Graphen nach Gruppen ein</p></li>
-<li><p>Füge Mittelwerte und Standardabweichungen pro Gruppe hinzu. Füge die Standardabweichungen dabei mit <code>geom_linerange</code> in zwei layern hinzu (einem für die x- und einem für die y-Richtung)</p></li>
-<li><p>Passe die Grafik so an, dass sie APA-konform ist</p></li>
-<li><p>Mache die Grafik so unästhetisch, wie es die APA-Richtlinien zulassen. <a href="http://www.cookbook-r.com/Graphs/">Hier</a> sind Fonts, Farben und Formen zu finden.</p></li>
-</ol>
+<section id="literatur" class="level2">
+<h2 class="anchored" data-anchor-id="literatur">Literatur</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
@@ -1642,6 +2090,12 @@ Grolemund, G., &amp; Wickham, H. (2016). <em>R for <span>Data</span> <span>Scien
 </div>
 <div id="ref-wickhamLayeredGrammarGraphics2010" class="csl-entry" role="listitem">
 Wickham, H. (2010). A layered grammar of graphics. <em>Journal of Computational and Graphical Statistics</em>, <em>19</em>(1), 3–28.
+</div>
+<div id="ref-ggplot2Manual2016" class="csl-entry" role="listitem">
+Wickham, H. (2016). <em>ggplot2: Elegant graphics for data analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>
+</div>
+<div id="ref-forcatsManual2023" class="csl-entry" role="listitem">
+Wickham, H. (2023). <em>Forcats: Tools for working with categorical variables (factors)</em>. <a href="https://CRAN.R-project.org/package=forcats">https://CRAN.R-project.org/package=forcats</a>
 </div>
 </div>
 </section>

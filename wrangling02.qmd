@@ -1,5 +1,5 @@
 ---
-toc-title: '![](imgs/magpie_wrestling_tables.webp){width=240px}<br> Daten zusammenführen und pivotieren'
+toc-title: '![](imgs/magpie_wrestling_tables.webp){width=240px}<br> <h3>Daten zusammenführen und pivotieren</h3>'
 ---
 
 ```{r setup 11, include=FALSE}
@@ -74,7 +74,7 @@ satisfaction <- satisfaction %>%
   select(`ONS-Code`, Satisfaction)
 ```
 
-1. Statt wie in `select` umzubenennen erstellen wir hier natürliche eine neue Spalte
+1. Statt wie in `select` umzubenennen erstellen wir hier natürlich eine neue Spalte
 2. Beim Erstellen des Skripts habe ich festgestellt, dass Haven-Labels keine Arithmetik mögen - so kann man die entfernen. 
 
 <p class='o'> `sum` ist keine vektorisierte Funktion! Um eine neue Summenwert pro Zeile zu bilden, sind `+` und `/` nötig </p>
@@ -134,16 +134,43 @@ overall %>% write_csv('data/drugs_crime_UK.csv')
 
 ### Aufgabe
 
-<!-- TODO -->
+Sie benötigen hier wieder die Datensätze aus der @sec-import zum Import. Der Code zum Import war der folgende:
+
+```{r}
+#| collapse: true
+
+library(tidyverse)
+temp <-  read_csv2('data/temp.csv')
+
+library(haven)
+covid_cases <- read_sav("data/covid_cases.sav")
+
+library(readxl)
+charts <- read_excel("data/charts.xlsx")
+```
 
 Fügen Sie den Covid und den Temperatur-Datensatz anhand der Kalenderwoche zusammen. Dabei sollen alle Zeilen, die im Temperatur-Datensatz vorliegen auch im neuen Datensatz vorliegen. 
 Ersetzen Sie anschließend alle möglicherweise vorliegenden fehlenden Werte durch Nullen.
 
-Benennen Sie abschließend die Kalender-Wochen-Spalte in `calendar_week` und die Fall-Spalte im `new_covid_cases` um.
+Benennen Sie abschließend die Kalender-Wochen-Spalte in `calendar_week` und die Fall-Spalte im `new_covid_cases` um. Lesen Sie dazu die Hilfeseite der `rename`-Funktion
 
-Speichern Sie sich den so erstellten Datensatz für später als 'temp_covid.csv' ab und den vorbereiteten Charts-Datensatz unter 'chart_overview.csv' ab.
+Speichern Sie sich den so erstellten Datensatz für später als 'temp_covid.csv' ab.
 
-<!-- ### Literatur -->
+:::{class="card"}
+:::{class="content"}
+```{r}
+temp %>% 
+  left_join(covid_cases, by = join_by(cw == calendar_week)) %>% 
+  mutate(across(where(is.numeric), ~case_when(is.na(.) ~ 0, T ~ .))) %>% 
+  rename('calender_week' = 'cw', 'new_covid_cases' = 'new_cases') %>% 
+  write_csv('temp_covid.csv')
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
 
 ## Pivotieren von Datensätzen
 
@@ -329,6 +356,70 @@ Antwort aufdecken
 
 ### Aufgabe
 
-<!-- TODO -->
+Importieren Sie nochmal den Worldbank-Datensatz aus dem Abschnitt zu @sec-ggplot.
+Der Import funktionierte wie folgt:
 
-Datensatz hin pivotieren, Grafik machen, her-pivotieren
+```{r}
+#| collapse: true
+
+worldbank_indicators <- read_excel("data/worldbank_indicators.xlsx")
+```
+
+Filtern Sie den Datensatz so, dass nur die Daten für die USA und die drei Variablen zur Lebenserwartung im Datensatz vorhanden sind.
+
+Pivotieren Sie den Datensatz ins long-Format, so dass die Lebenserwartung in einer Variable vorliegt.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+pivoted_data <- worldbank_indicators %>% 
+  filter(`Country Name` == 'United States') %>% 
+  select(Year, matches('Life')) %>% 
+  pivot_longer(matches('Life'),
+               names_to = 'group',
+               values_to = 'Life Expectancy')
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+Stellen Sie die drei Verläufe in einem facettierten Liniendiagramm dar. Wenn Sie Lust haben, nutzen Sie vorher `str_extract` um die Gruppe aus der Namensspalte zu extrahieren.
+
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+pivoted_data %>% 
+  mutate(group = str_extract(group, '\\w+al\\w*')) %>% 
+  ggplot(aes(x = Year, y = `Life Expectancy`)) +
+  geom_line() +
+  facet_wrap(~group)
+```
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+Pivotieren Sie den pivotierten Datensatz anschließend so ins wide-Format, dass die Jahreszahlen in den Spalten und die Gruppen in den Zeilen stehen.
+
+:::{class="card"}
+:::{class="content"}
+```{r}
+pivoted_data %>% 
+  mutate(group = str_extract(group, '\\w+al\\w*')) %>% 
+  pivot_wider(values_from = `Life Expectancy`,
+              names_from = Year,
+              names_prefix = 'Year_')
+```
+
+:::
+:::{class="overlay"}
+Antwort aufdecken
+:::
+:::
+
+

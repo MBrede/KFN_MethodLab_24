@@ -1,5 +1,5 @@
 ---
-toc-title: '![](imgs/elstRste_schritte.webp){width=240px}<br> Rste Schritte'
+toc-title: '![](imgs/elstRste_schritte.webp){width=240px}<br> <h3>Rste Schritte</h3>'
 ---
 
 ```{r setup 01, include=FALSE}

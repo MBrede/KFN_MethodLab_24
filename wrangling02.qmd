@@ -100,6 +100,8 @@ Antwort aufdecken
 :::
 :::
 
+## `join_`
+
 Jetzt müssen wir das ganze nur noch zusammenfügen. Dafür benutzen wir die Familien der `join`-Funktionen
 
 Zuerst fügen wir die Anzahl der Straftaten zu der Anzahl der Krankenhauseinweisungen hinzu. Dabei matchen wir die Regionen über das Regions-Schlüsselwort und behalten nur die Fälle, in denen in beiden Datensätzen ein Schlüsselwort auftaucht:

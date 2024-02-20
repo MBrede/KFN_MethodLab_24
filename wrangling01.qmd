@@ -266,7 +266,7 @@ Antwort aufdecken
 
 
 
-## Datenaufbereitung
+## Datenaufbereitung {#sec-prep}
 
 Datenaufbereitung kann natürlich denkbar komplex sein, deswegen beschränken wir uns auf sehr einfache Methoden mit dem Fokus auf die Umsetzung im `tidyverse`. Es geht gleich explizit nicht um die Methoden! Wir gucken uns drei einfache Beispiele an:
 

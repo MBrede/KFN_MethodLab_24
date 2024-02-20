@@ -28,9 +28,24 @@ ggsave <- function(...)ggplot2::ggsave(...,bg = 'transparent')
 load('data/wrangling1.RData')
 ```
 
-## Zusammenführen von Datensätzen {.section}
+# Zusammenführen von Datensätzen
 
-Zu guter Letzt wollen wir die drei Datensätze zu einem Datensatz zusammenfügen.  
+Als Abschluss zum Data-Handling mit dem tidyverse wollen wir die im Abschnitt @sec-prep vorbereiteten Daten zu einem Datensatz zusammenfügen.
+
+Die Datensätze sahen dabei so aus:
+
+```{r}
+drugs %>% 
+  head()
+
+crime %>% 
+  head()
+
+satisfaction %>% 
+  head()
+```
+
+Wir wollen die drei vorbereiteten Teile nun in einem Datensatz integrieren.
 Dieser soll pro Region
 1. die Anzahl aller drogenbezogenen Krankenhausaufenthalte
 2. die Anzahl der (versuchten) Mordfälle 

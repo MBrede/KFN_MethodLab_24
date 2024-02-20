@@ -269,22 +269,76 @@ Daten zusammenführen und pivotieren<br>
 </header>
 
 
-<p>Zu guter Letzt wollen wir die drei Datensätze zu einem Datensatz zusammenfügen.<br>
-Dieser soll pro Region 1. die Anzahl aller drogenbezogenen Krankenhausaufenthalte 2. die Anzahl der (versuchten) Mordfälle 3. die mittlere Zufriedenheit über alle Skalen beinhalten</p>
+<p>Als Abschluss zum Data-Handling mit dem tidyverse wollen wir die im Abschnitt <a href="wrangling01.html#sec-prep" class="quarto-xref"><span>Datenaufbereitung</span></a> vorbereiteten Daten zu einem Datensatz zusammenfügen.</p>
+<p>Die Datensätze sahen dabei so aus:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>drugs <span class="sc">%&gt;%</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 7
+  ...1      ...2  ...3  ...4  `All persons9`  Male
+  &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;          &lt;dbl&gt; &lt;dbl&gt;
+1 ""        ""    ""    ""                 0     0
+2 "E920000… ""    ""    "Eng…           7139  5294
+3 ""        ""    ""    ""                 0     0
+4 "U"       ""    "U"   "Unk…            244   202
+5 ""        ""    ""    ""                 0     0
+6 "E120000… ""    "A"   "Nor…            276   194
+# ℹ 1 more variable: Female &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>crime <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 25
+  Force                HOMICIDE `Attempted murder`
+  &lt;chr&gt;                   &lt;dbl&gt;              &lt;dbl&gt;
+1 Avon and Somerset          10                 20
+2 Bedfordshire                4                 10
+3 British Transport P…        1                  3
+4 Cambridgeshire              7                 13
+5 Cheshire                    3                  6
+6 Cleveland                   7                  6
+# ℹ 22 more variables:
+#   `Intentional destruction of viable unborn child` &lt;dbl&gt;,
+#   `Causing death by dangerous driving` &lt;dbl&gt;,
+#   `Causing death by careless driving when under the influence of drink or drugs` &lt;dbl&gt;,
+#   `Causing death by careless or inconsiderate driving` &lt;dbl&gt;,
+#   `Assault with intent to cause serious harm` &lt;dbl&gt;,
+#   `Endangering life` &lt;dbl&gt;, …</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>satisfaction <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 6
+  Code      Region            Average_Satisfaction
+  &lt;chr&gt;     &lt;chr&gt;             &lt;dbl+lbl&gt;           
+1 K02000001 United Kingdom    7                   
+2 K03000001 Great Britain     7                   
+3 E92000001 England           7                   
+4 E12000001 North East        7                   
+5 E11000004 Tyne and Wear Me… 7                   
+6 E06000001 Hartlepool UA     7                   
+# ℹ 3 more variables:
+#   Average_Worthwile &lt;dbl+lbl&gt;,
+#   Average_Happy_Yesterday &lt;dbl+lbl&gt;,
+#   Average_Anxious_Yesterday &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Wir wollen die drei vorbereiteten Teile nun in einem Datensatz integrieren. Dieser soll pro Region 1. die Anzahl aller drogenbezogenen Krankenhausaufenthalte 2. die Anzahl der (versuchten) Mordfälle 3. die mittlere Zufriedenheit über alle Skalen beinhalten</p>
 <p>Wir fangen damit an, die Datensätze wie gewünscht vorzubereiten. Aus dem <code>drugs</code>-Datensatz brauchen wir die Regionsbezeichnung, die ONS-Codes und natürlich die Zahl der Einweisungen:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>drugs <span class="ot">&lt;-</span> drugs <span class="sc">%&gt;%</span> </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">ONS-Code</span><span class="st">`</span><span class="ot">=</span> <span class="st">`</span><span class="at">...1</span><span class="st">`</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Region =</span> <span class="st">`</span><span class="at">...4</span><span class="st">`</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">Admissions =</span> <span class="st">`</span><span class="at">All persons9</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>drugs <span class="ot">&lt;-</span> drugs <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">ONS-Code</span><span class="st">`</span><span class="ot">=</span> <span class="st">`</span><span class="at">...1</span><span class="st">`</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Region =</span> <span class="st">`</span><span class="at">...4</span><span class="st">`</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">Admissions =</span> <span class="st">`</span><span class="at">All persons9</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <!-- ### Vorbereitung -->
 <p>Aus dem <code>crime</code>-Datensatz brauchen wir die Bezeichnung der Niederlassung, Anzahl der Morde und die Anzahl der versuchten Morde:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>crime <span class="ot">&lt;-</span> crime <span class="sc">%&gt;%</span> </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Force,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Homicide =</span> HOMICIDE,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Attempted murder</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>crime <span class="ot">&lt;-</span> crime <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Force,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Homicide =</span> HOMICIDE,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Attempted murder</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Aus dem <code>satisfaction</code>-Datensatz brauchen wir den ONS-Code und einen mittleren Zufriedenheitswert</p>
 <p class="q">
@@ -293,23 +347,23 @@ Wie könnte ich das angehen?
 <div class="card">
 <div class="content">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="annotated-cell-15"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-15-1"><a href="#annotated-cell-15-1" aria-hidden="true" tabindex="-1"></a>satisfaction <span class="ot">&lt;-</span> satisfaction <span class="sc">%&gt;%</span> </span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-15-2" class="code-annotation-target"><a href="#annotated-cell-15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">ONS-Code</span><span class="st">`</span> <span class="ot">=</span> Code,</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-15-3" class="code-annotation-target"><a href="#annotated-cell-15-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">across</span>(<span class="fu">where</span>(haven<span class="sc">::</span>is.labelled), <span class="sc">~</span><span class="fu">as.numeric</span>(.)),</span>
-<span id="annotated-cell-15-4"><a href="#annotated-cell-15-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">Satisfaction =</span> (Average_Satisfaction <span class="sc">+</span> </span>
-<span id="annotated-cell-15-5"><a href="#annotated-cell-15-5" aria-hidden="true" tabindex="-1"></a>                         Average_Worthwile <span class="sc">+</span> </span>
-<span id="annotated-cell-15-6"><a href="#annotated-cell-15-6" aria-hidden="true" tabindex="-1"></a>                         Average_Happy_Yesterday <span class="sc">+</span> </span>
-<span id="annotated-cell-15-7"><a href="#annotated-cell-15-7" aria-hidden="true" tabindex="-1"></a>                         Average_Anxious_Yesterday)<span class="sc">/</span><span class="dv">4</span>) <span class="sc">%&gt;%</span> </span>
-<span id="annotated-cell-15-8"><a href="#annotated-cell-15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">ONS-Code</span><span class="st">`</span>, Satisfaction)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-21"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-21-1"><a href="#annotated-cell-21-1" aria-hidden="true" tabindex="-1"></a>satisfaction <span class="ot">&lt;-</span> satisfaction <span class="sc">%&gt;%</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-21" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-21-2" class="code-annotation-target"><a href="#annotated-cell-21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">ONS-Code</span><span class="st">`</span> <span class="ot">=</span> Code,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-21" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-21-3" class="code-annotation-target"><a href="#annotated-cell-21-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">across</span>(<span class="fu">where</span>(haven<span class="sc">::</span>is.labelled), <span class="sc">~</span><span class="fu">as.numeric</span>(.)),</span>
+<span id="annotated-cell-21-4"><a href="#annotated-cell-21-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">Satisfaction =</span> (Average_Satisfaction <span class="sc">+</span> </span>
+<span id="annotated-cell-21-5"><a href="#annotated-cell-21-5" aria-hidden="true" tabindex="-1"></a>                         Average_Worthwile <span class="sc">+</span> </span>
+<span id="annotated-cell-21-6"><a href="#annotated-cell-21-6" aria-hidden="true" tabindex="-1"></a>                         Average_Happy_Yesterday <span class="sc">+</span> </span>
+<span id="annotated-cell-21-7"><a href="#annotated-cell-21-7" aria-hidden="true" tabindex="-1"></a>                         Average_Anxious_Yesterday)<span class="sc">/</span><span class="dv">4</span>) <span class="sc">%&gt;%</span> </span>
+<span id="annotated-cell-21-8"><a href="#annotated-cell-21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">ONS-Code</span><span class="st">`</span>, Satisfaction)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-15" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-21" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-15" data-code-lines="2" data-code-annotation="1">Statt wie in <code>select</code> umzubenennen erstellen wir hier natürlich eine neue Spalte</span>
+<span data-code-cell="annotated-cell-21" data-code-lines="2" data-code-annotation="1">Statt wie in <code>select</code> umzubenennen erstellen wir hier natürlich eine neue Spalte</span>
 </dd>
-<dt data-target-cell="annotated-cell-15" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-21" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-15" data-code-lines="3" data-code-annotation="2">Beim Erstellen des Skripts habe ich festgestellt, dass Haven-Labels keine Arithmetik mögen - so kann man die entfernen.</span>
+<span data-code-cell="annotated-cell-21" data-code-lines="3" data-code-annotation="2">Beim Erstellen des Skripts habe ich festgestellt, dass Haven-Labels keine Arithmetik mögen - so kann man die entfernen.</span>
 </dd>
 </dl>
 </div>
@@ -325,10 +379,10 @@ Wie könnte ich das angehen?
 <p>Jetzt müssen wir das ganze nur noch zusammenfügen. Dafür benutzen wir die Familien der <code>join</code>-Funktionen</p>
 <p>Zuerst fügen wir die Anzahl der Straftaten zu der Anzahl der Krankenhauseinweisungen hinzu. Dabei matchen wir die Regionen über das Regions-Schlüsselwort und behalten nur die Fälle, in denen in beiden Datensätzen ein Schlüsselwort auftaucht:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>overall <span class="ot">&lt;-</span> drugs <span class="sc">%&gt;%</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(crime, </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">by =</span> <span class="fu">join_by</span>(Region <span class="sc">==</span> Force))</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>overall</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>overall <span class="ot">&lt;-</span> drugs <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(crime, </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">by =</span> <span class="fu">join_by</span>(Region <span class="sc">==</span> Force))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>overall</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 21 × 5
    `ONS-Code` Region           Admissions Homicide
@@ -349,12 +403,12 @@ Wie könnte ich das angehen?
 </div>
 <p>Dem <code>overall</code>-Datensatz fügen wir jetzt noch die <code>satisfaction</code> hinzu. Hierzu nutzen wir die ONS-Codes. Dabei wollen wir alle Fälle in <code>overall</code> behalten. Da wir die Spalten umbenannt haben, brauchen wir keine Definition des “by”-Arguments.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>overall <span class="ot">&lt;-</span> overall <span class="sc">%&gt;%</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(satisfaction)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>overall <span class="ot">&lt;-</span> overall <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(satisfaction)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Joining with `by = join_by(`ONS-Code`)`</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(overall)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(overall)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   ONS-Code            Region         
  Length:21          Length:21         
@@ -384,35 +438,35 @@ Wie könnte ich das angehen?
 </div>
 <p>Uns fällt jetzt aber auf, dass wir lieber klein geschriebene Spaltennamen hätten, wie doof. Dafür gibt es mit <code>rename</code> aber natürlich auch eine praktische Lösung im <code>tidyverse</code>. <code>rename</code> erwartet entweder die Angabe jedes Namens, der geändert werden soll als Wert und die neuen Namen als Namen der Argumente. Wir können aber auch die praktischere Variante <code>rename_with</code> nutzen und unsere Änderung mit einer Anweisung und tidy-select-helpern durchführen:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a>overall <span class="ot">&lt;-</span> overall <span class="sc">%&gt;%</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-6-2" class="code-annotation-target"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-6-3" class="code-annotation-target"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">.fn =</span> <span class="sc">~</span> <span class="fu">str_to_lower</span>(.),</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-6-4" class="code-annotation-target"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.cols =</span> <span class="fu">everything</span>()</span>
-<span id="annotated-cell-6-5"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a>  )</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-9"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-9-1" class="code-annotation-target"><a href="#annotated-cell-9-1" aria-hidden="true" tabindex="-1"></a>overall <span class="ot">&lt;-</span> overall <span class="sc">%&gt;%</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-9-2" class="code-annotation-target"><a href="#annotated-cell-9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-9-3" class="code-annotation-target"><a href="#annotated-cell-9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">.fn =</span> <span class="sc">~</span> <span class="fu">str_to_lower</span>(.),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-9-4" class="code-annotation-target"><a href="#annotated-cell-9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.cols =</span> <span class="fu">everything</span>()</span>
+<span id="annotated-cell-9-5"><a href="#annotated-cell-9-5" aria-hidden="true" tabindex="-1"></a>  )</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="1" data-code-annotation="1">Überschreibe <code>overall</code>, indem Du <code>overall</code> nimmst und dann</span>
+<span data-code-cell="annotated-cell-9" data-code-lines="1" data-code-annotation="1">Überschreibe <code>overall</code>, indem Du <code>overall</code> nimmst und dann</span>
 </dd>
-<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="2" data-code-annotation="2">eine Neubenennung anstößt</span>
+<span data-code-cell="annotated-cell-9" data-code-lines="2" data-code-annotation="2">eine Neubenennung anstößt</span>
 </dd>
-<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="3" data-code-annotation="3">indem Du ausgewählte Spaltennamen in Kleinbuchstaben übersetzt</span>
+<span data-code-cell="annotated-cell-9" data-code-lines="3" data-code-annotation="3">indem Du ausgewählte Spaltennamen in Kleinbuchstaben übersetzt</span>
 </dd>
-<dt data-target-cell="annotated-cell-6" data-target-annotation="4">4</dt>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="4" data-code-annotation="4">und zwar für alle Spalten.</span>
+<span data-code-cell="annotated-cell-9" data-code-lines="4" data-code-annotation="4">und zwar für alle Spalten.</span>
 </dd>
 </dl>
 </div>
 </div>
 <p>Damit ist unser Datensatz fertig:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>overall</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>overall</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 21 × 6
    `ons-code` region           admissions homicide
@@ -434,29 +488,29 @@ Wie könnte ich das angehen?
 </div>
 <p>Den speichern wir noch eben als csv-Datei ab.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>overall <span class="sc">%&gt;%</span> <span class="fu">write_csv</span>(<span class="st">'data/drugs_crime_UK.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>overall <span class="sc">%&gt;%</span> <span class="fu">write_csv</span>(<span class="st">'data/drugs_crime_UK.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="aufgabe" class="level3">
 <h3 class="anchored" data-anchor-id="aufgabe">Aufgabe</h3>
 <p>Sie benötigen hier wieder die Datensätze aus der <a href="wrangling01.html#sec-import" class="quarto-xref"><span>Aufgabe</span></a> zum Import. Der Code zum Import war der folgende:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span>  <span class="fu">read_csv2</span>(<span class="st">'data/temp.csv'</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Rows: 338 Columns: 3</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="do">## ── Column specification ──────────────────────────</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Delimiter: ";"</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="do">## dbl  (2): temp, cw</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="do">## date (1): date</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="do">## ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="do">## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>covid_cases <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"data/covid_cases.sav"</span>)</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>charts <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/charts.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span>  <span class="fu">read_csv2</span>(<span class="st">'data/temp.csv'</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Rows: 338 Columns: 3</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="do">## ── Column specification ──────────────────────────</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Delimiter: ";"</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="do">## dbl  (2): temp, cw</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="do">## date (1): date</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="do">## ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="do">## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>covid_cases <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"data/covid_cases.sav"</span>)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>charts <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/charts.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Fügen Sie den Covid und den Temperatur-Datensatz anhand der Kalenderwoche zusammen. Dabei sollen alle Zeilen, die im Temperatur-Datensatz vorliegen auch im neuen Datensatz vorliegen. Ersetzen Sie anschließend alle möglicherweise vorliegenden fehlenden Werte durch Nullen.</p>
 <p>Benennen Sie abschließend die Kalender-Wochen-Spalte in <code>calendar_week</code> und die Fall-Spalte im <code>new_covid_cases</code> um. Lesen Sie dazu die Hilfeseite der <code>rename</code>-Funktion</p>
@@ -464,11 +518,11 @@ Wie könnte ich das angehen?
 <div class="card">
 <div class="content">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>temp <span class="sc">%&gt;%</span> </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(covid_cases, <span class="at">by =</span> <span class="fu">join_by</span>(cw <span class="sc">==</span> calendar_week)) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="sc">~</span><span class="fu">case_when</span>(<span class="fu">is.na</span>(.) <span class="sc">~</span> <span class="dv">0</span>, T <span class="sc">~</span> .))) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">'calender_week'</span> <span class="ot">=</span> <span class="st">'cw'</span>, <span class="st">'new_covid_cases'</span> <span class="ot">=</span> <span class="st">'new_cases'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="st">'temp_covid.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>temp <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(covid_cases, <span class="at">by =</span> <span class="fu">join_by</span>(cw <span class="sc">==</span> calendar_week)) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="sc">~</span><span class="fu">case_when</span>(<span class="fu">is.na</span>(.) <span class="sc">~</span> <span class="dv">0</span>, T <span class="sc">~</span> .))) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">'calender_week'</span> <span class="ot">=</span> <span class="st">'cw'</span>, <span class="st">'new_covid_cases'</span> <span class="ot">=</span> <span class="st">'new_cases'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="st">'temp_covid.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="overlay">
@@ -525,7 +579,7 @@ Wie könnte ich das angehen?
 <p>Um zwischen den Formaten zu konvertieren gibt es im <code>tidyverse</code> die <code>pivot_wider</code> und <code>pivot_longer</code> Funktionen.</p>
 <p>Der Original-Datensatz zu den Bundestagswahlen sieht wie folgt aus:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>bundestagswahl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>bundestagswahl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 20 × 8
     Jahr `CDU/CSU`   SPD   FDP
@@ -559,11 +613,11 @@ Wie könnte ich das angehen?
 <p>Wir würden gern eine <code>ggplot</code>-Grafik erstellen, in der die Verläufe der Stimmen über die Zeit dargestellt sind. Da wir alle Zweitstimmen-Prozente auf einem aesthetic darstellen wollen, brauchen wir den Datensatz aber natürlich im long-Format</p>
 <p>Das pivotieren geht mit <code>pivot_longer</code> auch sehr einfach:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>btw_long <span class="ot">&lt;-</span> bundestagswahl <span class="sc">%&gt;%</span> </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Jahr,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">'Partei'</span>,</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">'Zweitstimmen'</span>)</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>btw_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>btw_long <span class="ot">&lt;-</span> bundestagswahl <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Jahr,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">'Partei'</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">'Zweitstimmen'</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>btw_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 140 × 3
     Jahr Partei                Zweitstimmen
@@ -587,17 +641,17 @@ Wie erstelle ich damit jetzt einen line-chart?
 <div class="card">
 <div class="content">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>btw_long <span class="sc">%&gt;%</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Jahr, <span class="at">y =</span> Zweitstimmen, <span class="at">color =</span> Partei)) <span class="sc">+</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">AfD =</span> <span class="st">'#0489DB'</span>,</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'Bündnis 90/Die Grünen'</span> <span class="ot">=</span> <span class="st">'#1AA037'</span>,</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                                <span class="at">CDU =</span> <span class="st">'#000000'</span>,</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'Die Linke. PDS'</span> <span class="ot">=</span> <span class="st">'#BD3075'</span>,</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>                                <span class="at">FDP =</span> <span class="st">'#FFEF00'</span>,</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>                                <span class="at">Sonstige =</span> <span class="st">'darkgrey'</span>,</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>                                <span class="at">SPD =</span> <span class="st">'#E3000F'</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>                                ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>btw_long <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Jahr, <span class="at">y =</span> Zweitstimmen, <span class="at">color =</span> Partei)) <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">AfD =</span> <span class="st">'#0489DB'</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'Bündnis 90/Die Grünen'</span> <span class="ot">=</span> <span class="st">'#1AA037'</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                                <span class="at">CDU =</span> <span class="st">'#000000'</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'Die Linke. PDS'</span> <span class="ot">=</span> <span class="st">'#BD3075'</span>,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>                                <span class="at">FDP =</span> <span class="st">'#FFEF00'</span>,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>                                <span class="at">Sonstige =</span> <span class="st">'darkgrey'</span>,</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>                                <span class="at">SPD =</span> <span class="st">'#E3000F'</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>                                ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Scale for colour is already present.
 Adding another scale for colour, which will
@@ -606,7 +660,7 @@ replace the existing scale.</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="wrangling02_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+<p><img src="wrangling02_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -623,34 +677,34 @@ Wie ginge das denn mit <code>summarise</code> und <code>across</code>? Und wie k
 <div class="card">
 <div class="content">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>btw_summary <span class="ot">&lt;-</span> btw_long <span class="sc">%&gt;%</span> </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Partei) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="st">'M'</span> <span class="ot">=</span> <span class="fu">mean</span>(Zweitstimmen, <span class="at">na.rm=</span>T),</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">'SD'</span> <span class="ot">=</span> <span class="fu">sd</span>(Zweitstimmen, <span class="at">na.rm=</span>T),</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">lower =</span> M <span class="sc">-</span> SD,</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">upper =</span> M <span class="sc">+</span> SD)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>btw_summary <span class="ot">&lt;-</span> btw_long <span class="sc">%&gt;%</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Partei) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="st">'M'</span> <span class="ot">=</span> <span class="fu">mean</span>(Zweitstimmen, <span class="at">na.rm=</span>T),</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">'SD'</span> <span class="ot">=</span> <span class="fu">sd</span>(Zweitstimmen, <span class="at">na.rm=</span>T),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">lower =</span> M <span class="sc">-</span> SD,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">upper =</span> M <span class="sc">+</span> SD)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Den Datensatz können wir jetzt benutzen:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>btw_long <span class="sc">%&gt;%</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Jahr, <span class="at">y =</span> Zweitstimmen, <span class="at">color =</span> Partei)) <span class="sc">+</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">data =</span> btw_summary,</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">yintercept =</span> M, <span class="at">color =</span> Partei))<span class="sc">+</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">data =</span> btw_summary,</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">yintercept =</span> lower, <span class="at">color =</span> Partei),</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">lty =</span> <span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">data =</span> btw_summary,</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">yintercept =</span> upper, <span class="at">color =</span> Partei),</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">lty =</span> <span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">AfD =</span> <span class="st">'#0489DB'</span>,</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'Bündnis 90/Die Grünen'</span> <span class="ot">=</span> <span class="st">'#1AA037'</span>,</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'CDU/CSU'</span> <span class="ot">=</span> <span class="st">'#000000'</span>,</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'Die Linke. PDS'</span> <span class="ot">=</span> <span class="st">'#BD3075'</span>,</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>                                <span class="at">FDP =</span> <span class="st">'#FFEF00'</span>,</span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>                                <span class="at">Sonstige =</span> <span class="st">'darkgrey'</span>,</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>                                <span class="at">SPD =</span> <span class="st">'#E3000F'</span></span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>                                )) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>btw_long <span class="sc">%&gt;%</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Jahr, <span class="at">y =</span> Zweitstimmen, <span class="at">color =</span> Partei)) <span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">data =</span> btw_summary,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">yintercept =</span> M, <span class="at">color =</span> Partei))<span class="sc">+</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">data =</span> btw_summary,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">yintercept =</span> lower, <span class="at">color =</span> Partei),</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">lty =</span> <span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">data =</span> btw_summary,</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">yintercept =</span> upper, <span class="at">color =</span> Partei),</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">lty =</span> <span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">AfD =</span> <span class="st">'#0489DB'</span>,</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'Bündnis 90/Die Grünen'</span> <span class="ot">=</span> <span class="st">'#1AA037'</span>,</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'CDU/CSU'</span> <span class="ot">=</span> <span class="st">'#000000'</span>,</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'Die Linke. PDS'</span> <span class="ot">=</span> <span class="st">'#BD3075'</span>,</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>                                <span class="at">FDP =</span> <span class="st">'#FFEF00'</span>,</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>                                <span class="at">Sonstige =</span> <span class="st">'darkgrey'</span>,</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>                                <span class="at">SPD =</span> <span class="st">'#E3000F'</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>                                )) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Scale for colour is already present.
 Adding another scale for colour, which will
@@ -659,7 +713,7 @@ replace the existing scale.</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="wrangling02_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+<p><img src="wrangling02_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -671,11 +725,11 @@ replace the existing scale.</code></pre>
 </div>
 <p>Unter der Grafik wollen wir zum Schluss noch die Mittelwerte pro Partei hintereinander als Spalten darstellen. Das heißt, wir müssen die Tabelle ins wide-Format überführen. Auch dieser Schritt ist relativ einfach:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>btw_summary <span class="sc">%&gt;%</span> </span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Partei, M) <span class="sc">%&gt;%</span> </span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">values_from =</span> M,</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_from =</span> Partei,</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_prefix =</span> <span class="st">'M '</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>btw_summary <span class="sc">%&gt;%</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Partei, M) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">values_from =</span> M,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_from =</span> Partei,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_prefix =</span> <span class="st">'M '</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 7
   `M AfD` `M Bündnis 90/Die Grünen` `M CDU/CSU`
@@ -688,11 +742,11 @@ replace the existing scale.</code></pre>
 </div>
 <p>Die <code>pivot_wider</code>-Funktion ist aber wesentlich mächtiger, was wir zum Beispiel sehen können wenn wir die Streuungen mit hinzufügen:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>btw_summary <span class="sc">%&gt;%</span> </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Partei, M, SD) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">values_from =</span> <span class="fu">c</span>(M, SD),</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_from =</span> Partei,</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_glue =</span> <span class="st">'{.value} {Partei}'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>btw_summary <span class="sc">%&gt;%</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Partei, M, SD) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">values_from =</span> <span class="fu">c</span>(M, SD),</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_from =</span> Partei,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_glue =</span> <span class="st">'{.value} {Partei}'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 14
   `M AfD` `M Bündnis 90/Die Grünen` `M CDU/CSU`
@@ -714,10 +768,10 @@ Wie ginge das direkt mit <code>summarise</code> und <code>across</code>?
 <div class="card">
 <div class="content">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>bundestagswahl <span class="sc">%&gt;%</span> </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="sc">-</span>Jahr, </span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">.fns =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="sc">~</span><span class="fu">mean</span>(., <span class="at">na.rm=</span>T),</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">sd =</span> <span class="sc">~</span><span class="fu">sd</span>(., <span class="at">na.rm=</span>T))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>bundestagswahl <span class="sc">%&gt;%</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="sc">-</span>Jahr, </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">.fns =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="sc">~</span><span class="fu">mean</span>(., <span class="at">na.rm=</span>T),</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">sd =</span> <span class="sc">~</span><span class="fu">sd</span>(., <span class="at">na.rm=</span>T))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 14
   `CDU/CSU_mean` `CDU/CSU_sd` SPD_mean SPD_sd
@@ -741,19 +795,19 @@ Wie ginge das direkt mit <code>summarise</code> und <code>across</code>?
 <h3 class="anchored" data-anchor-id="aufgabe-1">Aufgabe</h3>
 <p>Importieren Sie nochmal den Worldbank-Datensatz aus dem Abschnitt zu <a href="graphics.html" class="quarto-xref"><span>Grammar of Graphics und ggplot2</span></a>. Der Import funktionierte wie folgt:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>worldbank_indicators <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/worldbank_indicators.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>worldbank_indicators <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/worldbank_indicators.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Filtern Sie den Datensatz so, dass nur die Daten für die USA und die drei Variablen zur Lebenserwartung im Datensatz vorhanden sind.</p>
 <p>Pivotieren Sie den Datensatz ins long-Format, so dass die Lebenserwartung in einer Variable vorliegt.</p>
 <div class="card">
 <div class="content">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>pivoted_data <span class="ot">&lt;-</span> worldbank_indicators <span class="sc">%&gt;%</span> </span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Country Name</span><span class="st">`</span> <span class="sc">==</span> <span class="st">'United States'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Year, <span class="fu">matches</span>(<span class="st">'Life'</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">matches</span>(<span class="st">'Life'</span>),</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">'group'</span>,</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">'Life Expectancy'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>pivoted_data <span class="ot">&lt;-</span> worldbank_indicators <span class="sc">%&gt;%</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Country Name</span><span class="st">`</span> <span class="sc">==</span> <span class="st">'United States'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Year, <span class="fu">matches</span>(<span class="st">'Life'</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">matches</span>(<span class="st">'Life'</span>),</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">'group'</span>,</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">'Life Expectancy'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="overlay">
@@ -764,15 +818,15 @@ Wie ginge das direkt mit <code>summarise</code> und <code>across</code>?
 <div class="card">
 <div class="content">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>pivoted_data <span class="sc">%&gt;%</span> </span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">str_extract</span>(group, <span class="st">'</span><span class="sc">\\</span><span class="st">w+al</span><span class="sc">\\</span><span class="st">w*'</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> <span class="st">`</span><span class="at">Life Expectancy</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>pivoted_data <span class="sc">%&gt;%</span> </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">str_extract</span>(group, <span class="st">'</span><span class="sc">\\</span><span class="st">w+al</span><span class="sc">\\</span><span class="st">w*'</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> <span class="st">`</span><span class="at">Life Expectancy</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="wrangling02_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+<p><img src="wrangling02_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -786,11 +840,11 @@ Wie ginge das direkt mit <code>summarise</code> und <code>across</code>?
 <div class="card">
 <div class="content">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>pivoted_data <span class="sc">%&gt;%</span> </span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">str_extract</span>(group, <span class="st">'</span><span class="sc">\\</span><span class="st">w+al</span><span class="sc">\\</span><span class="st">w*'</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">values_from =</span> <span class="st">`</span><span class="at">Life Expectancy</span><span class="st">`</span>,</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_from =</span> Year,</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_prefix =</span> <span class="st">'Year_'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>pivoted_data <span class="sc">%&gt;%</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">str_extract</span>(group, <span class="st">'</span><span class="sc">\\</span><span class="st">w+al</span><span class="sc">\\</span><span class="st">w*'</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">values_from =</span> <span class="st">`</span><span class="at">Life Expectancy</span><span class="st">`</span>,</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_from =</span> Year,</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_prefix =</span> <span class="st">'Year_'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 23
   group  Year_2000 Year_2001 Year_2002 Year_2003
